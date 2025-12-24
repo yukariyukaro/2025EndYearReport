@@ -71,6 +71,34 @@ tripleuni-2025-yearreport-frontend/
 
 ## 3. 开发指南
 
+### 3.0 快速开始
+
+#### 安装依赖
+```bash
+npm install
+# 或使用 pnpm
+pnpm install
+```
+
+#### 启动开发服务器
+```bash
+npm run dev
+```
+
+开发服务器将在 `http://localhost:3000` 启动。
+
+如果需要从其他设备访问（如手机测试），可以使用：
+```bash
+npm run dev:host
+```
+这将在 `0.0.0.0` 上启动服务器，允许局域网访问。
+
+#### 构建生产版本
+```bash
+npm run build
+npm start
+```
+
 ### 3.1 新增页面
 1. 复制 `components/pages/Template.tsx` 为 `pageX.tsx`。
 2. 修改 `PAGE_NUMBER` 常量。
