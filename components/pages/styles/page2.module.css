@@ -209,3 +209,10 @@
 .footerText {
   display: none; /* Remove footer text */
 }
+
+/* Object fit utilities */
+.objectContain {
+  object-fit: contain;
+}
+
+/* Initial animation states - handled by inline styles and hide class from globals.css */
