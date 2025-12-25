@@ -1,24 +1,29 @@
 "use client";
-import PageWrapper from "@/components/PageWrapper";
-import usePageManager from "@/hooks/usePageManager";
+import React from 'react';
+import Morning from './page6_variants/Morning';
+import Day from './page6_variants/Day';
+import Night from './page6_variants/Night';
+import Healthy from './page6_variants/Healthy';
+import Average from './page6_variants/Average';
 
-// Minimal page template for copy-paste
-// Usage: duplicate this file as pageX.tsx, update PAGE_NUMBER and content
+type UserType = 'morning' | 'day' | 'night' | 'healthy' | 'average';
 
 export default function Page6() {
-  const PAGE_NUMBER = 6; // replace with actual page number after copy
-  const { appendNextPage } = usePageManager();
+  // Mock backend response - change this to test different variants
+  const userType: UserType = 'morning';
 
-  const scrollToNext = () => {
-    appendNextPage(PAGE_NUMBER, true);
-  };
-
-  return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={() => {}}>
-      <div>
-        <h1>Page {PAGE_NUMBER}</h1>
-        <button onClick={scrollToNext}>Show Next Page</button>
-      </div>
-    </PageWrapper>
-  );
+  switch (userType) {
+    case 'morning':
+      return <Morning />;
+    case 'day':
+      return <Day />;
+    case 'night':
+      return <Night />;
+    case 'healthy':
+      return <Healthy />;
+    case 'average':
+      return <Average />;
+    default:
+      return <Morning />;
+  }
 }
