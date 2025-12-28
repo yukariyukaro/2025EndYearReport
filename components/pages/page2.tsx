@@ -91,7 +91,7 @@ export default function Page2() {
       {variant === "day" ? (
         <div className={styles.container}>
           {/* Top Cloud */}
-          <div className={`${styles.cloud1} hide`}>
+          <div className={styles.cloud1}>
             <Image 
               src="/imgs/page2/page2Day/cloud1.svg" 
               alt="Cloud" 
@@ -121,7 +121,7 @@ export default function Page2() {
               <Image src="/imgs/page2/page2Day/cloud2.svg" alt="Cloud" fill />
             </div>
 
-            <div className={`${styles.sun} hide`} style={{ transform: "scale(0.8)", opacity: "0" }}>
+            <div className={styles.sun}>
                <div 
                  className={styles.treeWrapper} 
                  onClick={handleTreeClick}
@@ -147,7 +147,7 @@ export default function Page2() {
                   <div className={`${styles.arrow} ${isGrowing ? styles.fadeOut : ""}`}>
                     <Image src="/imgs/page2/arrow.svg" alt="Arrow" fill />
                   </div>
-                  <span className={`${styles.clickHint} hide ${isGrowing ? styles.fadeOut : ""}`}>
+                  <span className={`${styles.clickHint} ${isGrowing ? styles.fadeOut : ""}`}>
                     点击树苗
                   </span>
                </div>
@@ -157,7 +157,7 @@ export default function Page2() {
               <Image src="/imgs/page2/page2Day/cloud3.svg" alt="Cloud" fill />
             </div>
 
-            <div className={`${styles.field} hide`} style={{ transform: "translateY(50px)", opacity: "0" }}>
+            <div className={styles.field}>
               <Image 
                 src="/imgs/page2/field.png" 
                 alt="Field" 
