@@ -1,0 +1,239 @@
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #375eb4;
+  color: #fff;
+  font-family: var(--font-abhaya-libre), serif;
+}
+
+/* Stars */
+.starsBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60%; /* Cover top half mostly */
+  z-index: 1;
+  pointer-events: none;
+}
+
+.bigStars {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  width: 30%;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* New Wrapper for Chart Section */
+.chartSection {
+  position: relative;
+  width: 80%;
+  margin: 30% auto 0; /* Adjust top spacing (approx 15-18%) */
+  display: grid;
+  grid-template-areas: "stack";
+  z-index: 5;
+}
+
+/* Axis Layer - Fills the grid cell */
+.axisLayer {
+  grid-area: stack;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.axisVertical {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #000;
+}
+
+.axisVertical::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -4px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid #000;
+}
+
+.axisHorizontal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: #000;
+}
+
+.axisHorizontal::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  bottom: -4px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 10px solid #000;
+}
+
+.axisLabel {
+  position: absolute;
+  right: -5px;
+  bottom: -35px;
+  font-family: 'Gochi Hand', cursive;
+  font-size: 1.5rem;
+  color: #000;
+}
+
+.plant {
+  position: absolute;
+  left: -20px;
+  bottom: -10px;
+  width: 60px;
+  height: auto;
+  z-index: 3;
+}
+
+/* Content Layer - Defines height */
+.contentLayer {
+  grid-area: stack;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1.5rem; /* Fixed gap */
+  padding: 2rem 1rem; /* Padding inside axis */
+}
+
+/* Group 1: Earliest */
+.groupEarliest {
+  position: relative;
+  margin-left: 10%;
+  /* margin-top removed, handled by padding/gap */
+}
+
+.labelWhite {
+  font-family: var(--font-abhaya-libre), serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #fff7e4;
+  margin-bottom: 0.5rem;
+}
+
+.whiteBox {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 240px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.boxText {
+  color: #000000;
+  font-family: var(--font-abhaya-libre), serif;
+  font-weight: 800;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.phoneImage {
+  position: absolute;
+  right: -40px;
+  bottom: -30px;
+  width: 80px;
+  height: auto;
+  transform: rotate(10deg);
+  z-index: 10;
+}
+
+/* Group 2: Latest */
+.groupLatest {
+  position: relative;
+  margin-left: 0%;
+  /* margin-top removed, handled by gap */
+}
+
+.moonImage {
+  position: absolute;
+  right: -1.25rem;
+  bottom: -1.25rem;
+  width: 5rem;
+  height: auto;
+  z-index: 10;
+}
+
+/* Bottom Stats */
+.bottomStats {
+  position: relative;
+  margin-top: 2rem;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.statsText {
+  font-family: var(--font-abhaya-libre), serif;
+  font-weight: 800;
+  font-size: 1.125rem;
+  color: #ffeec6;
+}
+
+/* City Skyline */
+.citySkyline {
+  position: absolute;
+  bottom: 5%; /* Raised from 0 */
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 4;
+  line-height: 0; /* Remove extra space */
+}
+
+.cityImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: bottom;
+}
+
+/* Animations */
+.hide {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.popIn {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.popIn.reveal {
+  opacity: 1;
+  transform: scale(1);
+}

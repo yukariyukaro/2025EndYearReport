@@ -20,7 +20,7 @@ type PageManagerContextType = {
 
 export const PageManagerContext = createContext<PageManagerContextType | null>(null);
 
-export default function PageManagerProvider({ children }: { children: React.ReactNode }) {
+export default function PageManagerProvider({ children, totalPages = 24 }: { children: React.ReactNode, totalPages?: number }) {
   const [showUpTo, setShowUpTo] = useState<number>(1);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pagesRef = useRef<Map<number, PageEntry>>(new Map());
@@ -58,8 +58,11 @@ export default function PageManagerProvider({ children }: { children: React.Reac
   }, []);
 
   const appendNextPage = useCallback((by: number, scrollTo: boolean = false) => {
+    // Check if we are already at max pages
+    if (by >= totalPages) return;
+
     // 推进渲染范围
-    setShowUpTo((prev) => (by === prev ? prev + 1 : prev));
+    setShowUpTo((prev) => (by === prev ? Math.min(prev + 1, totalPages) : prev));
     // 通知由当前页触发的“进入下一页”订阅者，用于隐藏提示等
     const subs = appendSubscribersRef.current.get(by);
     if (subs && subs.size) {
@@ -69,11 +72,11 @@ export default function PageManagerProvider({ children }: { children: React.Reac
     }
     if (scrollTo) {
       // 触发转场
-      if (by + 1 > currentPage) {
+      if (by + 1 > currentPage && by + 1 <= totalPages) {
         setCurrentPage(by + 1);
       }
     }
-  }, [currentPage]);
+  }, [currentPage, totalPages]);
 
   const isActive = useCallback((page: number) => page <= showUpTo, [showUpTo]);
 
@@ -154,7 +157,9 @@ export default function PageManagerProvider({ children }: { children: React.Reac
       
       if (direction === 'next') {
         if (currentPage < showUpTo) {
-          setCurrentPage(prev => prev + 1);
+          if (currentPage < totalPages) {
+             setCurrentPage(prev => prev + 1);
+          }
         } else {
           appendNextPage(showUpTo, true);
         }
@@ -228,7 +233,7 @@ export default function PageManagerProvider({ children }: { children: React.Reac
       container.removeEventListener("touchmove", onTouchMove);
       container.removeEventListener("touchend", onTouchEnd);
     };
-  }, [showUpTo, currentPage, appendNextPage]);
+  }, [showUpTo, currentPage, appendNextPage, totalPages]);
 
   const value = useMemo<PageManagerContextType>(() => ({
     showUpTo,

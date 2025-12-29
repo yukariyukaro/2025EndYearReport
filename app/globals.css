@@ -215,6 +215,7 @@ a {
 .hint-wrapper {
   width: 4rem;
   position: absolute;
+  z-index:100;
   bottom: 1rem;
   left: 50%;
   translate: -2rem -2rem;

@@ -46,15 +46,16 @@
 .statTextLarge {
   font-family: var(--font-abhaya-libre), serif;
   font-weight: 800;
-  font-size: 1.5rem;
-  color: #6B3402;
+  font-size: 1.125rem; /* 18px */
+  color: #842e00;
+  white-space: nowrap;
 }
 
 .statHighlight {
   font-family: var(--font-abhaya-libre), serif;
   font-weight: 800;
-  font-size: 2.25rem;
-  color: #6B3402;
+  font-size: 2.1875rem; /* 35px */
+  color: #842e00;
 }
 
 .chartContainer {
@@ -121,28 +122,28 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center; /* Center vertically */
     justify-content: center;
-    padding: 0 2rem;
-    gap: 1rem;
+    padding: 0 12px; /* Reduced padding from 2rem to 12px to match Figma */
+    gap: 8px; /* Reduced gap from 1rem to 8px to match Figma */
 }
 
 .quoteText {
   font-family: var(--font-abhaya-libre), serif;
-  font-size: 1.125rem;
-  color: #E89E68; /* Light orange/brown from design */
-  font-weight: 700;
-  white-space: pre-line;
-  text-align: left;
-  line-height: 1.5;
-  margin-bottom: 3rem;
+  font-size: 1.125rem; /* 18px */
+  color: #eda376;
+  font-weight: 800;
+  white-space: pre; /* Force line breaks only at \n, preventing auto-wrap */
+  text-align: right; /* Right align as per Figma */
+  line-height: 1.2;
+  margin-bottom: 0; /* Remove bottom margin */
   z-index: 20;
   flex: 1;
 }
 
 .rabbitContainer {
-    width: 12rem;
-    height: 12rem;
+    width: 41.87%; /* 157/375 */
+    aspect-ratio: 157 / 152;
     position: relative;
     z-index: 10;
 }
