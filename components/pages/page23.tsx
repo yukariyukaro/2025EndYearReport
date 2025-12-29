@@ -10,7 +10,14 @@ export default function Page23() {
   const PAGE_NUMBER = 23;
   const { appendNextPage, onAppendNext, offAppendNext } = usePageManager();
   const [isGrowing, setIsGrowing] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const lastShownRef = useRef<number | null>(null);
+  const timersRef = useRef<NodeJS.Timeout[]>([]);
+
+  const clearTimers = () => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+  };
 
   const scrollToNext = () => {
     appendNextPage(PAGE_NUMBER, true);
@@ -45,6 +52,8 @@ export default function Page23() {
   function onShow() {
     if (lastShownRef.current === PAGE_NUMBER) return;
     lastShownRef.current = PAGE_NUMBER;
+    clearTimers();
+    setShowHint(false);
     let t = 0;
     const step = 200;
 
@@ -70,6 +79,8 @@ export default function Page23() {
 
     // footer
     slideIn('.page23-footer', (t += step), 'bottom', 600);
+    const hintTimer = setTimeout(() => setShowHint(true), t + 700);
+    timersRef.current.push(hintTimer);
   }
 
   function handleShow() {
@@ -89,6 +100,7 @@ export default function Page23() {
     }
     return () => {
       try { offAppendNext && offAppendNext(22, handler); } catch (e) {}
+      clearTimers();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -141,11 +153,18 @@ export default function Page23() {
             <Image src="/imgs/page23/chat_bubble2025.png" alt="chat_bubble025" width={123} height={83} />
           </div>
         </div>
-
         {/* Minimal template block (from page11) preserved — remove visible text but keep scroll functionality */}
         <div style={{ marginTop: '1.25rem' }}>
           <button onClick={scrollToNext} aria-label="Show next page" style={{border: 'none', background: 'transparent', padding: 0, width: 0, height: 0}} />
         </div>
+
+        {showHint && (
+          <div style={{ position: 'absolute', bottom: 24, right: 20 }}>
+            <div className="fade-in">
+              <span />
+            </div>
+          </div>
+        )}
       </div>
     </PageWrapper>
   );

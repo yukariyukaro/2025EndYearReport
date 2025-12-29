@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
+import ScrollUpHint from "@/components/ScrollUpHint";
 import { sendViewPageTracking } from "@/utils/dom";
 import styles from "./styles/page22.module.css";
 import usePageManager from "@/hooks/usePageManager";
@@ -15,6 +16,7 @@ export default function Page22() {
   // 模拟数据 - 实际应从 props 或 API 获取
   const achievementCount = 15; // 成就数量
   const growthPercentage = 25; // 成长百分比
+  const [showHint, setShowHint] = useState(false);
 
   const handleTreeTrunkClick = () => {
     // 点击树干查看成长足迹的逻辑
@@ -109,6 +111,7 @@ export default function Page22() {
   function onShow() {
     let t = 0;
     const step = 200; // 动画间隔时间
+    setShowHint(false);
 
     // 第一部分：今年成就区域
     // 文本从左侧滑入
@@ -137,6 +140,7 @@ export default function Page22() {
   function handleShow() {
     onShow();
     sendViewPageTracking(PAGE_NUMBER);
+    const hintTimer = setTimeout(() => setShowHint(true),  900);
   }
 
   return (
@@ -198,12 +202,11 @@ export default function Page22() {
         </div>
       </div>
 
-      {/* Removed secondary years/tree section - only main tree is used per design */}
-
-      {/* 页脚 - 从下方滑入 */}
-      <div className="page22-footer hide w-full flex justify-center items-center py-6">
-        <span className="text-xs text-[#87CEEB] font-normal hidden" >@Tripleuni 2025</span>
-      </div>
+      {showHint && (
+          <div className={styles.hintWrap}>
+            <ScrollUpHint />
+          </div>
+        )}
     </PageWrapper>
   );
 }
