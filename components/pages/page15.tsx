@@ -104,9 +104,7 @@ export default function Page15() {
         </div>
 
         {/* Footer */}
-        <div className={`${styles.footer} ${styles.reveal} page15-reveal-6`}>
-          @TripleUni 2025
-        </div>
+  
 
         {showHint && (
           <div className="fade-in">

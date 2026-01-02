@@ -27,6 +27,9 @@ export default function Page14() {
   const { currentPage } = usePageManager();
   const [showHint, setShowHint] = useState(true);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
+  
+  // Mock variable for conditional rendering
+  const isFirstYear = false; // Toggle this to true to see the "First Year" message
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach(clearTimeout);
@@ -130,10 +133,21 @@ export default function Page14() {
 
           {/* Bottom Text */}
           <div className={`${styles.bottomText} ${styles.reveal} page14-reveal-3`}>
-            <div>与去年相比</div>
-            <div>
-              你的发帖量增加了 <span className={styles.highlight}>[百分比]%</span>
-            </div>
+            {isFirstYear ? (
+              <>
+                <div>这是你的第一年</div>
+                <div>
+                  你与triple uni的精彩才刚刚开始！
+                </div>
+              </>
+            ) : (
+              <>
+                <div>与去年相比</div>
+                <div>
+                  你的发帖量增加了 <span className={styles.highlight}>[百分比]%</span>
+                </div>
+              </>
+            )}
           </div>
 
           {/* Footer */}
@@ -142,7 +156,6 @@ export default function Page14() {
                 <path d="M20 5L35 35H5L20 5Z" stroke="#F4C9AA" strokeWidth="3" fill="none" />
                 <path d="M20 12L30 32H10L20 12Z" fill="#D9F0B6" fillOpacity="0.5" />
              </svg>
-             <div className={styles.footerText}>@TripleUni 2025</div>
           </div>
         </div>
 
