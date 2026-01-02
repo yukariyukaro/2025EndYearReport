@@ -1,0 +1,62 @@
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url('/imgs/page16/background.png');
+  background-size: cover;
+  background-position: center top;
+}
+
+.visualArea {
+  position: relative;
+  width: 100%;
+  height: 56%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1rem 0rem 0 0rem;
+  z-index: 2;
+}
+
+.springTree { margin-top: 1rem;}
+.springLeaves { margin-top: 1rem; }
+.summerWrap { margin-top: 6rem; margin-left: 5rem; margin-bottom: 0rem;}
+.springWrap { margin-top: 1rem; position: relative }
+.springInner { position: relative; width: 150px; height: 180px; }
+.springTreeImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1; }
+.springLeavesImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; }
+.autumnWrap { margin-top: -6rem; position: relative }
+.winterWrap { margin-top: 5rem; margin-left: 1rem; }
+
+.rabbitSummer { position: absolute; left: 45%; top: 90%; transform-origin: center bottom; z-index: 3; }
+.rabbitWinter { position: absolute; right: 30%; bottom: -70%; transform-origin: center bottom; z-index: 3; }
+
+.textArea { width: 100%; padding: 0.8rem 1.4rem; z-index: 3; color: #000; display:flex; justify-content:space-between; }
+.titleBlock { position: fixed; margin-top: -20rem; margin-left: 10rem; max-width: 50%; text-align: right; }
+.titleLine { font-weight: 400; font-size: 1.05rem; margin-bottom: 0.2rem; }
+
+.wordsBlock { max-width: 45%; text-align: left; margin-top: 5rem; margin-left: 2rem}
+.yearIntro { top: 1rem;  font-weight: 400; font-size: 1rem; margin-bottom: 0.2rem; }
+.wordsIntro { font-size: 0.95rem; margin-bottom: 0.6rem; }
+.wordsList { font-weight: 700; font-size: 1rem; margin-bottom: 1rem; }
+
+.hintWrap { position: absolute; bottom: 1.8rem; right: 1.2rem; z-index: 4; }
+
+/* scale reveal helpers */
+:global(.scale-hide) { opacity: 0; transform: scale(0.6); }
+:global(.reveal-scale) { opacity: 1; transform: scale(1); transition: opacity var(--reveal-duration, 700ms) ease-out, transform var(--reveal-duration, 700ms) cubic-bezier(.2, .9, .2, 1); }
+
+/* line reveal helpers (reused from page17/page20) */
+:global(.hide) { opacity: 0; }
+:global(.reveal-line) { opacity: 1; transform: translateY(0); transition: opacity var(--reveal-duration, 1400ms) ease-out, transform var(--reveal-duration, 1400ms) ease-out; }
+
+@media (max-width: 420px) {
+  .visualArea { height: 52%; }
+  .titleBlock { max-width: 60%; }
+  .wordsBlock { display: none; }
+}
