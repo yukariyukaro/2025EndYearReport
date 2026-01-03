@@ -215,7 +215,7 @@ export default function Average() {
             <div className={`${styles.rabbitContainer} ${styles.hide} page6-avg-reveal-6`}>
                  {/* Using cat.svg as placeholder for rabbit since average folder is empty */}
                  <Image 
-                    src="/imgs/page6/average/rabbit.svg" 
+                    src="/imgs/page6/average/rabbit.png" 
                     alt="Rabbit Illustration" 
                     fill
                     className={styles.rabbitImage}
@@ -223,14 +223,6 @@ export default function Average() {
             </div>
         </div>
 
-        <div className={styles.footerText}>@TripleUni 2025</div>
-        
-        <button 
-          onClick={scrollToNext}
-          className={styles.nextButton}
-        >
-          Show Next Page
-        </button>
 
       </div>
       

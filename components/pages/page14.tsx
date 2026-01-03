@@ -1,23 +1,169 @@
 "use client";
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
+import ScrollUpHint from "@/components/ScrollUpHint";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts";
+import styles from "./styles/page14.module.css";
 
-// Minimal page template for copy-paste
-// Usage: duplicate this file as pageX.tsx, update PAGE_NUMBER and content
+const data = [
+  { name: 'Jan', value: 1 },
+  { name: 'Feb', value: 2 },
+  { name: 'Mar', value: 1 },
+  { name: 'Apr', value: 1 },
+  { name: 'May', value: 0 },
+  { name: 'Jun', value: 2 },
+  { name: 'Jul', value: 0 },
+  { name: 'Aug', value: 0 },
+  { name: 'Sep', value: 0 },
+  { name: 'Oct', value: 1 },
+  { name: 'Nov', value: 3 },
+  { name: 'Dec', value: 2 },
+];
 
 export default function Page14() {
-  const PAGE_NUMBER = 14; // replace with actual page number after copy
-  const { appendNextPage } = usePageManager();
+  const PAGE_NUMBER = 14;
+  const { currentPage } = usePageManager();
+  const [showHint, setShowHint] = useState(true);
+  const timersRef = useRef<NodeJS.Timeout[]>([]);
+  
+  // Mock variable for conditional rendering
+  const isFirstYear = false; // Toggle this to true to see the "First Year" message
 
-  const scrollToNext = () => {
-    appendNextPage(PAGE_NUMBER, true);
+  const clearTimers = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+  }, []);
+
+  useEffect(() => {
+    return () => clearTimers();
+  }, [clearTimers]);
+
+  useEffect(() => {
+    if (currentPage !== PAGE_NUMBER) {
+      clearTimers();
+      document.querySelectorAll('[class*="page14-reveal"]').forEach((el) => {
+        el.classList.remove(styles.visible);
+      });
+    }
+  }, [currentPage, clearTimers]);
+
+  const reveal = useCallback((selector: string, delayMs: number) => {
+    const timer = setTimeout(() => {
+      const els = document.querySelectorAll(selector);
+      els.forEach((el) => {
+        el.classList.add(styles.visible);
+      });
+    }, delayMs);
+    timersRef.current.push(timer);
+  }, []);
+
+  const onShow = () => {
+    clearTimers();
+    reveal(`.page14-reveal-1`, 300); // Top Text
+    reveal(`.page14-reveal-2`, 800); // Chart Card
+    reveal(`.page14-reveal-3`, 1400); // Bottom Text
+    reveal(`.page14-reveal-4`, 2000); // Footer
   };
 
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={() => {}}>
-      <div>
-        <h1>Page {PAGE_NUMBER}</h1>
-        <button onClick={scrollToNext}>Show Next Page</button>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
+      <div className={styles.container}>
+        <div className={styles.background}>
+          <Image
+            src="/imgs/page14/background.png"
+            alt="Background"
+            fill
+            className={styles.backgroundImage}
+            priority
+          />
+        </div>
+
+        <div className={styles.content}>
+          {/* Top Text */}
+          <div className={`${styles.topText} ${styles.reveal} page14-reveal-1`}>
+            <div>今年</div>
+            <div>
+              你发布了 <span className={styles.highlight}>[发布总数]</span> 条内容
+            </div>
+            <div>
+              打败了 <span className={styles.highlight}>[X]%</span> 的用户
+            </div>
+          </div>
+
+          {/* Chart Card */}
+          <div className={`${styles.chartCard} ${styles.reveal} page14-reveal-2`}>
+            <div className={styles.cardHeader}>
+              <span className={styles.cardTitle}>POSTS</span>
+              <span className={styles.cardYear}>2025</span>
+            </div>
+            <div className={styles.chartContainer}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={data}>
+                  <CartesianGrid vertical={false} stroke="#e0e0e0" strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="name" 
+                    axisLine={false} 
+                    tickLine={false} 
+                    tick={{ fontSize: 10, fill: '#999' }} 
+                    interval={0}
+                  />
+                  <YAxis 
+                    hide 
+                    domain={[0, 4]} 
+                  />
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}
+                    cursor={{ stroke: '#ccc', strokeDasharray: '3 3' }}
+                  />
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#5C9BF6" 
+                    strokeWidth={2} 
+                    dot={false} 
+                    activeDot={{ r: 4, fill: '#5C9BF6', stroke: '#fff', strokeWidth: 2 }}
+                    animationDuration={2000}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Bottom Text */}
+          <div className={`${styles.bottomText} ${styles.reveal} page14-reveal-3`}>
+            {isFirstYear ? (
+              <>
+                <div>这是你的第一年</div>
+                <div>
+                  你与triple uni的精彩才刚刚开始！
+                </div>
+              </>
+            ) : (
+              <>
+                <div>与去年相比</div>
+                <div>
+                  你的发帖量增加了 <span className={styles.highlight}>[百分比]%</span>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div className={`${styles.footer} ${styles.reveal} page14-reveal-4`}>
+             <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 5L35 35H5L20 5Z" stroke="#F4C9AA" strokeWidth="3" fill="none" />
+                <path d="M20 12L30 32H10L20 12Z" fill="#D9F0B6" fillOpacity="0.5" />
+             </svg>
+          </div>
+        </div>
+
+        {showHint && (
+          <div className="fade-in">
+            <ScrollUpHint />
+          </div>
+        )}
       </div>
     </PageWrapper>
   );

@@ -1,0 +1,167 @@
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Gradient from Figma: #fde5c9 to #c2e6ed */
+  background: linear-gradient(180deg, #fde5c9 0%, #c2e6ed 100%);
+  padding: 4rem 2rem 2rem;
+  font-family: var(--font-abhaya-libre), sans-serif;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Top Section: Light Bulb + Text */
+.topSection {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.bulbWrapper {
+  position: absolute;
+  top: -2rem;
+  left: -1rem;
+  width: 80px;
+  height: 80px;
+  z-index: 2;
+}
+
+.topText {
+  margin-left: auto; /* Push to right */
+  text-align: right;
+  font-size: 1.25rem; /* ~20px */
+  font-weight: 700;
+  line-height: 1.6;
+  color: #000;
+  max-width: 70%;
+  margin-top: 1rem;
+}
+
+/* Main Image */
+.mainImageWrapper {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.broImage {
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+}
+
+/* Bottom Section */
+.bottomSection {
+  width: 100%;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.bottomText {
+  text-align: left;
+  font-size: 1.25rem; /* ~20px */
+  font-weight: 700;
+  line-height: 1.4;
+  color: #000;
+  max-width: 80%;
+}
+
+.plusIcon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+}
+
+/* Footer */
+
+.highlight {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+/* Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slideLeft {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.slideLeft.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slideRight {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.slideRight.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.popIn {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.popIn.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.swing {
+  transform-origin: top center;
+  animation: swing 3s ease-in-out infinite;
+}
+
+@keyframes swing {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}

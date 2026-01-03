@@ -1,0 +1,166 @@
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  /* Light pinkish gradient approximation from screenshot */
+  background: linear-gradient(180deg, #F0F4F8 0%, #E6E6FA 40%, #FFE4E1 100%); 
+  color: #000;
+  font-family: var(--font-abhaya-libre), serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+/* Animations */
+.hide {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.popIn {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.popIn.reveal {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Top Card */
+.topCard {
+  width: 85%;
+  max-width: 320px;
+  margin-top: 10%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Stats Text */
+.statsContainer {
+  margin-top: 2rem;
+  width: 85%;
+  text-align: right; /* Aligned right as per screenshot */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 2;
+}
+
+.statsText {
+  font-family: var(--font-abhaya-libre), serif;
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: #000;
+  line-height: 1.4;
+}
+
+.highlight {
+  font-size: 1.4rem;
+}
+
+/* Keywords Section */
+.keywordsSection {
+  margin-top: 2rem;
+  width: 90%;
+  position: relative;
+  height: 40%; /* Space for bubbles */
+  z-index: 2;
+}
+
+.keywordTitleWrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.keywordTitle {
+  font-family: var(--font-abhaya-libre), serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+.underline {
+  margin-top: 0.2rem;
+  width: 120px;
+  height: auto;
+}
+
+/* Bubbles */
+.bubble {
+  position: absolute;
+  background-color: #F7E2B2; /* Orange-yellow from requirements */
+  padding: 0.4rem 1rem;
+  border-radius: 20px; /* Ellipse shape */
+  font-family: var(--font-abhaya-libre), serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #000;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Manual positioning of bubbles based on screenshot */
+.bubble1 { top: 25%; left: 5%; }
+.bubble2 { top: 20%; right: 15%; }
+.bubble3 { top: 45%; left: 30%; }
+.bubble4 { top: 65%; left: 10%; }
+.bubble5 { top: 80%; left: 40%; }
+
+/* Magnifying Glass */
+.magnifyingGlass {
+  position: absolute;
+  right: 5%;
+  bottom: 10%;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.searchIcon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.glassText {
+  position: relative;
+  z-index: 6;
+  font-family: var(--font-abhaya-libre), serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #000;
+  text-align: center;
+  transform: rotate(-30deg) translate(-10px, -20px); /* Adjust to fit in glass circle */
+}
+
+/* Decor */
+.flower1 {
+  position: absolute;
+  left: -1.5rem;
+  bottom: -1.5rem;
+  width: 4rem;
+  height: auto;
+  z-index: 3;
+}
+
+.flower2 {
+  position: absolute;
+  left: 5%;
+  bottom: 3%;
+  width: 5rem;
+  height: auto;
+  z-index: 1;

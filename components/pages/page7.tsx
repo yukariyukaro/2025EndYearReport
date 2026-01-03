@@ -142,7 +142,18 @@ export default function Page7() {
       </div>
 
       {showHint && (
-        <div className="fade-in">
+        <div 
+          className="fade-in" 
+          style={{ 
+            position: 'absolute', 
+            zIndex: 10, 
+            top: 0, 
+            left: 0, 
+            width: '100%', 
+            height: '100%', 
+            pointerEvents: 'none' 
+          }}
+        >
           <ScrollUpHint />
         </div>
       )}

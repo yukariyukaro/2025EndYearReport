@@ -1,5 +1,5 @@
 "use client";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
@@ -8,21 +8,42 @@ import styles from "./styles/page8.module.css";
 
 export default function Page8() {
   const PAGE_NUMBER = 8;
-  const { appendNextPage } = usePageManager();
+  const { currentPage } = usePageManager();
   const [showHint, setShowHint] = useState(true);
+  const timersRef = useRef<NodeJS.Timeout[]>([]);
+
+  // Cleanup timers
+  const clearTimers = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+  }, []);
+
+  useEffect(() => {
+    return () => clearTimers();
+  }, [clearTimers]);
+
+  useEffect(() => {
+    if (currentPage !== PAGE_NUMBER) {
+      clearTimers();
+      document.querySelectorAll('[class*="page8-reveal"]').forEach((el) => {
+        el.classList.remove(styles.reveal);
+      });
+    }
+  }, [currentPage, PAGE_NUMBER, clearTimers]);
 
   // Reusing reveal logic
-  const reveal = useCallback((selector: string, delayMs: number, durationMs = 1000) => {
-    setTimeout(() => {
+  const reveal = useCallback((selector: string, delayMs: number) => {
+    const timer = setTimeout(() => {
       const els = document.querySelectorAll(selector);
       els.forEach((el) => {
         el.classList.add(styles.reveal);
-        // If it has popIn class, it handles its own transition, but we need to ensure styles.reveal is applied
       });
     }, delayMs);
+    timersRef.current.push(timer);
   }, []);
 
   const onShow = () => {
+    clearTimers();
     // Animation sequence
     reveal(`.page8-reveal-axis`, 300);
     reveal(`.page8-reveal-1`, 800); // Earliest text + box

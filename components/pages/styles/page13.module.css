@@ -1,0 +1,188 @@
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff7e4;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.backgroundImage {
+  object-fit: cover;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 2rem 2rem;
+}
+
+/* Title Section */
+.titleGroup {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bonusText {
+  font-family: var(--font-abhaya-libre), serif;
+  font-weight: 800;
+  font-size: 3.5rem; /* Large title size */
+  color: #FFFFFF;
+  line-height: 1.1;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1); /* Soft shadow from design */
+}
+
+/* Question Text */
+.questionGroup {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.questionText {
+  font-family: var(--ff-primary);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #000000;
+  line-height: 1.4;
+}
+
+.highlight {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+/* Bottom Interaction Area */
+.interactionArea {
+  margin-top: auto; /* Push to bottom */
+  margin-bottom: 3rem; /* Space for footer */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.hintText {
+  font-family: var(--ff-primary);
+  font-size: 1rem;
+  color: #333333;
+  text-align: left; /* Aligned left relative to button? Screenshot shows it offset left */
+  margin-bottom: 1rem;
+  align-self: flex-start;
+  margin-left: 10%; /* Offset from left */
+  max-width: 50%;
+}
+
+.arrowWrapper {
+  position: absolute;
+  left:0;
+  bottom: 20%;
+  width: 3rem;
+  height: 4rem;
+  transform: rotate(15deg);
+}
+
+.buttonWrapper {
+  position: relative;
+  width: 80%;
+  max-width: 300px;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pressButton {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.pressButton:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.buttonText {
+  font-family: var(--font-abhaya-libre), serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #FFFFFF;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  text-align: center;
+  padding-bottom: 1rem;
+  font-family: var(--font-abhaya-libre), serif;
+  font-size: 1.2rem;
+  color: #aadddd; /* Light blue from screenshot */
+  font-weight: 800;
+}
+
+/* Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Button Pulse Animation */
+.pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  70% { box-shadow: 0 0 0 15px rgba(255, 255, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+/* Arrow Bounce */
+.bounce {
+  animation: bounce 1.5s infinite ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) rotate(15deg); }
+  50% { transform: translateY(-10px) rotate(10deg); }
+}
