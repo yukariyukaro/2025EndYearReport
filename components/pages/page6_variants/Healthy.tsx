@@ -190,7 +190,7 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
         <div className={styles.windowContainer}>
           <div className={styles.windowBg}>
             <Image 
-              src="/imgs/page6/healthy/Background.png" 
+              src="imgs/page6/healthy/Background.png" 
               alt="Window Background" 
               fill 
               priority 
@@ -205,7 +205,7 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
           </div>
           <div className={styles.cat}>
             <Image 
-              src="/imgs/page6/healthy/cat.svg" 
+              src="imgs/page6/healthy/cat.svg" 
               alt="Cat" 
               fill 
               priority 
@@ -216,7 +216,7 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
         {/* Tree */}
         <div className={styles.tree}>
           <Image
-            src="/imgs/page6/healthy/Tree.png" 
+            src="imgs/page6/healthy/Tree.png" 
             alt="Tree" 
             fill
             priority

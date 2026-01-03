@@ -75,7 +75,7 @@ export default function Page15() {
         <div className={styles.topSection}>
           <div className={`${styles.bulbWrapper} ${styles.popIn} ${styles.swing} page15-reveal-1`}>
             <Image
-              src="/imgs/page15/light-bulb.png"
+              src="imgs/page15/light-bulb.png"
               alt="Light Bulb"
               fill
               style={{ objectFit: "contain" }}
@@ -94,7 +94,7 @@ export default function Page15() {
         <div className={`${styles.mainImageWrapper} ${styles.reveal} page15-reveal-3`}>
           <div className={styles.float}>
              <Image
-               src="/imgs/page15/bro.png"
+               src="imgs/page15/bro.png"
                alt="Illustration"
                width={300}
                height={300}
@@ -112,7 +112,7 @@ export default function Page15() {
           </div>
           <div className={`${styles.plusIcon} ${styles.popIn} page15-reveal-5`}>
             <Image
-              src="/imgs/page15/plus.svg"
+              src="imgs/page15/plus.svg"
               alt="Plus"
               fill
             />

@@ -108,7 +108,7 @@ function onShow() {
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
-      <div className={styles.container}>
+      <div className={styles.container} style={{ backgroundImage: 'url("imgs/page18/background.png")' }}>
         <div className={styles.topArea}>
           {/* 第一排 emoji：判断是否为 facemask.png，动态加放大类 */}
           <div className={`emoji-row emoji-row-1 ${styles.topEmojiRow}`}>
@@ -121,7 +121,7 @@ function onShow() {
                   className={`emoji hide ${styles.bigEmoji} ${isFacemask ? styles.facemask : ""}`}
                 >
                   <Image 
-                    src={`/imgs/page18/${encodeURIComponent(file)}`} 
+                    src={`imgs/page18/${encodeURIComponent(file)}`} 
                     alt={file} 
                     width={64} 
                     height={64} 
@@ -142,7 +142,7 @@ function onShow() {
                   className={`emoji hide ${styles.bigEmoji} ${isFacemask ? styles.facemask : ""}`}
                 >
                   <Image 
-                    src={`/imgs/page18/${encodeURIComponent(file)}`} 
+                    src={`imgs/page18/${encodeURIComponent(file)}`} 
                     alt={file} 
                     width={64} 
                     height={64} 
@@ -153,7 +153,7 @@ function onShow() {
           </div>
 
           <div className={`October_face hide ${styles.octoberFaceWrap}`}>
-            <Image src="/imgs/page18/October_face.png" alt="October face" width={260} height={430} />
+            <Image src="imgs/page18/October_face.png" alt="October face" width={260} height={430} />
           </div>
         </div>
 
@@ -162,8 +162,8 @@ function onShow() {
 
           <div className={`PlayButton hide ${styles.playWrap}`}>
             <div className={styles.playIcon} />
-            <Image src="/imgs/page18/button.png" alt="Button" width={200} height={100} />
-            <Image src="/imgs/page18/Vector.png" alt="Vector" width={50} height={90} />
+            <Image src="imgs/page18/button.png" alt="Button" width={200} height={100} />
+            <Image src="imgs/page18/Vector.png" alt="Vector" width={50} height={90} />
           </div>
         </div>
 

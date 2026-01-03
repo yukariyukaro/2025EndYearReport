@@ -73,10 +73,10 @@ export default function Page20() {
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
-      <div className={styles.container}>
+      <div className={styles.container} style={{ backgroundImage: 'url("imgs/page20/background.png")' }}>
         <div className={styles.topArea}>
           <div className={`hide page20-walking_people ${styles.headerLeft}`}>
-            <Image src="/imgs/page20/walking_people.png" alt="person" width={375} height={260} />
+            <Image src="imgs/page20/walking_people.png" alt="person" width={375} height={260} />
           </div>
 
           <div className={`hide page20-reveal-2 ${styles.headerRight}`}> 

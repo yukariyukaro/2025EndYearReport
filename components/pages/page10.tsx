@@ -71,7 +71,7 @@ export default function Page10() {
           {[1, 2, 3, 4].map((i) => (
             <div key={i} className={styles.heartIcon}>
               <Image 
-                src="/imgs/page10/social-rewards-heart-like-circle.svg" 
+                src="imgs/page10/social-rewards-heart-like-circle.svg" 
                 alt="heart" 
                 width={33} 
                 height={33} 
@@ -92,7 +92,7 @@ export default function Page10() {
         {/* Main Visual */}
         <div className={`${styles.mainImageContainer} ${styles.reveal} p10-anim-3`}>
           <Image 
-            src="/imgs/page10/women.png" 
+            src="imgs/page10/women.png" 
             alt="User Illustration" 
             fill 
             style={{ objectFit: 'contain' }}
@@ -107,7 +107,7 @@ export default function Page10() {
         <div className={`${styles.contentBox} ${styles.reveal} p10-anim-4`}>
           <div className={styles.rainbow}>
             <Image 
-              src="/imgs/page10/rainbow.png" 
+              src="imgs/page10/rainbow.png" 
               alt="Decoration" 
               width={100} 
               height={80} 
@@ -119,7 +119,7 @@ export default function Page10() {
           </div>
           <div className={styles.branch}>
             <Image 
-              src="/imgs/page10/branch.png" 
+              src="imgs/page10/branch.png" 
               alt="Decoration" 
               width={50} 
               height={100} 
@@ -137,7 +137,7 @@ export default function Page10() {
           <div className={styles.footerContent}>
             <div className={styles.arrow}>
               <Image 
-                src="/imgs/page10/arrow.png" 
+                src="imgs/page10/arrow.png" 
                 alt="Arrow" 
                 width={78} 
                 height={70} 

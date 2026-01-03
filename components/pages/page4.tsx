@@ -81,7 +81,7 @@ export default function Page4() {
         {/* Background */}
         <div className={styles.background}>
           <Image 
-            src="/imgs/page4/background.svg" 
+            src="imgs/page4/background.svg" 
             alt="Background" 
             fill 
             style={{ objectFit: "cover" }} 
@@ -105,19 +105,19 @@ export default function Page4() {
             >
                <div className={styles.playButton}>
                   <div className={styles.playIcon}>
-                    <Image src="/imgs/page4/PlayCircle.svg" alt="Play" fill />
+                    <Image src="imgs/page4/PlayCircle.svg" alt="Play" fill />
                   </div>
                </div>
                {/* Arrow Decor */}
                <div className={styles.arrowDecor}>
-                  <Image src="/imgs/page4/Vector.svg" alt="Arrow" fill />
+                  <Image src="imgs/page4/Vector.svg" alt="Arrow" fill />
                </div>
             </div>
 
             {/* Tree Hole Box */}
             <div className={`${styles.treeHoleWrapper} ${styles.hide} page4-reveal-4`}>
                <div className={styles.personDecor}>
-                  <Image src="/imgs/page4/小人儿.svg" alt="Person" fill />
+                  <Image src="imgs/page4/小人儿.svg" alt="Person" fill />
                </div>
                
                <div className={styles.treeHoleBox}>
@@ -125,7 +125,7 @@ export default function Page4() {
                </div>
 
                <div className={styles.starDecor}>
-                  <Image src="/imgs/page4/right.svg" alt="Decor" fill />
+                  <Image src="imgs/page4/right.svg" alt="Decor" fill />
                </div>
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function Page4() {
                   大家最关心的是
                 </span>
                 <div className={styles.fingerIcon}>
-                   <Image src="/imgs/page4/pointUp.svg" alt="Point Up" fill />
+                   <Image src="imgs/page4/pointUp.svg" alt="Point Up" fill />
                 </div>
              </div>
              <span className={`${styles.keywordText} ${styles.hide} page4-reveal-6`}>【{keyword}】</span>

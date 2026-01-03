@@ -67,7 +67,7 @@ export default function Page21() {
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
-      <div className={styles.container}>
+      <div className={styles.container} style={{ backgroundImage: 'url("imgs/page21/background.png")' }}>
         <div className={styles.topText}>
           <div className={`hide page21-reveal-1 ${styles.title}`}>基于你的行为与情绪</div>
           <div className={`hide page21-reveal-2 ${styles.subtitle}`}>我们为你生成了一幅年度画像：</div>
@@ -75,14 +75,14 @@ export default function Page21() {
 
         <div className={styles.visualArea} onClick={goNext} data-next-ignore="true">
           <div className={`${styles.frame} hide page21-reveal-3`}>
-            <Image src="/imgs/page21/frame.png" alt="中心图片" fill className={styles.objectContain} />
+            <Image src="imgs/page21/frame.png" alt="中心图片" fill className={styles.objectContain} />
           </div>
 
           <div className={`${styles.leafLeft} hide page21-reveal-4`}>
-            <Image src="/imgs/page21/leaf_left.png" alt="leaf left" fill />
+            <Image src="imgs/page21/leaf_left.png" alt="leaf left" fill />
           </div>
           <div className={`${styles.leafRight} hide page21-reveal-4`}>
-            <Image src="/imgs/page21/leaf_right.png" alt="leaf right" fill />
+            <Image src="imgs/page21/leaf_right.png" alt="leaf right" fill />
           </div>
         </div>
         

@@ -96,7 +96,7 @@ export default function Page3() {
         {/* Background */}
         <div className={styles.background}>
           <Image 
-            src="/imgs/page3/background.svg" 
+            src="imgs/page3/background.svg" 
             alt="Background" 
             fill 
             style={{ objectFit: "cover" }} 
@@ -129,7 +129,7 @@ export default function Page3() {
           {/* Middle Section - Image (Always Visible) */}
           <div className={`${styles.middleSection} ${!isEasterEgg ? styles.wideSpacing : ''}`}>
             <Image 
-              src="/imgs/page3/Circle.png" 
+              src="imgs/page3/Circle.png" 
               alt="Together" 
               fill 
               className={styles.circleImage}

@@ -214,7 +214,7 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
         {/* Reusing Morning's Mountain Assets */}
         <div className={styles.tree}>
           <Image
-            src="/imgs/page6/morning/Tree.png" 
+            src="imgs/page6/morning/Tree.png" 
             alt="Tree" 
             fill
             priority
@@ -222,7 +222,7 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
         </div>
         <div className={styles.m1}>
           <Image
-            src="/imgs/page6/morning/m1.svg" 
+            src="imgs/page6/morning/m1.svg" 
             alt="Mountain Layer 1" 
             fill
             priority
@@ -230,7 +230,7 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
         </div>
         <div className={styles.m2}>
           <Image
-            src="/imgs/page6/morning/m2.svg" 
+            src="imgs/page6/morning/m2.svg" 
             alt="Mountain Layer 2" 
             fill
             sizes="100vw"
@@ -239,7 +239,7 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
         </div>
         <div className={styles.m3}>
           <Image
-            src="/imgs/page6/morning/m3.svg" 
+            src="imgs/page6/morning/m3.svg" 
             alt="Mountain Layer 3" 
             fill
             sizes="100vw"
@@ -248,7 +248,7 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
         </div>
         <div className={styles.m4}>
           <Image
-            src="/imgs/page6/morning/m4.svg" 
+            src="imgs/page6/morning/m4.svg" 
             alt="Mountain Layer 4" 
             fill
             sizes="100vw"
@@ -257,7 +257,7 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
         </div>
         <div className={styles.m5}>
           <Image
-            src="/imgs/page6/morning/m5.svg" 
+            src="imgs/page6/morning/m5.svg" 
             alt="Mountain Layer 5" 
             fill
             sizes="100vw"

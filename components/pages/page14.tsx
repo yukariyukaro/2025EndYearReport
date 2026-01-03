@@ -91,7 +91,7 @@ export default function Page14() {
       <div className={styles.container}>
         <div className={styles.background}>
           <Image
-            src="/imgs/page14/background.png"
+            src="imgs/page14/background.png"
             alt="Background"
             fill
             className={styles.backgroundImage}

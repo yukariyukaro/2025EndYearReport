@@ -78,7 +78,7 @@ export default function Page9() {
         {/* Top Card */}
         <div className={`${styles.topCard} ${styles.hide} page9-reveal-1`}>
           <Image 
-            src="/imgs/page9/let'sLook.png" 
+            src="imgs/page9/let'sLook.png" 
             alt="Let's Look TripleUni" 
             width={320} 
             height={320}
@@ -88,7 +88,7 @@ export default function Page9() {
           {/* Flower 1 (Left Bottom Corner) */}
           <div className={`${styles.flower1} ${styles.hide} page9-reveal-2`}>
              <Image 
-              src="/imgs/page9/flower1.svg" 
+              src="imgs/page9/flower1.svg" 
               alt="Flower" 
               width={60} 
               height={80}
@@ -111,7 +111,7 @@ export default function Page9() {
             <p className={styles.keywordTitle}>这些是年度热词</p>
             <div className={styles.underline}>
               <Image 
-                src="/imgs/page9/underline.svg" 
+                src="imgs/page9/underline.svg" 
                 alt="underline" 
                 width={120} 
                 height={10}
@@ -134,7 +134,7 @@ export default function Page9() {
           <div className={`${styles.magnifyingGlass} ${styles.popIn} page9-reveal-6`}>
             <div className={styles.searchIcon}>
                <Image 
-                src="/imgs/page9/search.svg" 
+                src="imgs/page9/search.svg" 
                 alt="Search" 
                 fill
               />
@@ -146,7 +146,7 @@ export default function Page9() {
         {/* Flower 2 (Bottom Left) */}
         <div className={`${styles.flower2} ${styles.hide} page9-reveal-7`}>
            <Image 
-            src="/imgs/page9/flower2.svg" 
+            src="imgs/page9/flower2.svg" 
             alt="Flower" 
             width={80} 
             height={100}

@@ -91,7 +91,7 @@ export default function Page22() {
       >
         <div className={`${styles.reveal} ${styles.fromBottom} page22-reveal-tree`} style={{ width: "100%", height: "100%", position: "relative" }}>
           <Image 
-            src="/imgs/page22/tree.png" 
+            src="imgs/page22/tree.png" 
             alt="Tree" 
             fill
             style={{ objectFit: "contain" }}
@@ -102,7 +102,7 @@ export default function Page22() {
         <div className={styles.hintContainer}>
           <div className={`${styles.reveal} ${styles.fromRight} page22-reveal-hint`}>
             <div className={styles.arrow}>
-              <Image src="/imgs/page22/arrow.png" alt="Arrow" fill style={{ objectFit: "contain" }} />
+              <Image src="imgs/page22/arrow.png" alt="Arrow" fill style={{ objectFit: "contain" }} />
             </div>
             <div className={styles.hintText}>
               <p>点击树干</p>
@@ -113,22 +113,22 @@ export default function Page22() {
       </div>
 
       <div className={`${styles.leaf} ${styles.leaf1} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-1`}>
-        <Image src="/imgs/page22/leaf1.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
+        <Image src="imgs/page22/leaf1.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
       <div className={`${styles.leaf} ${styles.leaf2} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-2`}>
-        <Image src="/imgs/page22/leaf2.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
+        <Image src="imgs/page22/leaf2.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
       <div className={`${styles.leaf} ${styles.leaf3} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-3`}>
-        <Image src="/imgs/page22/leaf3.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
+        <Image src="imgs/page22/leaf3.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
       <div className={`${styles.leaf} ${styles.leaf4} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-4`}>
-        <Image src="/imgs/page22/leaf4.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
+        <Image src="imgs/page22/leaf4.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
       <div className={`${styles.leaf} ${styles.leaf5} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-5`}>
-        <Image src="/imgs/page22/leaf5.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
+        <Image src="imgs/page22/leaf5.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
       <div className={`${styles.leaf} ${styles.leaf6} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-6`}>
-        <Image src="/imgs/page22/leaf6.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
+        <Image src="imgs/page22/leaf6.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
 
       {showHint && (

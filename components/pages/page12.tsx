@@ -77,7 +77,7 @@ export default function Page12() {
         {/* Background */}
         <div className={`${styles.background} ${styles.hide} page12-reveal-1`}>
           <Image
-            src="/imgs/page12/background.png"
+            src="imgs/page12/background.png"
             alt="Background"
             fill
             className={styles.backgroundImage}
@@ -96,7 +96,7 @@ export default function Page12() {
         <div className={`${styles.machineContainer} ${styles.hide} page12-reveal-3`}>
           <div className={styles.machineFloat}>
             <Image
-              src="/imgs/page12/pana.png"
+              src="imgs/page12/pana.png"
               alt="Machine"
               width={300}
               height={400}
@@ -108,7 +108,7 @@ export default function Page12() {
         {/* Pixel Hearts */}
         <div className={`${styles.heart} ${styles.heartTopRight} ${styles.pixelPop} page12-reveal-4`}>
           <Image
-            src="/imgs/page12/social-rewards-heart-like-circle.svg"
+            src="imgs/page12/social-rewards-heart-like-circle.svg"
             alt="Heart"
             width={64}
             height={64}
@@ -118,7 +118,7 @@ export default function Page12() {
         
         <div className={`${styles.heart} ${styles.heartBottomLeft} ${styles.pixelPop} page12-reveal-4`}>
           <Image
-            src="/imgs/page12/social-rewards-heart-like-circle.svg"
+            src="imgs/page12/social-rewards-heart-like-circle.svg"
             alt="Heart"
             width={64}
             height={64}

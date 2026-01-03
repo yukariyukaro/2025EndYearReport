@@ -85,7 +85,7 @@ export default function Page7() {
         {/* Background */}
         <div className={styles.background}>
           <Image 
-            src="/imgs/page7/background.png" 
+            src="imgs/page7/background.png" 
             alt="Page 7 Background" 
             fill 
             style={{ objectFit: "cover" }} 
@@ -118,7 +118,7 @@ export default function Page7() {
           <div className={`${styles.openQuestionBox} ${styles.hide} page7-reveal-6`}>
             <div className={styles.questionHeader}>
               <div className={styles.questionIcon}>
-                <Image src="/imgs/page7/questionIcon.svg" alt="Question" fill />
+                <Image src="imgs/page7/questionIcon.svg" alt="Question" fill />
               </div>
               <span className={styles.questionLabel}>Open Question</span>
             </div>
@@ -134,12 +134,12 @@ export default function Page7() {
             <div className={`${styles.playButtonWrapper} ${styles.hide} page7-reveal-8`}>
               <button className={styles.playButton} onClick={handleNext}>
                 <div className={styles.playIcon}>
-                  <Image src="/imgs/page7/PlayCircle.svg" alt="Play" fill />
+                  <Image src="imgs/page7/PlayCircle.svg" alt="Play" fill />
                 </div>
               </button>
               
               <div className={styles.arrowDecor}>
-                 <Image src="/imgs/page7/arrow.svg" alt="Arrow" fill />
+                 <Image src="imgs/page7/arrow.svg" alt="Arrow" fill />
               </div>
             </div>
           </div>

@@ -72,7 +72,7 @@ export default function Page8() {
         {/* Stars Background */}
         <div className={styles.starsBg}>
           <Image 
-            src="/imgs/page8/backgroundStars.svg" 
+            src="imgs/page8/backgroundStars.svg" 
             alt="stars" 
             fill 
             style={{ objectFit: "cover", objectPosition: "top" }} 
@@ -81,7 +81,7 @@ export default function Page8() {
         </div>
         <div className={styles.bigStars}>
           <Image 
-            src="/imgs/page8/bigStars.svg" 
+            src="imgs/page8/bigStars.svg" 
             alt="big stars" 
             width={120} 
             height={120} 
@@ -98,7 +98,7 @@ export default function Page8() {
             <div className={styles.axisLabel}>time</div>
             <div className={styles.plant}>
               <Image 
-                src="/imgs/page8/plant.svg" 
+                src="imgs/page8/plant.svg" 
                 alt="plant" 
                 width={60} 
                 height={60} 
@@ -117,7 +117,7 @@ export default function Page8() {
               {/* Phone pops in separately */}
               <div className={`${styles.phoneImage} ${styles.popIn} page8-reveal-2`}>
                 <Image 
-                  src="/imgs/page8/create-new-post.png" 
+                  src="imgs/page8/create-new-post.png" 
                   alt="phone" 
                   width={100} 
                   height={150} 
@@ -135,7 +135,7 @@ export default function Page8() {
               {/* Moon pops in separately */}
               <div className={`${styles.moonImage} ${styles.popIn} page8-reveal-4`}>
                 <Image 
-                  src="/imgs/page8/moon.svg" 
+                  src="imgs/page8/moon.svg" 
                   alt="moon" 
                   width={70} 
                   height={70} 
@@ -158,7 +158,7 @@ export default function Page8() {
         {/* City Skyline */}
         <div className={styles.citySkyline}>
           <Image 
-            src="/imgs/page8/city.svg" 
+            src="imgs/page8/city.svg" 
             alt="city" 
             width={375} 
             height={150} 

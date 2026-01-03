@@ -72,7 +72,7 @@ export default function Page17() {
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
-      <div className={styles.container}>
+      <div className={styles.container} style={{ backgroundImage: 'url("imgs/page17/background.png")' }}>
         <div className={styles.topArea}>
 
           <div className={`hide page17-reveal-2 ${styles.headerRight}`}>

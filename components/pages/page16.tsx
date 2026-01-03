@@ -93,30 +93,30 @@ export default function Page16() {
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow}>
       <div className={styles.container}>
         <div className={`${styles.springTrunk} page16-reveal-spring-trunk`}>
-          <Image src="/imgs/page16/springTree.png" alt="springTree" fill style={{ objectFit: "contain" }} />
+          <Image src="imgs/page16/springTree.png" alt="springTree" fill style={{ objectFit: "contain" }} />
         </div>
         <div className={`${styles.springLeaves} page16-reveal-spring-leaves`}>
-          <Image src="/imgs/page16/springLeaves.png" alt="springLeaves" fill style={{ objectFit: "contain" }} />
+          <Image src="imgs/page16/springLeaves.png" alt="springLeaves" fill style={{ objectFit: "contain" }} />
         </div>
 
         <div className={`${styles.summerTree} page16-reveal-summer`}>
-          <Image src="/imgs/page16/summerTree.png" alt="summer" fill style={{ objectFit: "contain" }} />
+          <Image src="imgs/page16/summerTree.png" alt="summer" fill style={{ objectFit: "contain" }} />
         </div>
 
         <div className={`${styles.autumnTree} page16-reveal-autumn`}>
-          <Image src="/imgs/page16/autumnTree.png" alt="autumn" fill style={{ objectFit: "contain" }} />
+          <Image src="imgs/page16/autumnTree.png" alt="autumn" fill style={{ objectFit: "contain" }} />
         </div>
 
         <div className={`${styles.rabbitPair} page16-reveal-rabbit-pair`}>
-          <Image src="/imgs/page16/rabbits.png" alt="rabbits" fill style={{ objectFit: "contain" }} />
+          <Image src="imgs/page16/rabbits.png" alt="rabbits" fill style={{ objectFit: "contain" }} />
         </div>
 
         <div className={`${styles.winterTree} page16-reveal-winter`}>
-          <Image src="/imgs/page16/winterTree.png" alt="winter" fill style={{ objectFit: "contain" }} />
+          <Image src="imgs/page16/winterTree.png" alt="winter" fill style={{ objectFit: "contain" }} />
         </div>
 
         <div className={`${styles.rabbitSingle} page16-reveal-rabbit-single`}>
-          <Image src="/imgs/page16/rabbit.png" alt="rabbit" fill style={{ objectFit: "contain" }} />
+          <Image src="imgs/page16/rabbit.png" alt="rabbit" fill style={{ objectFit: "contain" }} />
         </div>
 
         <div className={styles.topText}>

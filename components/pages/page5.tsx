@@ -128,7 +128,7 @@ export default function Page5() {
            <div className={styles.stickerCard}>
               {/* Card Bg */}
               <div className={styles.cardBg}>
-                 <Image src="/imgs/page5/card.png" alt="Card" fill className={styles.objectCover} />
+                 <Image src="imgs/page5/card.png" alt="Card" fill className={styles.objectCover} />
               </div>
               
               {/* Content */}
@@ -147,13 +147,13 @@ export default function Page5() {
 
            {/* Decors */}
            <div className={styles.flowerDecor}>
-              <Image src="/imgs/page5/flower.png" alt="Flower" fill style={{ objectFit: 'contain' }} />
+              <Image src="imgs/page5/flower.png" alt="Flower" fill style={{ objectFit: 'contain' }} />
            </div>
            <div className={styles.smilesDecor}>
-              <Image src="/imgs/page5/smiles.png" alt="Smiles" fill style={{ objectFit: 'contain' }} />
+              <Image src="imgs/page5/smiles.png" alt="Smiles" fill style={{ objectFit: 'contain' }} />
            </div>
            <div className={styles.plantDecor}>
-              <Image src="/imgs/page5/plant.png" alt="Plant" fill style={{ objectFit: 'contain' }} />
+              <Image src="imgs/page5/plant.png" alt="Plant" fill style={{ objectFit: 'contain' }} />
            </div>
         </div>
 

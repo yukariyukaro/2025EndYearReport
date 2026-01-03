@@ -124,7 +124,7 @@ export default function Page11() {
         </div>
 
         {/* Background Layer */}
-        <div className={`${styles.chartBackground} ${styles.hide} page11-reveal-2`}>
+        <div className={`${styles.chartBackground} ${styles.hide} page11-reveal-2`} style={{ backgroundImage: 'url("imgs/page11/graphBackground.png")' }}>
         </div>
 
         {/* Chart Section */}
@@ -155,7 +155,7 @@ export default function Page11() {
 
             <div className={`${styles.fireIcon} ${styles.popIn} page11-reveal-3`}>
               <Image
-                src="/imgs/page11/fire.png"
+                src="imgs/page11/fire.png"
                 alt="Fire"
                 width={80}
                 height={94}
@@ -169,7 +169,7 @@ export default function Page11() {
            {/* If card.png is the background, we use it here */}
            {/* Based on Figma, 'card' group has the yellow bg. Assuming card.png is that. */}
            <Image 
-             src="/imgs/page11/card.png" 
+             src="imgs/page11/card.png" 
              alt="Card Bg" 
              fill
              className={styles.objectCover}
@@ -195,21 +195,21 @@ export default function Page11() {
 
         {/* Birds Decorations */}
         <div className={`${styles.birdsTopRight} ${styles.hide} page11-reveal-6`}>
-           <Image src="/imgs/page11/birdsUpRight.png" alt="Birds" fill style={{ objectFit: "contain" }} />
+           <Image src="imgs/page11/birdsUpRight.png" alt="Birds" fill style={{ objectFit: "contain" }} />
         </div>
         <div className={`${styles.birdsTopLeft} ${styles.hide} page11-reveal-6`}>
-           <Image src="/imgs/page11/birdsUpLeft.png" alt="Birds" fill style={{ objectFit: "contain" }} />
+           <Image src="imgs/page11/birdsUpLeft.png" alt="Birds" fill style={{ objectFit: "contain" }} />
         </div>
         <div className={`${styles.birdsBottomLeft} ${styles.hide} page11-reveal-6`}>
-           <Image src="/imgs/page11/birdsDownLeft.png" alt="Birds" fill style={{ objectFit: "contain" }} />
+           <Image src="imgs/page11/birdsDownLeft.png" alt="Birds" fill style={{ objectFit: "contain" }} />
         </div>
         <div className={`${styles.birdsBottomRight} ${styles.hide} page11-reveal-6`}>
-           <Image src="/imgs/page11/BirdsDownRight.png" alt="Birds" fill style={{ objectFit: "contain" }} />
+           <Image src="imgs/page11/BirdsDownRight.png" alt="Birds" fill style={{ objectFit: "contain" }} />
         </div>
 
         <div className={`${styles.bottomDecor} ${styles.hide} page11-reveal-6`}>
           <Image
-            src="/imgs/page11/rightCorner.png"
+            src="imgs/page11/rightCorner.png"
             alt="Decoration"
             fill
            style={{ objectFit: "contain" }}

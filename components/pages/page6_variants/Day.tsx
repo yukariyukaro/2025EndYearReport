@@ -99,7 +99,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
         </div>
         
         <div className={styles.sun}>
-          <Image src="/imgs/page6/day/sun.svg" alt="Sun" fill priority />
+          <Image src="imgs/page6/day/sun.svg" alt="Sun" fill priority />
         </div>
 
         <div 
@@ -208,7 +208,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
         </button>
         <div className={styles.tree}>
           <Image
-            src="/imgs/page6/day/Tree.png" 
+            src="imgs/page6/day/Tree.png" 
 
             alt="Tree" 
             fill
@@ -218,7 +218,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
         {/* Mountain Layer 1 */}
         <div className={styles.m1}>
           <Image
-            src="/imgs/page6/day/m1.svg" 
+            src="imgs/page6/day/m1.svg" 
             alt="Mountain Layer 1" 
             fill
             priority
@@ -227,7 +227,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
         {/* Mountain Layer 2 */}
         <div className={styles.m2}>
           <Image
-            src="/imgs/page6/day/m2.svg" 
+            src="imgs/page6/day/m2.svg" 
             alt="Mountain Layer 2" 
             fill
             priority
@@ -236,7 +236,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
         </div>
         <div className={styles.m3}>
           <Image
-            src="/imgs/page6/day/m3.svg" 
+            src="imgs/page6/day/m3.svg" 
             alt="Mountain Layer 3" 
             fill
             priority
@@ -245,7 +245,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
         </div>
         <div className={styles.m4}>
           <Image
-            src="/imgs/page6/day/m4.svg" 
+            src="imgs/page6/day/m4.svg" 
             alt="Mountain Layer 4" 
             fill
             priority
@@ -254,7 +254,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
         </div>
         <div className={styles.m5}>
           <Image
-            src="/imgs/page6/day/m5.svg" 
+            src="imgs/page6/day/m5.svg" 
             alt="Mountain Layer 5" 
             fill
             priority
@@ -262,7 +262,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
         </div>
         <div className={styles.stone}>
           <Image
-            src="/imgs/page6/day/stone.svg" 
+            src="imgs/page6/day/stone.svg" 
             alt="Stone" 
             fill
             priority
@@ -270,7 +270,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
         </div>
         <div className={styles.group}>
           <Image
-            src="/imgs/page6/day/group.svg" 
+            src="imgs/page6/day/group.svg" 
             alt="Group" 
             fill
             priority

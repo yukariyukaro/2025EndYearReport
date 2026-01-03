@@ -10,6 +10,7 @@ type PageWrapperProps = {
   className?: string;
   children?: React.ReactNode;
   onAppendNext?: () => void;
+  style?: React.CSSProperties;
 };
 
 export default function PageWrapper({
@@ -20,6 +21,7 @@ export default function PageWrapper({
   className,
   children,
   onAppendNext,
+  style,
 }: PageWrapperProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const { registerPageRef, onEnterViewportForFirstTime, appendNextPage, onAppendNext: subscribeAppend, offAppendNext } = usePageManager();
@@ -83,7 +85,7 @@ export default function PageWrapper({
       id={`page${pageNumber}`}
       ref={ref}
       onClickCapture={handleClickCapture}
-      style={{ width: '100%', height: '100%' }}
+      style={{ width: '100%', height: '100%', ...style }}
     >
       {children}
     </div>

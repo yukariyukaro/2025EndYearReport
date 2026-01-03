@@ -66,7 +66,7 @@ export default function Page13() {
         {/* Background */}
         <div className={styles.background}>
           <Image
-            src="/imgs/page13/background.png"
+            src="imgs/page13/background.png"
             alt="Background"
             fill
             className={styles.backgroundImage}
@@ -99,7 +99,7 @@ export default function Page13() {
 
             <div className={`${styles.arrowWrapper} ${styles.reveal} ${styles.bounce} page13-reveal-4`}>
               <Image 
-                src="/imgs/page13/arrow.svg" 
+                src="imgs/page13/arrow.svg" 
                 alt="Arrow" 
                 fill 
                 style={{ objectFit: "contain" }}

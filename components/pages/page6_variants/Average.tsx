@@ -204,7 +204,7 @@ export default function Average({ chartData, peakHour, patternLabel }: Page6Vari
             <div className={`${styles.rabbitContainer} ${styles.hide} page6-avg-reveal-6`}>
                  {/* Using cat.svg as placeholder for rabbit since average folder is empty */}
                  <Image 
-                    src="/imgs/page6/average/rabbit.png" 
+                    src="imgs/page6/average/rabbit.png" 
                     alt="Rabbit Illustration" 
                     fill
                     className={styles.rabbitImage}

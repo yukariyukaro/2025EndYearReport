@@ -108,7 +108,7 @@ export default function Page2() {
           {/* Top Cloud */}
           <div className={styles.cloud1}>
             <Image 
-              src="/imgs/page2/page2Day/cloud1.svg" 
+              src="imgs/page2/page2Day/cloud1.svg" 
               alt="Cloud" 
               fill 
               className={styles.objectContain}
@@ -133,7 +133,7 @@ export default function Page2() {
           {/* Visual Area */}
           <div className={styles.visualArea}>
             <div className={styles.cloud2}>
-              <Image src="/imgs/page2/page2Day/cloud2.svg" alt="Cloud" fill />
+              <Image src="imgs/page2/page2Day/cloud2.svg" alt="Cloud" fill />
             </div>
 
             <div className={styles.sun}>
@@ -147,7 +147,7 @@ export default function Page2() {
             >
                {/* Small Tree (Sapling) */}
                <Image 
-                 src="/imgs/page2/tree.svg" 
+                 src="imgs/page2/tree.svg" 
                  alt="Small Tree" 
                  fill 
                  className={`${styles.smallTree} ${isGrowing ? styles.smallTreeHidden : ""}`}
@@ -155,7 +155,7 @@ export default function Page2() {
                
                {/* Big Tree (Grown) */}
                <Image 
-                 src="/imgs/page2/page2Day/bigTree.svg" 
+                 src="imgs/page2/page2Day/bigTree.svg" 
                  alt="Big Tree" 
                  fill 
                  className={`${styles.bigTree} ${isGrowing ? styles.bigTreeActive : ""}`}
@@ -163,7 +163,7 @@ export default function Page2() {
 
                {/* Hints */}
                <div className={`${styles.arrow} ${isGrowing ? styles.fadeOut : ""}`}>
-                 <Image src="/imgs/page2/arrow.svg" alt="Arrow" fill />
+                 <Image src="imgs/page2/arrow.svg" alt="Arrow" fill />
                </div>
                <span className={`${styles.clickHint} hide ${isGrowing ? styles.fadeOut : ""}`}>
                  点击树苗
@@ -171,12 +171,12 @@ export default function Page2() {
             </div>
 
             <div className={styles.cloud3}>
-              <Image src="/imgs/page2/page2Day/cloud3.svg" alt="Cloud" fill />
+              <Image src="imgs/page2/page2Day/cloud3.svg" alt="Cloud" fill />
             </div>
 
             <div className={styles.field}>
               <Image 
-                src="/imgs/page2/field.png" 
+                src="imgs/page2/field.png" 
                 alt="Field" 
                 fill 
                 style={{ objectFit: "cover", objectPosition: "top" }}
@@ -189,7 +189,7 @@ export default function Page2() {
           {/* Background */}
           <div className={styles.nightBackground}>
             <Image 
-              src="/imgs/page2/page2Night/background.png" 
+              src="imgs/page2/page2Night/background.png" 
               alt="Night Background" 
               fill 
               style={{ objectFit: "cover" }} 
@@ -222,7 +222,7 @@ export default function Page2() {
                 >
                     {/* Small Tree (Sapling) - Same as Day */}
                     <Image 
-                      src="/imgs/page2/page2Day/tree.png" 
+                      src="imgs/page2/page2Day/tree.png" 
                       alt="Small Tree" 
                       fill 
                       className={`${styles.smallTree} ${isGrowing ? styles.smallTreeHidden : ""}`}
@@ -230,7 +230,7 @@ export default function Page2() {
                     
                     {/* Big Tree Night */}
                     <Image 
-                      src="/imgs/page2/page2Night/bigTreeNight.svg" 
+                      src="imgs/page2/page2Night/bigTreeNight.svg" 
                       alt="Big Tree Night" 
                       fill 
                       className={`${styles.bigTree} ${isGrowing ? styles.bigTreeActive : ""}`}
@@ -238,7 +238,7 @@ export default function Page2() {
 
                     {/* Hints */}
                     <div className={`${styles.arrow} ${isGrowing ? styles.fadeOut : ""}`}>
-                      <Image src="/imgs/page2/arrow.svg" alt="Arrow" fill />
+                      <Image src="imgs/page2/arrow.svg" alt="Arrow" fill />
                     </div>
                     <span 
                       className={`${styles.clickHint} ${isGrowing ? styles.fadeOut : ""}`}
@@ -251,7 +251,7 @@ export default function Page2() {
 
              <div className={styles.field}>
                 <Image 
-                  src="/imgs/page2/field.png" 
+                  src="imgs/page2/field.png" 
                   alt="Field" 
                   fill 
                   style={{ objectFit: "cover", objectPosition: "top" }}

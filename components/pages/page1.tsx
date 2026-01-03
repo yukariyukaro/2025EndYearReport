@@ -57,7 +57,7 @@ export default function Page1() {
               {[...col, ...col].map((imgName, index) => (
                 <div key={index} className={styles.gridItem}>
                   <Image
-                    src={`/imgs/page1/${imgName}`}
+                    src={`imgs/page1/${imgName}`}
                     alt=""
                     fill
                     className={styles.itemImage}
