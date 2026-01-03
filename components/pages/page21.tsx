@@ -57,7 +57,7 @@ export default function Page21() {
   const personality_label = '性格标签';
   const keyword = '关键词';
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow}>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container}>
         <div className={styles.topText}>
           <div className={`hide page21-reveal-1 ${styles.title}`}>基于你的行为与情绪</div>
@@ -84,7 +84,7 @@ export default function Page21() {
         </div>
 
         {showHint && (
-          <div className={styles.hintWrap}>
+          <div className="fade-in">
             <ScrollUpHint />
           </div>
         )}
@@ -92,27 +92,4 @@ export default function Page21() {
     </PageWrapper>
   );
 }
-/*"use client";
-import PageWrapper from "@/components/PageWrapper";
-import usePageManager from "@/hooks/usePageManager";
 
-// Minimal page template for copy-paste
-// Usage: duplicate this file as pageX.tsx, update PAGE_NUMBER and content
-
-export default function Page21() {
-  const PAGE_NUMBER = 21; // replace with actual page number after copy
-  const { appendNextPage } = usePageManager();
-
-  const scrollToNext = () => {
-    appendNextPage(PAGE_NUMBER, true);
-  };
-
-  return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={() => {}}>
-      <div>
-        <h1>Page {PAGE_NUMBER}</h1>
-        <button onClick={scrollToNext}>Show Next Page</button>
-      </div>
-    </PageWrapper>
-  );
-}*/

@@ -78,6 +78,8 @@ export default function Page16() {
     timersRef.current.push(hintTimer);
   }
 
+  const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
+
   // Text variables extracted
   const POST_EMOTION_TITLE_LINE1 = "你的发帖情绪";
   const POST_EMOTION_TITLE_LINE2 = "随季节流转";
@@ -88,7 +90,7 @@ export default function Page16() {
   const FREQ_WORD3 = keywords[2]?.word ?? "成长";
 
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow}>
       <div className={styles.container}>
         <div className={`${styles.springTrunk} page16-reveal-spring-trunk`}>
           <Image src="/imgs/page16/springTree.png" alt="springTree" fill style={{ objectFit: "contain" }} />

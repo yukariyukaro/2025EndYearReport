@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import ScrollUpHint from "@/components/ScrollUpHint";
@@ -17,6 +17,16 @@ export default function Page22() {
   const achievementCount = 15; // 成就数量
   const growthPercentage = 25; // 成长百分比
   const [showHint, setShowHint] = useState(false);
+  const timersRef = useRef<NodeJS.Timeout[]>([]);
+
+  const clearTimers = useCallback(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+  }, []);
+
+  useEffect(() => {
+    return () => clearTimers();
+  }, [clearTimers]);
 
   const handleTreeTrunkClick = () => {
     // 点击树干查看成长足迹的逻辑
@@ -141,10 +151,11 @@ export default function Page22() {
     onShow();
     sendViewPageTracking(PAGE_NUMBER);
     const hintTimer = setTimeout(() => setShowHint(true),  900);
+    timersRef.current.push(hintTimer);
   }
 
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={handleShow} className={styles.container}>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={handleShow} onAppendNext={() => setShowHint(false)} className={styles.container}>
       {/* 第一部分：今年成就 */}
       <div className="content-block">
         {/* 文本内容 */}
@@ -203,7 +214,7 @@ export default function Page22() {
       </div>
 
       {showHint && (
-          <div className={styles.hintWrap}>
+          <div className="fade-in">
             <ScrollUpHint />
           </div>
         )}

@@ -182,12 +182,12 @@
   text-align: center;
 }
 
-:global(.page22-tree-2) {
+:global(.page22-tree-1) {
   position: absolute;
-  width: 100%;
+  width: 95%;
   height: 20%;
-  top: 72%;
-  left: 50%;
+  top: 25%;
+  left: 2.5%;
   transform: translateX(-50%);
   z-index: 10;
   display: flex;
@@ -195,10 +195,6 @@
   align-items: center;
 }
 
-:global(.page22-tree-2) > div.relative {
-  width: 38%;
-  height: 100%;
-}
 
 :global(.page22-year-2023),
 :global(.page22-year-2024),
@@ -221,7 +217,7 @@
     padding-inline: 0.8rem;
   }
   :global(.page22-hint) {
-    bottom: 46%;
+    bottom: 20%;
   }
   :global(.page22-tree-1) {
     height: 52%;

@@ -64,7 +64,7 @@ export default function Page17() {
   const HEALING_PCT = "X";
 
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow}>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container}>
         <div className={styles.topArea}>
 
@@ -84,7 +84,7 @@ export default function Page17() {
         </div>
 
         {showHint && (
-          <div className={styles.hintWrap}>
+          <div className="fade-in">
             <ScrollUpHint />
           </div>
         )}

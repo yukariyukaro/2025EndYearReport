@@ -21,7 +21,7 @@
   z-index: 2;
 }
 
-.topEmojiRow { display:flex; gap:1.2rem; justify-content:center; margin: 0.4rem 0 }
+.topEmojiRow { display:flex; gap:1.6rem; justify-content:center; margin: 0.4rem 0 }
 .emoji { display:flex; align-items:center; justify-content:center}
 .bigEmoji { width:56px; height:56px; border-radius:50%; background: rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center }
 
@@ -37,7 +37,7 @@
 .contentArea { width: 100%; padding: 0rem 1.5rem; z-index: 2; color:#000; display:flex; flex-direction:column; align-items:center }
 .cta { margin-top:0.3rem; font-size:1.05rem; font-weight:400 }
 
-.playWrap { display: flex; margin-top: 0rem; gap: 1.7rem;  flex-direction: row; justify-content: flex-end}
+.playWrap { display: flex; margin-top: 0.4rem; gap: 1rem;  flex-direction: row; justify-content: flex-end}
 
 .hintWrap { position: absolute; bottom: 1.8rem; right: 1.2rem; z-index: 4; }
 
