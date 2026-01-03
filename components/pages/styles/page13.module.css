@@ -155,16 +155,7 @@
 }
 
 /* Animations */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* .reveal and .visible are now global */
 
 /* Button Pulse Animation */
 .pulse {

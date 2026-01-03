@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
@@ -15,6 +15,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import styles from '../styles/page6Day.module.css';
+import { useRevealAnimation } from '@/hooks/useRevealAnimation';
 
 export default function Day({ chartData, peakHour, patternLabel }: Page6VariantProps) {
   const PAGE_NUMBER = 6;
@@ -22,35 +23,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
   
   const [showHint, setShowHint] = useState(false);
   const [playChart, setPlayChart] = useState(false);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  // 清理 timers
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  // 复用动画逻辑
-  function reveal(selector: string, delayMs: number, durationMs = 1000) {
-    document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-      el.classList.remove("reveal-line");
-      el.classList.add(styles.hide); 
-      void el.offsetWidth;
-    });
-
-    const timer = setTimeout(() => {
-      document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-        el.classList.remove(styles.hide);
-        el.classList.add("reveal-line"); 
-        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   function onShow() {
     clearTimers();
@@ -65,7 +38,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
 
     // Trigger chart drawing animation immediately or shortly after header
     const chartTimer = setTimeout(() => setPlayChart(true), t + 100);
-    timersRef.current.push(chartTimer);
+    addTimer(chartTimer);
 
     // Legend
     reveal(".page6-reveal-3", (t += stepSlow));
@@ -79,7 +52,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
     reveal(".page6-reveal-7", (t += stepSlow));
 
     const hintTimer = setTimeout(() => setShowHint(true), (t += 600));
-    timersRef.current.push(hintTimer);
+    addTimer(hintTimer);
   }
 
   const scrollToNext = () => {
@@ -94,7 +67,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
     >
       <div className={styles.container}>
         {/* Header */}
-        <div className={`${styles.headerText} ${styles.hide} page6-reveal-1`}>
+        <div className={`${styles.headerText} hide page6-reveal-1`}>
           Good Morning
         </div>
         
@@ -174,7 +147,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
           </ResponsiveContainer>
         </div>
 
-        <div className={`${styles.legend} ${styles.hide} page6-reveal-3`}>
+        <div className={`${styles.legend} hide page6-reveal-3`}>
             <div className={styles.legendItem}>
                 <div className={styles.legendLine} style={{ background: '#FACB98' }}></div>
                 <span className={styles.legendText}>你</span>
@@ -187,16 +160,16 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
 
         {/* Stats */}
         <div className={styles.statsContainer}>
-          <div className={`${styles.statText} ${styles.hide} page6-reveal-4`}>你的最活跃时段是 {peakHour}</div>
-          <div className={`${styles.statText} ${styles.hide} page6-reveal-5`}>与全体用户相比</div>
-          <div className={`${styles.statRow} ${styles.hide} page6-reveal-6`}>
+          <div className={`${styles.statText} hide page6-reveal-4`}>你的最活跃时段是 {peakHour}</div>
+          <div className={`${styles.statText} hide page6-reveal-5`}>与全体用户相比</div>
+          <div className={`${styles.statRow} hide page6-reveal-6`}>
             <span className={styles.statText}>你的作息是</span>
             <span className={styles.statHighlight}>{patternLabel}</span>
           </div>
         </div>
 
         {/* Center Text / Quote replacing Stats */}
-        <div className={`${styles.centerText} ${styles.hide} page6-reveal-7`}>
+        <div className={`${styles.centerText} hide page6-reveal-7`}>
           “白昼是你的主场{'\n'}能量满满，高效在线”
         </div>
 

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Italiana, Leckerli_One, Gochi_Hand } from "next/font/google";
 import "./globals.css";
@@ -27,10 +27,17 @@ const abhayaLibre = localFont({
   weight: "800",
 });
 
-export const metadata = {
-title: "2025年年度报告",
-description: "这是2025年年度报告的页面",
-viewport: "width=device-width, initial-scale=1.0",
+export const metadata: Metadata = {
+  title: "2025年年度报告",
+  description: "这是2025年年度报告的页面",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import ScrollUpHint from "@/components/ScrollUpHint";
@@ -7,10 +7,11 @@ import { sendViewPageTracking } from "@/utils/dom";
 import styles from "./styles/page22.module.css";
 import usePageManager from "@/hooks/usePageManager";
 import { useSummary } from "@/contexts/SummaryContext";
+import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 
 export default function Page22() {
   const PAGE_NUMBER = 22;
-  const { appendNextPage, currentPage } = usePageManager();
+  const { appendNextPage } = usePageManager();
   const { summaryData } = useSummary();
   const pageData = summaryData?.page16;
 
@@ -18,25 +19,7 @@ export default function Page22() {
   const growthPercentage = 0;
 
   const [showHint, setShowHint] = useState(false);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  useEffect(() => {
-    if (currentPage !== PAGE_NUMBER) {
-      clearTimers();
-      document.querySelectorAll('[class*="page22-reveal"]').forEach((el) => {
-        el.classList.remove(styles.visible);
-      });
-    }
-  }, [currentPage, clearTimers]);
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   const handleTreeTrunkClick = () => {
     try {
@@ -46,30 +29,25 @@ export default function Page22() {
     }
   };
 
-  const reveal = useCallback((selector: string, delayMs: number) => {
-    const timer = setTimeout(() => {
-      document.querySelectorAll(selector).forEach((el) => {
-        el.classList.add(styles.visible);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }, []);
+  const doReveal = (selector: string, delay: number) => {
+    reveal(selector, delay, { activeClass: "visible", initialClass: "reveal" });
+  };
 
   function handleShow() {
     clearTimers();
     setShowHint(false);
-    reveal(".page22-reveal-header", 250);
-    reveal(".page22-reveal-tree", 600);
-    reveal(".page22-reveal-hint", 1050);
-    reveal(".page22-reveal-leaf-1", 600);
-    reveal(".page22-reveal-leaf-2", 700);
-    reveal(".page22-reveal-leaf-3", 800);
-    reveal(".page22-reveal-leaf-4", 900);
-    reveal(".page22-reveal-leaf-5", 1000);
-    reveal(".page22-reveal-leaf-6", 1100);
+    doReveal(".page22-reveal-header", 250);
+    doReveal(".page22-reveal-tree", 600);
+    doReveal(".page22-reveal-hint", 1050);
+    doReveal(".page22-reveal-leaf-1", 600);
+    doReveal(".page22-reveal-leaf-2", 700);
+    doReveal(".page22-reveal-leaf-3", 800);
+    doReveal(".page22-reveal-leaf-4", 900);
+    doReveal(".page22-reveal-leaf-5", 1000);
+    doReveal(".page22-reveal-leaf-6", 1100);
     sendViewPageTracking(PAGE_NUMBER);
     const hintTimer = setTimeout(() => setShowHint(true), 1500);
-    timersRef.current.push(hintTimer);
+    addTimer(hintTimer);
   }
 
   return (
@@ -79,7 +57,7 @@ export default function Page22() {
       onAppendNext={() => setShowHint(false)}
       className={styles.container}
     >
-      <div className={`${styles.headerText} ${styles.reveal} ${styles.fromLeft} page22-reveal-header`}>
+      <div className={`${styles.headerText} reveal fromLeft page22-reveal-header`}>
         <p>今年你收获了 <span className={styles.figure}>{achievementCount}</span> 个成就</p>
         <p>比去年增长了 <span className={styles.figure}>{growthPercentage}</span>%</p>
       </div>
@@ -89,7 +67,7 @@ export default function Page22() {
         onClick={handleTreeTrunkClick} 
         data-next-ignore="true"
       >
-        <div className={`${styles.reveal} ${styles.fromBottom} page22-reveal-tree`} style={{ width: "100%", height: "100%", position: "relative" }}>
+        <div className={`reveal fromBottom page22-reveal-tree`} style={{ width: "100%", height: "100%", position: "relative" }}>
           <Image 
             src="imgs/page22/tree.png" 
             alt="Tree" 
@@ -100,7 +78,7 @@ export default function Page22() {
         </div>
 
         <div className={styles.hintContainer}>
-          <div className={`${styles.reveal} ${styles.fromRight} page22-reveal-hint`}>
+          <div className={`reveal fromRight page22-reveal-hint`}>
             <div className={styles.arrow}>
               <Image src="imgs/page22/arrow.png" alt="Arrow" fill style={{ objectFit: "contain" }} />
             </div>
@@ -112,22 +90,22 @@ export default function Page22() {
         </div>
       </div>
 
-      <div className={`${styles.leaf} ${styles.leaf1} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-1`}>
+      <div className={`${styles.leaf} ${styles.leaf1} reveal fromFade page22-reveal-leaf-1`}>
         <Image src="imgs/page22/leaf1.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
-      <div className={`${styles.leaf} ${styles.leaf2} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-2`}>
+      <div className={`${styles.leaf} ${styles.leaf2} reveal fromFade page22-reveal-leaf-2`}>
         <Image src="imgs/page22/leaf2.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
-      <div className={`${styles.leaf} ${styles.leaf3} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-3`}>
+      <div className={`${styles.leaf} ${styles.leaf3} reveal fromFade page22-reveal-leaf-3`}>
         <Image src="imgs/page22/leaf3.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
-      <div className={`${styles.leaf} ${styles.leaf4} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-4`}>
+      <div className={`${styles.leaf} ${styles.leaf4} reveal fromFade page22-reveal-leaf-4`}>
         <Image src="imgs/page22/leaf4.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
-      <div className={`${styles.leaf} ${styles.leaf5} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-5`}>
+      <div className={`${styles.leaf} ${styles.leaf5} reveal fromFade page22-reveal-leaf-5`}>
         <Image src="imgs/page22/leaf5.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
-      <div className={`${styles.leaf} ${styles.leaf6} ${styles.reveal} ${styles.fromFade} page22-reveal-leaf-6`}>
+      <div className={`${styles.leaf} ${styles.leaf6} reveal fromFade page22-reveal-leaf-6`}>
         <Image src="imgs/page22/leaf6.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
       </div>
 

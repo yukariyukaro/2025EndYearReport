@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
@@ -7,6 +7,7 @@ import { useSummary } from "@/contexts/SummaryContext";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts";
 import styles from "./styles/page14.module.css";
+import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 
 // Mock data for chart (Backend missing monthly data)
 const MOCK_CHART_DATA = [
@@ -26,7 +27,7 @@ const MOCK_CHART_DATA = [
 
 export default function Page14() {
   const PAGE_NUMBER = 14;
-  const { currentPage } = usePageManager();
+  const { appendNextPage } = usePageManager();
   const { data: summaryData } = useSummary();
   const pageData = summaryData?.pages?.page10;
   
@@ -37,39 +38,12 @@ export default function Page14() {
   const isFirstYear = (pageData?.post_count_2024 ?? 0) === 0;
   const growthRate = pageData?.growth_rate ?? 0;
 
-  const [showHint, setShowHint] = useState(true);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  useEffect(() => {
-    if (currentPage !== PAGE_NUMBER) {
-      clearTimers();
-      document.querySelectorAll('[class*="page14-reveal"]').forEach((el) => {
-        el.classList.remove(styles.visible);
-      });
-    }
-  }, [currentPage, clearTimers]);
-
-  const reveal = useCallback((selector: string, delayMs: number) => {
-    const timer = setTimeout(() => {
-      const els = document.querySelectorAll(selector);
-      els.forEach((el) => {
-        el.classList.add(styles.visible);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }, []);
+  const [showHint, setShowHint] = useState(false);
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   const onShow = () => {
     clearTimers();
+    setShowHint(false);
     // Top Text
     reveal(`.page14-reveal-1-1`, 300);
     reveal(`.page14-reveal-1-2`, 500);
@@ -84,6 +58,9 @@ export default function Page14() {
     
     // Footer
     reveal(`.page14-reveal-4`, 2000);
+
+    const hintTimer = setTimeout(() => setShowHint(true), 3000);
+    addTimer(hintTimer);
   };
 
   return (
@@ -102,17 +79,17 @@ export default function Page14() {
         <div className={styles.content}>
           {/* Top Text */}
           <div className={styles.topText}>
-            <div className={`${styles.reveal} page14-reveal-1-1`}>今年</div>
-            <div className={`${styles.reveal} page14-reveal-1-2`}>
+            <div className={`hide page14-reveal-1-1`}>今年</div>
+            <div className={`hide page14-reveal-1-2`}>
               你发布了 <span className={styles.highlight}>{postCount}</span> 条内容
             </div>
-            <div className={`${styles.reveal} page14-reveal-1-3`}>
+            <div className={`hide page14-reveal-1-3`}>
               打败了 <span className={styles.highlight}>{beatPercentage}%</span> 的用户
             </div>
           </div>
 
           {/* Chart Card */}
-          <div className={`${styles.chartCard} ${styles.reveal} page14-reveal-2`}>
+          <div className={`${styles.chartCard} hide page14-reveal-2`}>
             <div className={styles.cardHeader}>
               <span className={styles.cardTitle}>POSTS</span>
               <span className={styles.cardYear}>2025</span>
@@ -154,15 +131,15 @@ export default function Page14() {
           <div className={styles.bottomText}>
             {isFirstYear ? (
               <>
-                <div className={`${styles.reveal} page14-reveal-3-1`}>这是你的第一年</div>
-                <div className={`${styles.reveal} page14-reveal-3-2`}>
+                <div className={`hide page14-reveal-3-1`}>这是你的第一年</div>
+                <div className={`hide page14-reveal-3-2`}>
                   你与triple uni的精彩才刚刚开始！
                 </div>
               </>
             ) : (
               <>
-                <div className={`${styles.reveal} page14-reveal-3-1`}>与去年相比</div>
-                <div className={`${styles.reveal} page14-reveal-3-2`}>
+                <div className={`hide page14-reveal-3-1`}>与去年相比</div>
+                <div className={`hide page14-reveal-3-2`}>
                   你的发帖量增加了 <span className={styles.highlight}>{Math.round(growthRate)}%</span>
                 </div>
               </>
@@ -170,7 +147,7 @@ export default function Page14() {
           </div>
 
           {/* Footer */}
-          <div className={`${styles.footer} ${styles.reveal} page14-reveal-4`}>
+          <div className={`${styles.footer} hide page14-reveal-4`}>
              <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M20 5L35 35H5L20 5Z" stroke="#F4C9AA" strokeWidth="3" fill="none" />
                 <path d="M20 12L30 32H10L20 12Z" fill="#D9F0B6" fillOpacity="0.5" />

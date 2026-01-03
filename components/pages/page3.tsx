@@ -17,7 +17,7 @@ function formatDate(dateStr: string | undefined) {
 export default function Page3() {
   const PAGE_NUMBER = 3;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { appendNextPage } = usePageManager();
+  const { appendNextPage, currentPage } = usePageManager();
   const { data } = useSummary();
   
   // Toggle for Easter Egg mode (restoring design as Easter Egg version by default)
@@ -41,20 +41,29 @@ export default function Page3() {
     return () => clearTimers();
   }, [clearTimers]);
 
+  useEffect(() => {
+    if (currentPage !== PAGE_NUMBER) {
+      clearTimers();
+      document.querySelectorAll<HTMLElement>(".reveal-active").forEach((el) => {
+        el.classList.remove("reveal-active");
+        el.classList.add("hide");
+      });
+      setShowHint(false);
+    }
+  }, [currentPage, PAGE_NUMBER, clearTimers]);
+
   // 文本逐行左→右浮现
   function reveal(selector: string, delayMs: number, durationMs = 1000) {
     // 先重置
     document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-      el.classList.remove("reveal-line");
+      el.classList.remove("reveal-active");
       el.classList.add("hide");
-      void el.offsetWidth;
+      el.style.setProperty("--reveal-duration", `${durationMs}ms`);
     });
 
     const timer = setTimeout(() => {
       document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-        el.classList.remove("hide");
-        el.classList.add("reveal-line");
-        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
+        el.classList.add("reveal-active");
       });
     }, delayMs);
     timersRef.current.push(timer);

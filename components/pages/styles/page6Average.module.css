@@ -11,10 +11,7 @@
   color: #5B3A18; /* Dark brown default text color */
 }
 
-.hide {
-  opacity: 0;
-  transition: opacity 1s ease;
-}
+/* .hide removed, using global .hide */
 
 .statsContainer {
   display: flex;
@@ -142,7 +139,7 @@
 }
 
 .rabbitContainer {
-    width: 41.87%; /* 157/375 */
+    width: 39%; /* 157/375 */
     aspect-ratio: 157 / 152;
     position: relative;
     z-index: 10;

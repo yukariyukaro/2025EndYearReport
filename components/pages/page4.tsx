@@ -9,7 +9,7 @@ import styles from "./styles/page4.module.css";
 
 export default function Page4() {
   const PAGE_NUMBER = 4;
-  const { appendNextPage } = usePageManager();
+  const { appendNextPage, currentPage } = usePageManager();
   const { data } = useSummary();
   const keyword = "默认"; // Default fallback
   
@@ -26,19 +26,28 @@ export default function Page4() {
     return () => clearTimers();
   }, [clearTimers]);
 
+  useEffect(() => {
+    if (currentPage !== PAGE_NUMBER) {
+      clearTimers();
+      document.querySelectorAll<HTMLElement>(".reveal-active").forEach((el) => {
+        el.classList.remove("reveal-active");
+        el.classList.add("hide");
+      });
+      setShowHint(false);
+    }
+  }, [currentPage, PAGE_NUMBER, clearTimers]);
+
   // 复用动画逻辑
   function reveal(selector: string, delayMs: number, durationMs = 1000) {
     document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-      el.classList.remove("reveal-line");
-      el.classList.add(styles.hide); // Use local class for initial state
-      void el.offsetWidth;
+      el.classList.remove("reveal-active");
+      el.classList.add("hide"); // Use global hide
+      el.style.setProperty("--reveal-duration", `${durationMs}ms`);
     });
 
     const timer = setTimeout(() => {
       document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-        el.classList.remove(styles.hide);
-        el.classList.add("reveal-line"); // Global class for animation
-        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
+        el.classList.add("reveal-active");
       });
     }, delayMs);
     timersRef.current.push(timer);
@@ -91,15 +100,15 @@ export default function Page4() {
         <div className={styles.content}>
           {/* Top Section */}
           <div className={styles.topSection}>
-            <span className={`${styles.titleText} ${styles.hide} page4-reveal-1`}>打开时间的胶囊</span>
-            <span className={`${styles.titleText} ${styles.hide} page4-reveal-2`}>看看那天的树洞吧</span>
+            <span className={`${styles.titleText} hide page4-reveal-1`}>打开时间的胶囊</span>
+            <span className={`${styles.titleText} hide page4-reveal-2`}>看看那天的树洞吧</span>
           </div>
 
           {/* Center Section */}
           <div className={styles.centerSection}>
             {/* Play Button */}
             <div 
-              className={`${styles.playButtonWrapper} ${styles.hide} page4-reveal-3`}
+              className={`${styles.playButtonWrapper} hide page4-reveal-3`}
               onClick={handleNext}
               data-next-ignore="true" // Ignore full page click, handle locally if needed (though here it does next page anyway)
             >
@@ -115,7 +124,7 @@ export default function Page4() {
             </div>
 
             {/* Tree Hole Box */}
-            <div className={`${styles.treeHoleWrapper} ${styles.hide} page4-reveal-4`}>
+            <div className={`${styles.treeHoleWrapper} hide page4-reveal-4`}>
                <div className={styles.personDecor}>
                   <Image src="imgs/page4/小人儿.svg" alt="Person" fill />
                </div>
@@ -132,7 +141,7 @@ export default function Page4() {
 
           {/* Bottom Section */}
           <div className={styles.bottomSection}>
-             <div className={`${styles.bottomTextGroup} ${styles.hide} page4-reveal-5`}>
+             <div className={`${styles.bottomTextGroup} hide page4-reveal-5`}>
                 <span className={styles.bottomText}>
                   你注册时<br/>
                   大家最关心的是
@@ -141,7 +150,7 @@ export default function Page4() {
                    <Image src="imgs/page4/pointUp.svg" alt="Point Up" fill />
                 </div>
              </div>
-             <span className={`${styles.keywordText} ${styles.hide} page4-reveal-6`}>【{keyword}】</span>
+             <span className={`${styles.keywordText} hide page4-reveal-6`}>【{keyword}】</span>
           </div>
           {/* Footer removed, will be handled globally */}
         </div>

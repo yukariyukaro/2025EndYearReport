@@ -1,11 +1,12 @@
 "use client";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page7.module.css";
+import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 
 export default function Page7() {
   const PAGE_NUMBER = 7;
@@ -16,35 +17,7 @@ export default function Page7() {
   const beatPercentage = data?.pages?.page5?.beat_percentage ?? 0;
   
   const [showHint, setShowHint] = useState(false);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  // Cleanup timers
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  // Animation helper
-  function reveal(selector: string, delayMs: number, durationMs = 1000) {
-    document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-      el.classList.remove("reveal-line");
-      el.classList.add(styles.hide);
-      void el.offsetWidth;
-    });
-
-    const timer = setTimeout(() => {
-      document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-        el.classList.remove(styles.hide);
-        el.classList.add("reveal-line");
-        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   function onShow() {
     clearTimers();
@@ -68,7 +41,7 @@ export default function Page7() {
     reveal(".page7-reveal-8", (t += step)); // Button & Arrow
 
     const hintTimer = setTimeout(() => setShowHint(true), (t += 600));
-    timersRef.current.push(hintTimer);
+    addTimer(hintTimer);
   }
 
   const handleNext = () => {
@@ -96,26 +69,26 @@ export default function Page7() {
         <div className={styles.content}>
           {/* Top Text Group */}
           <div className={styles.topTextGroup}>
-            <p className={`${styles.topText} ${styles.hide} page7-reveal-1`}>今年</p>
-            <p className={`${styles.topText} ${styles.hide} page7-reveal-2`}>
+            <p className={`${styles.topText} hide page7-reveal-1`}>今年</p>
+            <p className={`${styles.topText} hide page7-reveal-2`}>
               你熬夜的比例是 {lateNightRatio}%
             </p>
-            <p className={`${styles.topText} ${styles.hide} page7-reveal-3`}>
+            <p className={`${styles.topText} hide page7-reveal-3`}>
               你的作息打败了 {beatPercentage}% 的用户！
             </p>
             
-            <p className={`${styles.topText} ${styles.subTitle} ${styles.hide} page7-reveal-4`}>
+            <p className={`${styles.topText} ${styles.subTitle} hide page7-reveal-4`}>
               还记得你的第一条浏览吗？
             </p>
           </div>
 
           {/* Tree Hole Box */}
-          <div className={`${styles.treeHoleBox} ${styles.hide} page7-reveal-5`}>
+          <div className={`${styles.treeHoleBox} hide page7-reveal-5`}>
             <span className={styles.treeHoleText}>（树洞）</span>
           </div>
 
           {/* Open Question Box */}
-          <div className={`${styles.openQuestionBox} ${styles.hide} page7-reveal-6`}>
+          <div className={`${styles.openQuestionBox} hide page7-reveal-6`}>
             <div className={styles.questionHeader}>
               <div className={styles.questionIcon}>
                 <Image src="imgs/page7/questionIcon.svg" alt="Question" fill />
@@ -127,11 +100,11 @@ export default function Page7() {
 
           {/* Bottom Area */}
           <div className={styles.bottomArea}>
-            <p className={`${styles.timeTravelText} ${styles.hide} page7-reveal-7`}>
+            <p className={`${styles.timeTravelText} hide page7-reveal-7`}>
               时间旅行，回到那天
             </p>
             
-            <div className={`${styles.playButtonWrapper} ${styles.hide} page7-reveal-8`}>
+            <div className={`${styles.playButtonWrapper} hide page7-reveal-8`}>
               <button className={styles.playButton} onClick={handleNext}>
                 <div className={styles.playIcon}>
                   <Image src="imgs/page7/PlayCircle.svg" alt="Play" fill />

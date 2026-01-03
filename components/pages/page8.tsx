@@ -1,15 +1,16 @@
 "use client";
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page8.module.css";
+import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 
 export default function Page8() {
   const PAGE_NUMBER = 8;
-  const { currentPage } = usePageManager();
+  const { appendNextPage } = usePageManager();
   const { data } = useSummary();
 
   const page5Data = data?.pages?.page5;
@@ -20,37 +21,7 @@ export default function Page8() {
   const beatPercentage = page5Data?.beat_percentage ?? 0;
 
   const [showHint, setShowHint] = useState(true);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  // Cleanup timers
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  useEffect(() => {
-    if (currentPage !== PAGE_NUMBER) {
-      clearTimers();
-      document.querySelectorAll('[class*="page8-reveal"]').forEach((el) => {
-        el.classList.remove(styles.reveal);
-      });
-    }
-  }, [currentPage, PAGE_NUMBER, clearTimers]);
-
-  // Reusing reveal logic
-  const reveal = useCallback((selector: string, delayMs: number) => {
-    const timer = setTimeout(() => {
-      const els = document.querySelectorAll(selector);
-      els.forEach((el) => {
-        el.classList.add(styles.reveal);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }, []);
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   const onShow = () => {
     clearTimers();
@@ -92,7 +63,7 @@ export default function Page8() {
         {/* Chart Section (Axis + Content) */}
         <div className={styles.chartSection}>
           {/* Axis Layer */}
-          <div className={`${styles.axisLayer} ${styles.hide} page8-reveal-axis`}>
+          <div className={`${styles.axisLayer} hide page8-reveal-axis`}>
             <div className={styles.axisVertical}></div>
             <div className={styles.axisHorizontal}></div>
             <div className={styles.axisLabel}>time</div>
@@ -109,7 +80,7 @@ export default function Page8() {
           {/* Content Layer */}
           <div className={styles.contentLayer}>
             {/* Earliest Group */}
-            <div className={`${styles.groupEarliest} ${styles.hide} page8-reveal-1`}>
+            <div className={`${styles.groupEarliest} hide page8-reveal-1`}>
               <p className={styles.labelWhite}>你在 {earliestTime} 写下了第一条浏览记录</p>
               <div className={styles.whiteBox}>
                 <p className={styles.boxText}>{earliestContent}</p>
@@ -127,7 +98,7 @@ export default function Page8() {
             </div>
 
             {/* Latest Group */}
-            <div className={`${styles.groupLatest} ${styles.hide} page8-reveal-3`}>
+            <div className={`${styles.groupLatest} hide page8-reveal-3`}>
               <p className={styles.labelWhite}>你在 {latestTime} 仍在默默守候</p>
               <div className={styles.whiteBox}>
                 <p className={styles.boxText}>{latestContent}</p>
@@ -147,10 +118,10 @@ export default function Page8() {
 
         {/* Bottom Stats */}
         <div className={styles.bottomStats}>
-          <p className={`${styles.statsText} ${styles.hide} page8-reveal-5`}>
+          <p className={`${styles.statsText} hide page8-reveal-5`}>
             你的这份独特作息
           </p>
-          <p className={`${styles.statsText} ${styles.hide} page8-reveal-6`}>
+          <p className={`${styles.statsText} hide page8-reveal-6`}>
             打败了 {beatPercentage}% 的伙伴！
           </p>
         </div>

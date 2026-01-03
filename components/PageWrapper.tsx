@@ -87,7 +87,16 @@ export default function PageWrapper({
       onClickCapture={handleClickCapture}
       style={{ width: '100%', height: '100%', ...style }}
     >
-      {children}
+      <div style={{
+        position: 'absolute',
+        top: 'env(safe-area-inset-top, 0px)',
+        bottom: 'env(safe-area-inset-bottom, 0px)',
+        left: 0,
+        right: 0,
+        width: '100%'
+      }}>
+        {children}
+      </div>
     </div>
   );
 }

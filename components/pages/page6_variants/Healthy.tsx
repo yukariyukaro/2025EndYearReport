@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
@@ -15,6 +15,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import styles from '../styles/page6Healthy.module.css';
+import { useRevealAnimation } from '@/hooks/useRevealAnimation';
 
 export default function Healthy({ chartData, peakHour, patternLabel }: Page6VariantProps) {
   const PAGE_NUMBER = 6;
@@ -22,33 +23,7 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
   
   const [showHint, setShowHint] = useState(false);
   const [playChart, setPlayChart] = useState(false);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  function reveal(selector: string, delayMs: number, durationMs = 1000) {
-    document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-      el.classList.remove("reveal-line");
-      el.classList.add(styles.hide); 
-      void el.offsetWidth;
-    });
-
-    const timer = setTimeout(() => {
-      document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-        el.classList.remove(styles.hide);
-        el.classList.add("reveal-line"); 
-        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   function onShow() {
     clearTimers();
@@ -60,7 +35,7 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
 
     // Trigger chart drawing animation
     const chartTimer = setTimeout(() => setPlayChart(true), t + 100);
-    timersRef.current.push(chartTimer);
+    addTimer(chartTimer);
 
     // Legend
     reveal(".page6-reveal-3", (t += stepSlow));
@@ -76,7 +51,7 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
     reveal(".page6-reveal-7-3", (t += 200));
 
     const hintTimer = setTimeout(() => setShowHint(true), (t += 600));
-    timersRef.current.push(hintTimer);
+    addTimer(hintTimer);
   }
 
   const scrollToNext = () => {
@@ -98,7 +73,7 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
         >
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              data={data}
+              data={chartData}
               margin={{
                 top: 10,
                 right: 10,
@@ -165,7 +140,7 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
         </div>
 
         {/* Legend */}
-        <div className={`${styles.legend} ${styles.hide} page6-reveal-3`}>
+        <div className={`${styles.legend} hide page6-reveal-3`}>
             <div className={styles.legendItem}>
                 <div className={styles.legendLine} style={{ background: '#5b6ee1' }}></div>
                 <span className={styles.legendText}>你</span>
@@ -178,9 +153,9 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
 
         {/* Stats */}
         <div className={styles.statsContainer}>
-          <div className={`${styles.statText} ${styles.hide} page6-reveal-4`}>你的最活跃时段是 {peakHour}</div>
-          <div className={`${styles.statText} ${styles.hide} page6-reveal-5`}>与全体用户相比</div>
-          <div className={`${styles.statRow} ${styles.hide} page6-reveal-6`}>
+          <div className={`${styles.statText} hide page6-reveal-4`}>你的最活跃时段是 {peakHour}</div>
+          <div className={`${styles.statText} hide page6-reveal-5`}>与全体用户相比</div>
+          <div className={`${styles.statRow} hide page6-reveal-6`}>
             <span className={styles.statText}>你的作息是</span>
             <span className={styles.statHighlight}>{patternLabel}</span>
           </div>
@@ -198,9 +173,9 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
           </div>
           <div className={styles.windowContent}>
             <div className={styles.windowText}>
-              <div className={`${styles.windowLine} ${styles.hide} page6-reveal-7-1`}>睡前不刷爆树洞，</div>
-              <div className={`${styles.windowLine} ${styles.hide} page6-reveal-7-2`}>而是温柔道晚安，</div>
-              <div className={`${styles.windowLine} ${styles.hide} page6-reveal-7-3`}>养生之道你已拿捏👌🏻</div>
+              <div className={`${styles.windowLine} hide page6-reveal-7-1`}>睡前不刷爆树洞，</div>
+              <div className={`${styles.windowLine} hide page6-reveal-7-2`}>而是温柔道晚安，</div>
+              <div className={`${styles.windowLine} hide page6-reveal-7-3`}>养生之道你已拿捏👌🏻</div>
             </div>
           </div>
           <div className={styles.cat}>

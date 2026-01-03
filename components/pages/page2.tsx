@@ -9,7 +9,7 @@ import styles from "./styles/page2.module.css";
 
 export default function Page2() {
   const PAGE_NUMBER = 2;
-  const { appendNextPage } = usePageManager();
+  const { appendNextPage, currentPage } = usePageManager();
   const { data } = useSummary();
   
   // Get nickname from page1 data (as per backend response structure)
@@ -38,21 +38,30 @@ export default function Page2() {
     return () => clearTimers();
   }, [clearTimers]);
 
+  // 当离开页面时重置动画状态，确保下次进入时从隐藏状态开始
+  useEffect(() => {
+    if (currentPage !== PAGE_NUMBER) {
+      clearTimers();
+      document.querySelectorAll<HTMLElement>(".reveal-active").forEach((el) => {
+        el.classList.remove("reveal-active");
+        el.classList.add("hide");
+      });
+      setShowHint(false);
+    }
+  }, [currentPage, PAGE_NUMBER, clearTimers]);
+
   // 文本逐行浮现 (复用 page3 逻辑)
   function reveal(selector: string, delayMs: number, durationMs = 1500) {
     // 先重置（如果还在显示的话），确保动画能重新播放
     document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-      el.classList.remove("reveal-line");
+      el.classList.remove("reveal-active");
       el.classList.add("hide");
-      // 强制重绘 (Reflow) 以确保 remove -> add 生效
-      void el.offsetWidth;
+      el.style.setProperty("--reveal-duration", `${durationMs}ms`);
     });
 
     const timer = setTimeout(() => {
       document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-        el.classList.remove("hide");
-        el.classList.add("reveal-line");
-        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
+        el.classList.add("reveal-active");
       });
     }, delayMs);
     
@@ -77,8 +86,7 @@ export default function Page2() {
       setTimeout(() => {
         // Hint text also needs to be shown (it has 'hide' class in JSX)
         document.querySelectorAll<HTMLElement>(`.${styles.clickHint}`).forEach(el => {
-           el.classList.remove("hide");
-           el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, delay: 1000, fill: "forwards" });
+           el.classList.add("reveal-active");
         });
       }, t - 500); // Start showing visuals slightly before text finishes
     } else {

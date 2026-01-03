@@ -80,10 +80,10 @@ export default function Page9() {
           <Image 
             src="imgs/page9/let'sLook.png" 
             alt="Let's Look TripleUni" 
-            width={320} 
-            height={320}
-            style={{ width: '100%', height: 'auto' }}
-            priority
+            fill
+            style={{ objectFit: 'contain' }} 
+
+
           />
           {/* Flower 1 (Left Bottom Corner) */}
           <div className={`${styles.flower1} ${styles.hide} page9-reveal-2`}>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
@@ -14,9 +14,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import styles from '../styles/page6Average.module.css';
-
-// Mock Data removed, using props
-
+import { useRevealAnimation } from '@/hooks/useRevealAnimation';
 
 import { Page6VariantProps } from '../page6';
 
@@ -26,35 +24,7 @@ export default function Average({ chartData, peakHour, patternLabel }: Page6Vari
   
   const [showHint, setShowHint] = useState(false);
   const [playChart, setPlayChart] = useState(false);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  // Cleanup timers
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  // Animation logic
-  function reveal(selector: string, delayMs: number, durationMs = 1000) {
-    document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-      el.classList.remove("reveal-line");
-      el.classList.add(styles.hide); 
-      void el.offsetWidth;
-    });
-
-    const timer = setTimeout(() => {
-      document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-        el.classList.remove(styles.hide);
-        el.classList.add("reveal-line"); 
-        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   function onShow() {
     clearTimers();
@@ -73,7 +43,7 @@ export default function Average({ chartData, peakHour, patternLabel }: Page6Vari
 
     // Trigger chart drawing animation
     const chartTimer = setTimeout(() => setPlayChart(true), t + 100);
-    timersRef.current.push(chartTimer);
+    addTimer(chartTimer);
 
     // Bottom Stats
     reveal(".page6-avg-reveal-4", (t += stepSlow + 500));
@@ -83,7 +53,7 @@ export default function Average({ chartData, peakHour, patternLabel }: Page6Vari
     reveal(".page6-avg-reveal-6", (t += stepSlow));
 
     const hintTimer = setTimeout(() => setShowHint(true), (t += 600));
-    timersRef.current.push(hintTimer);
+    addTimer(hintTimer);
   }
 
   const scrollToNext = () => {
@@ -99,12 +69,12 @@ export default function Average({ chartData, peakHour, patternLabel }: Page6Vari
       <div className={styles.container}>
         {/* Stats Top */}
         <div className={styles.statsContainer}>
-          <div className={`${styles.statText} ${styles.hide} page6-avg-reveal-1`}>你的最活跃时段是 {peakHour}</div>
-          <div className={`${styles.statText} ${styles.hide} page6-avg-reveal-2`}>与全体用户相比</div>
+          <div className={`${styles.statText} hide page6-avg-reveal-1`}>你的最活跃时段是 {peakHour}</div>
+          <div className={`${styles.statText} hide page6-avg-reveal-2`}>与全体用户相比</div>
         </div>
 
         {/* Legend */}
-        <div className={`${styles.legend} ${styles.hide} page6-avg-reveal-3`}>
+        <div className={`${styles.legend} hide page6-avg-reveal-3`}>
             <div className={styles.legendItem}>
                 <div className={styles.legendLine} style={{ background: '#7B61FF' }}></div>
                 <span className={styles.legendText}>你</span>
@@ -118,7 +88,7 @@ export default function Average({ chartData, peakHour, patternLabel }: Page6Vari
         {/* Chart */}
         <div 
           className={styles.chartContainer}
-          style={{ width: '85%', height: '14rem' }}
+          style={{  height: '27.5%',width: '85%' }}
         >
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
@@ -190,21 +160,21 @@ export default function Average({ chartData, peakHour, patternLabel }: Page6Vari
         </div>
 
         {/* Bottom Stats */}
-        <div className={`${styles.statRow} ${styles.hide} page6-avg-reveal-4`}>
+        <div className={`${styles.statRow} hide page6-avg-reveal-4`}>
           <span className={styles.statTextLarge}>你的作息是</span>
           <span className={styles.statHighlight}>【时间段落签】</span>
         </div>
 
         {/* Quote & Rabbit */}
         <div className={styles.bottomSection}>
-             <div className={`${styles.quoteText} ${styles.hide} page6-avg-reveal-5`}>
+             <div className={`${styles.quoteText} hide page6-avg-reveal-5`}>
                 你的陪伴不分昼夜，{'\n'}是噗噗最忠实的伙伴。
             </div>
             
-            <div className={`${styles.rabbitContainer} ${styles.hide} page6-avg-reveal-6`}>
+            <div className={`${styles.rabbitContainer} hide page6-avg-reveal-6`}>
                  {/* Using cat.svg as placeholder for rabbit since average folder is empty */}
                  <Image 
-                    src="imgs/page6/average/rabbit.png" 
+                   src="imgs/page6/average/rabbit.png" 
                     alt="Rabbit Illustration" 
                     fill
                     className={styles.rabbitImage}

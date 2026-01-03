@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
@@ -7,6 +7,7 @@ import ScrollUpHint from "@/components/ScrollUpHint";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page11.module.css";
+import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 
 // Default fallback data
 const DEFAULT_DATA = [
@@ -21,7 +22,7 @@ const COLORS = ['#f4c9aa', '#ffe6a5', '#d9f0b6', '#cbdad7', '#d4ebef'];
 
 export default function Page11() {
   const PAGE_NUMBER = 11;
-  const { currentPage } = usePageManager();
+  const { appendNextPage } = usePageManager();
   const { data: summaryData } = useSummary();
 
   const pageData = summaryData?.pages?.page8;
@@ -44,49 +45,7 @@ export default function Page11() {
   const moodDesc = topTopic;
 
   const [showHint, setShowHint] = useState(true);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  // Cleanup timers
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-  
-  useEffect(() => {
-    if (currentPage !== PAGE_NUMBER) {
-      clearTimers();
-      document.querySelectorAll('[class*="page11-reveal"]').forEach((el) => {
-        el.classList.remove(styles.reveal);
-        if (el.classList.contains(styles.popIn)) {
-          (el as HTMLElement).style.opacity = '';
-        }
-      });
-      // Reset donut wipe animation
-      const donut = document.querySelector(`.${styles.donutWrap}`);
-      if (donut) {
-        donut.classList.remove(styles.reveal);
-      }
-    }
-  }, [currentPage, clearTimers]);
-
-  // Reusing reveal logic from other pages
-  const reveal = useCallback((selector: string, delayMs: number) => {
-    const timer = setTimeout(() => {
-      const els = document.querySelectorAll(selector);
-      els.forEach((el) => {
-        el.classList.add(styles.reveal);
-        if (el.classList.contains(styles.popIn)) {
-          // Trigger popIn animation
-          (el as HTMLElement).style.opacity = '1'; 
-        }
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }, []);
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   const onShow = () => {
     clearTimers();
@@ -119,12 +78,12 @@ export default function Page11() {
         
         {/* Top Text */}
         <div className={styles.topText}>
-          <div className={`${styles.hide} page11-reveal-1-1`}>你经常关注 {primaryKeyword} 相关的内容</div>
-          <div className={`${styles.hide} page11-reveal-1-2`}>例如：「{secondaryKeyword}」</div>
+          <div className={`hide page11-reveal-1-1`}>你经常关注 {primaryKeyword} 相关的内容</div>
+          <div className={`hide page11-reveal-1-2`}>例如：「{secondaryKeyword}」</div>
         </div>
 
         {/* Background Layer */}
-        <div className={`${styles.chartBackground} ${styles.hide} page11-reveal-2`} style={{ backgroundImage: 'url("imgs/page11/graphBackground.png")' }}>
+        <div className={`${styles.chartBackground} hide page11-reveal-2`} style={{ backgroundImage: 'url("imgs/page11/graphBackground.png")' }}>
         </div>
 
         {/* Chart Section */}
@@ -165,7 +124,7 @@ export default function Page11() {
         </div>
 
         {/* Legend */}
-        <div className={`${styles.legendContainer} ${styles.hide} page11-reveal-4`}>
+        <div className={`${styles.legendContainer} hide page11-reveal-4`}>
            {/* If card.png is the background, we use it here */}
            {/* Based on Figma, 'card' group has the yellow bg. Assuming card.png is that. */}
            <Image 
@@ -187,27 +146,27 @@ export default function Page11() {
 
         {/* Bottom Text */}
         <div className={styles.bottomText}>
-           <div className={`${styles.hide} page11-reveal-5-1`}>你最常浏览的话题是 {topTopic}，</div>
-           <div className={`${styles.hide} page11-reveal-5-2`}>其中</div>
-           <div className={`${styles.hide} page11-reveal-5-3`}>{topTopicPercentage}</div>
-           <div className={`${styles.hide} page11-reveal-5-4`}>反映了你的 {moodDesc} 倾向</div>
+           <div className={`hide page11-reveal-5-1`}>你最常浏览的话题是 {topTopic}，</div>
+           <div className={`hide page11-reveal-5-2`}>其中</div>
+           <div className={`hide page11-reveal-5-3`}>{topTopicPercentage}</div>
+           <div className={`hide page11-reveal-5-4`}>反映了你的 {moodDesc} 倾向</div>
         </div>
 
         {/* Birds Decorations */}
-        <div className={`${styles.birdsTopRight} ${styles.hide} page11-reveal-6`}>
+        <div className={`${styles.birdsTopRight} hide page11-reveal-6`}>
            <Image src="imgs/page11/birdsUpRight.png" alt="Birds" fill style={{ objectFit: "contain" }} />
         </div>
-        <div className={`${styles.birdsTopLeft} ${styles.hide} page11-reveal-6`}>
+        <div className={`${styles.birdsTopLeft} hide page11-reveal-6`}>
            <Image src="imgs/page11/birdsUpLeft.png" alt="Birds" fill style={{ objectFit: "contain" }} />
         </div>
-        <div className={`${styles.birdsBottomLeft} ${styles.hide} page11-reveal-6`}>
+        <div className={`${styles.birdsBottomLeft} hide page11-reveal-6`}>
            <Image src="imgs/page11/birdsDownLeft.png" alt="Birds" fill style={{ objectFit: "contain" }} />
         </div>
-        <div className={`${styles.birdsBottomRight} ${styles.hide} page11-reveal-6`}>
+        <div className={`${styles.birdsBottomRight} hide page11-reveal-6`}>
            <Image src="imgs/page11/BirdsDownRight.png" alt="Birds" fill style={{ objectFit: "contain" }} />
         </div>
 
-        <div className={`${styles.bottomDecor} ${styles.hide} page11-reveal-6`}>
+        <div className={`${styles.bottomDecor} hide page11-reveal-6`}>
           <Image
             src="imgs/page11/rightCorner.png"
             alt="Decoration"

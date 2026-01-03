@@ -205,10 +205,4 @@
 }
 
 /* Animations */
-/* Note: .hide and .reveal-line should be global or imported, 
-   but for CSS Modules we might need to define them or use global composition */
-
-.hide {
-  opacity: 0;
-  transform: translateY(10px);
-}
+/* Note: .hide and .reveal-line are now handled globally in globals.css */

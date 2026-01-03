@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
@@ -14,6 +14,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import styles from '../styles/page6Morning.module.css';
+import { useRevealAnimation } from '@/hooks/useRevealAnimation';
 
 // Mock Data removed, using props
 
@@ -25,35 +26,7 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
   
   const [showHint, setShowHint] = useState(false);
   const [playChart, setPlayChart] = useState(false);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  // 清理 timers
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  // 复用动画逻辑
-  function reveal(selector: string, delayMs: number, durationMs = 1000) {
-    document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-      el.classList.remove("reveal-line");
-      el.classList.add(styles.hide); 
-      void el.offsetWidth;
-    });
-
-    const timer = setTimeout(() => {
-      document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-        el.classList.remove(styles.hide);
-        el.classList.add("reveal-line"); 
-        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   function onShow() {
     clearTimers();
@@ -68,7 +41,7 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
 
     // Trigger chart drawing animation immediately or shortly after header
     const chartTimer = setTimeout(() => setPlayChart(true), t + 100);
-    timersRef.current.push(chartTimer);
+    addTimer(chartTimer);
 
     // Legend
     reveal(".page6-reveal-3", (t += stepSlow));
@@ -79,7 +52,7 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
     reveal(".page6-reveal-6", (t += stepSlow));
 
     const hintTimer = setTimeout(() => setShowHint(true), (t += 600));
-    timersRef.current.push(hintTimer);
+    addTimer(hintTimer);
   }
 
   const scrollToNext = () => {
@@ -94,7 +67,7 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
     >
       <div className={styles.container}>
         {/* Header */}
-        <div className={`${styles.headerText} ${styles.hide} page6-reveal-1`}>
+        <div className={`${styles.headerText} hide page6-reveal-1`}>
           <div>/清晨的宁静</div>
           <div>是你与噗噗的专属频道</div>
         </div>
@@ -171,7 +144,8 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
           </ResponsiveContainer>
         </div>
 
-        <div className={`${styles.legend} ${styles.hide} page6-reveal-3`}>
+        {/* Legend */}
+        <div className={`${styles.legend} hide page6-reveal-3`}>
             <div className={styles.legendItem}>
                 <div className={styles.legendLine} style={{ background: '#FACB98' }}></div>
                 <span className={styles.legendText}>你</span>
@@ -184,12 +158,23 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
 
         {/* Stats */}
         <div className={styles.statsContainer}>
-          <div className={`${styles.statText} ${styles.hide} page6-reveal-4`}>你的最活跃时段是 {peakHour}</div>
-          <div className={`${styles.statText} ${styles.hide} page6-reveal-5`}>与全体用户相比</div>
-          <div className={`${styles.statRow} ${styles.hide} page6-reveal-6`}>
+          <div className={`${styles.statText} hide page6-reveal-4`}>你的最活跃时段是 {peakHour}</div>
+          <div className={`${styles.statText} hide page6-reveal-5`}>与全体用户相比</div>
+          <div className={`${styles.statRow} hide page6-reveal-6`}>
             <span className={styles.statText}>你的作息是</span>
-            <span className={styles.statHighlight}>【时间段落签】</span>
+            <span className={styles.statHighlight}>{patternLabel}</span>
           </div>
+        </div>
+
+        {/* Sun Image */}
+        <div className={styles.sunContainer}>
+             <Image 
+               src="imgs/page6/morning/Sun.png" 
+               alt="Sun" 
+               width={200} 
+               height={200}
+               style={{ objectFit: "contain" }}
+             />
         </div>
 
         <button 

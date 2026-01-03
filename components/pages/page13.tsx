@@ -1,45 +1,22 @@
 "use client";
-import React, { useCallback, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import styles from "./styles/page13.module.css";
+import { useRevealAnimation } from "@/hooks/useRevealAnimation";
+import ScrollUpHint from "@/components/ScrollUpHint";
 
 export default function Page13() {
   const PAGE_NUMBER = 13;
-  const { appendNextPage, currentPage } = usePageManager();
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  // Cleanup timers
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  useEffect(() => {
-    if (currentPage !== PAGE_NUMBER) {
-      clearTimers();
-      document.querySelectorAll('[class*="page13-reveal"]').forEach((el) => {
-        el.classList.remove(styles.visible);
-      });
-    }
-  }, [currentPage, clearTimers]);
-
-  const reveal = useCallback((selector: string, delayMs: number) => {
-    timersRef.current.push(setTimeout(() => {
-      const els = document.querySelectorAll(selector);
-      els.forEach((el) => {
-        el.classList.add(styles.visible);
-      });
-    }, delayMs));
-  }, []);
+  const { appendNextPage } = usePageManager();
+  
+  const [showHint, setShowHint] = useState(false);
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   const onShow = () => {
     clearTimers();
+    setShowHint(false);
     // Animation sequence
     reveal(`.page13-reveal-1`, 300);  // Title "BONUS TIME"
     // Question Text
@@ -53,6 +30,9 @@ export default function Page13() {
     reveal(`.page13-reveal-4`, 2000); // Arrow
     reveal(`.page13-reveal-5`, 2200); // Button
     reveal(`.page13-reveal-6`, 2400); // Footer
+
+    const hintTimer = setTimeout(() => setShowHint(true), 3000);
+    addTimer(hintTimer);
   };
 
   const handlePress = () => {
@@ -61,7 +41,7 @@ export default function Page13() {
   };
 
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow}>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container}>
         {/* Background */}
         <div className={styles.background}>
@@ -77,15 +57,15 @@ export default function Page13() {
         <div className={styles.content}>
           {/* Title Section */}
           <div className={styles.titleGroup}>
-            <h1 className={`${styles.bonusText} ${styles.reveal} page13-reveal-1`}>BONUS</h1>
-            <h1 className={`${styles.bonusText} ${styles.reveal} page13-reveal-1`}>TIME</h1>
+            <h1 className={`${styles.bonusText} hide page13-reveal-1`}>BONUS</h1>
+            <h1 className={`${styles.bonusText} hide page13-reveal-1`}>TIME</h1>
           </div>
 
           {/* Question Text */}
           <div className={styles.questionGroup}>
-            <p className={`${styles.questionText} ${styles.reveal} page13-reveal-2-1`}>还记得</p>
-            <p className={`${styles.questionText} ${styles.reveal} page13-reveal-2-2`}>这条</p>
-            <p className={`${styles.questionText} ${styles.reveal} page13-reveal-2-3`}>
+            <p className={`${styles.questionText} hide page13-reveal-2-1`}>还记得</p>
+            <p className={`${styles.questionText} hide page13-reveal-2-2`}>这条</p>
+            <p className={`${styles.questionText} hide page13-reveal-2-3`}>
               被你珍藏的 <span className={styles.highlight}>「回忆」</span> 吗？
             </p>
           </div>
@@ -93,11 +73,11 @@ export default function Page13() {
           {/* Interaction Area */}
           <div className={styles.interactionArea}>
             <div className={styles.hintText}>
-                <div className={`${styles.reveal} page13-reveal-3-1`}>点击后随机推荐</div>
-                <div className={`${styles.reveal} page13-reveal-3-2`}>一条被遗忘的收藏</div>
+                <div className={`hide page13-reveal-3-1`}>点击后随机推荐</div>
+                <div className={`hide page13-reveal-3-2`}>一条被遗忘的收藏</div>
             </div>
 
-            <div className={`${styles.arrowWrapper} ${styles.reveal} ${styles.bounce} page13-reveal-4`}>
+            <div className={`${styles.arrowWrapper} hide ${styles.bounce} page13-reveal-4`}>
               <Image 
                 src="imgs/page13/arrow.svg" 
                 alt="Arrow" 
@@ -106,7 +86,7 @@ export default function Page13() {
               />
             </div>
 
-            <div className={`${styles.buttonWrapper} ${styles.reveal} page13-reveal-5`}>
+            <div className={`${styles.buttonWrapper} hide page13-reveal-5`}>
               <button className={`${styles.pressButton} ${styles.pulse}`} onClick={handlePress}>
                 <span className={styles.buttonText}>PRESS</span>
               </button>
@@ -114,10 +94,16 @@ export default function Page13() {
           </div>
 
           {/* Footer */}
-          <div className={`${styles.footer} ${styles.reveal} page13-reveal-6`}>
+          <div className={`${styles.footer} hide page13-reveal-6`}>
             @TripleUni 2025
           </div>
         </div>
+
+        {showHint && (
+          <div className="fade-in">
+            <ScrollUpHint />
+          </div>
+        )}
       </div>
     </PageWrapper>
   );
