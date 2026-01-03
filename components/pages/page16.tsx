@@ -108,7 +108,7 @@ export default function Page16() {
         </div>
 
         <div className={`${styles.rabbitPair} page16-reveal-rabbit-pair`}>
-          <Image src="imgs/page16/rabbits.png" alt="rabbits" fill style={{ objectFit: "contain" }} />
+          <Image src="imgs/page16/Rabbits.png" alt="rabbits" fill style={{ objectFit: "contain" }} />
         </div>
 
         <div className={`${styles.winterTree} page16-reveal-winter`}>
@@ -116,7 +116,7 @@ export default function Page16() {
         </div>
 
         <div className={`${styles.rabbitSingle} page16-reveal-rabbit-single`}>
-          <Image src="imgs/page16/rabbit.png" alt="rabbit" fill style={{ objectFit: "contain" }} />
+          <Image src="imgs/page16/Rabbit.png" alt="rabbit" fill style={{ objectFit: "contain" }} />
         </div>
 
         <div className={styles.topText}>
