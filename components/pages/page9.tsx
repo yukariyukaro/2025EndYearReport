@@ -4,11 +4,28 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page9.module.css";
 
 export default function Page9() {
+  type KeywordItem = { word: string };
+
   const PAGE_NUMBER = 9;
   const { currentPage } = usePageManager();
+  const { data } = useSummary();
+
+  // Data binding
+  const totalBrowses = data?.pages?.page7?.total_browses_2025 ?? 0;
+  const rawKeywords = (data?.pages?.page6?.word_cloud?.slice(0, 5) as KeywordItem[] | undefined) || [];
+  // Ensure we have 5 items for the 5 bubbles, padding with defaults if necessary
+  const keywords: KeywordItem[] = [...rawKeywords];
+  const defaultKeywords = ["大学", "生活", "学习", "期末", "假期"];
+  while (keywords.length < 5) {
+    keywords.push({ word: defaultKeywords[keywords.length] || "..." });
+  }
+
+  const searchKeyword = data?.pages?.page15?.top_keywords?.[0]?.keyword || "暂无记录";
+
   const [showHint, setShowHint] = useState(true);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
@@ -83,7 +100,7 @@ export default function Page9() {
         <div className={`${styles.statsContainer} ${styles.hide} page9-reveal-3`}>
           <p className={styles.statsText}>今年</p>
           <p className={styles.statsText}>
-            你一共浏览了 <span className={styles.highlight}>[年度树洞总数]</span> 个树洞
+            你一共浏览了 <span className={styles.highlight}>{totalBrowses}</span> 个树洞
           </p>
           <p className={styles.statsText}>见证了无数故事</p>
         </div>
@@ -103,21 +120,15 @@ export default function Page9() {
           </div>
 
           {/* Bubbles */}
-          <div className={`${styles.bubble} ${styles.bubble1} ${styles.popIn} page9-reveal-5`}>
-            “xxxxx”
-          </div>
-          <div className={`${styles.bubble} ${styles.bubble2} ${styles.popIn} page9-reveal-5`} style={{ transitionDelay: '0.1s' }}>
-            “xxxxx”
-          </div>
-          <div className={`${styles.bubble} ${styles.bubble3} ${styles.popIn} page9-reveal-5`} style={{ transitionDelay: '0.2s' }}>
-            “xxxxx”
-          </div>
-          <div className={`${styles.bubble} ${styles.bubble4} ${styles.popIn} page9-reveal-5`} style={{ transitionDelay: '0.3s' }}>
-            “xxxxx”
-          </div>
-          <div className={`${styles.bubble} ${styles.bubble5} ${styles.popIn} page9-reveal-5`} style={{ transitionDelay: '0.4s' }}>
-            “xxxxx”
-          </div>
+          {keywords.map((k, i: number) => (
+             <div 
+               key={i}
+               className={`${styles.bubble} ${styles[`bubble${i+1}`]} ${styles.popIn} page9-reveal-5`} 
+               style={{ transitionDelay: `${i * 0.1}s` }}
+             >
+               “{k.word}”
+             </div>
+          ))}
 
           {/* Magnifying Glass */}
           <div className={`${styles.magnifyingGlass} ${styles.popIn} page9-reveal-6`}>
@@ -128,7 +139,7 @@ export default function Page9() {
                 fill
               />
             </div>
-            <p className={styles.glassText}>“XX xx”</p>
+            <p className={styles.glassText}>“{searchKeyword}”</p>
           </div>
         </div>
 

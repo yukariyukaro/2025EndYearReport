@@ -4,11 +4,23 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page12.module.css";
 
 export default function Page12() {
   const PAGE_NUMBER = 12;
   const { currentPage } = usePageManager();
+  const { data } = useSummary();
+  const pageData = data?.pages?.page9;
+
+  // Data binding
+  // Note: collect_rank_data.post_title is missing in backend, using fallback
+  const collectTitle = "某条热门树洞"; 
+  const collectRank = pageData?.collect_rank_data?.user_rank ?? 0;
+  
+  const frequentTitle = pageData?.frequent_post_data?.post_content || "暂无记录";
+  const frequentCount = pageData?.frequent_post_data?.browse_count ?? 0;
+
   const [showHint, setShowHint] = useState(true);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
@@ -44,10 +56,19 @@ export default function Page12() {
   const onShow = () => {
     clearTimers();
     reveal(`.page12-reveal-1`, 300); // Background
-    reveal(`.page12-reveal-2`, 600); // Top Text
-    reveal(`.page12-reveal-3`, 1000); // Machine
-    reveal(`.page12-reveal-4`, 1400); // Hearts
-    reveal(`.page12-reveal-5`, 1800); // Bottom Text
+    
+    // Top Text
+    reveal(`.page12-reveal-2-1`, 600);
+    reveal(`.page12-reveal-2-2`, 800);
+    reveal(`.page12-reveal-2-3`, 1000);
+
+    reveal(`.page12-reveal-3`, 1200); // Machine
+    reveal(`.page12-reveal-4`, 1600); // Hearts
+    
+    // Bottom Text
+    reveal(`.page12-reveal-5-1`, 2000);
+    reveal(`.page12-reveal-5-2`, 2200);
+    reveal(`.page12-reveal-5-3`, 2400);
   };
 
   return (
@@ -65,10 +86,10 @@ export default function Page12() {
         </div>
 
         {/* Top Text */}
-        <div className={`${styles.textBlock} ${styles.topText} ${styles.hide} page12-reveal-2`}>
-          <p>在 [帖子标题] 中</p>
-          <p>你是第 [第几个] 个收藏的人</p>
-          <p>真是慧眼识珠！</p>
+        <div className={`${styles.textBlock} ${styles.topText}`}>
+          <p className={`${styles.hide} page12-reveal-2-1`}>在 {collectTitle} 中</p>
+          <p className={`${styles.hide} page12-reveal-2-2`}>你是第 <span className={styles.highlight}>{collectRank}</span> 个收藏的人</p>
+          <p className={`${styles.hide} page12-reveal-2-3`}>真是慧眼识珠！</p>
         </div>
 
         {/* Machine Central Image */}
@@ -106,10 +127,10 @@ export default function Page12() {
         </div>
 
         {/* Bottom Text */}
-        <div className={`${styles.textBlock} ${styles.bottomText} ${styles.hide} page12-reveal-5`}>
-          <p>你查看次数最多的帖子是</p>
-          <p className={styles.highlight}>[帖子标题]</p>
-          <p>看了 [查看次数] 次</p>
+        <div className={`${styles.textBlock} ${styles.bottomText}`}>
+          <p className={`${styles.hide} page12-reveal-5-1`}>你查看次数最多的帖子是</p>
+          <p className={`${styles.highlight} ${styles.hide} page12-reveal-5-2`}>{frequentTitle}</p>
+          <p className={`${styles.hide} page12-reveal-5-3`}>看了 <span className={styles.highlight}>{frequentCount}</span> 次</p>
         </div>
 
         {/* Footer / Logo (Optional, based on screenshot bottom branding) */}

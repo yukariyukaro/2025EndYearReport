@@ -36,6 +36,32 @@
   }
 }
 
+/* Wipe Animation - Using CSS Mask with Conic Gradient */
+@property --wipe-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.donutWrap {
+  /* ... existing styles ... */
+  /* Hide by default using mask */
+  mask: conic-gradient(#000 var(--wipe-angle), transparent var(--wipe-angle));
+  -webkit-mask: conic-gradient(#000 var(--wipe-angle), transparent var(--wipe-angle));
+  transition: --wipe-angle 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --wipe-angle: 0deg;
+}
+
+.donutWrap.reveal {
+  --wipe-angle: 360deg;
+}
+
+/* Remove old wipeMask styles */
+/*
+.wipeMask { ... }
+.wipeCircle { ... }
+*/
+
 /* Top Text */
 .topText {
   margin-top: 5rem; /* ~80px */
@@ -56,10 +82,10 @@
 */
 .chartBackground {
   position: absolute;
-  top:1.5rem;
+  top:1.2rem;
   width: var(--sim-w);
   height: calc(var(--sim-h) * 0.928);
-  left: 50%;
+  left: 51%;
   transform: translateX(-50%);
   z-index: 0;
   

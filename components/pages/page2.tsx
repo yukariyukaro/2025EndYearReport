@@ -4,13 +4,19 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page2.module.css";
 
 export default function Page2() {
   const PAGE_NUMBER = 2;
   const { appendNextPage } = usePageManager();
+  const { data } = useSummary();
+  
+  // Get nickname from page1 data (as per backend response structure)
+  const nickname = data?.pages?.page1?.nickname || "同学";
+
   // 暂时强制显示 Night 模式以还原设计稿
-  const [variant] = useState<"day" | "night">("night"); 
+  const [variant] = useState<"day" | "night">("day"); 
   const [isGrowing, setIsGrowing] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
@@ -66,6 +72,15 @@ export default function Page2() {
       reveal(".page2-day-reveal-2", (t += stepSlow)); 
       reveal(".page2-day-reveal-3", (t += stepSlow)); 
       reveal(".page2-day-reveal-4", (t += stepSlow)); 
+      
+      // Reveal visuals
+      setTimeout(() => {
+        // Hint text also needs to be shown (it has 'hide' class in JSX)
+        document.querySelectorAll<HTMLElement>(`.${styles.clickHint}`).forEach(el => {
+           el.classList.remove("hide");
+           el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 500, delay: 1000, fill: "forwards" });
+        });
+      }, t - 500); // Start showing visuals slightly before text finishes
     } else {
       // Night Mode Text
       reveal(".page2-night-reveal-1", t);
@@ -91,7 +106,7 @@ export default function Page2() {
       {variant === "day" ? (
         <div className={styles.container}>
           {/* Top Cloud */}
-          <div className={`${styles.cloud1} hide`}>
+          <div className={styles.cloud1}>
             <Image 
               src="/imgs/page2/page2Day/cloud1.svg" 
               alt="Cloud" 
@@ -104,7 +119,7 @@ export default function Page2() {
           <div className={styles.textGroup1}>
             <div className={`${styles.greetingRow} hide page2-day-reveal-1`}>
               <span className={styles.fontPrimary}>嘿！</span>
-              <span className={styles.fontPrimary}>【用户名称】</span>
+              <span className={styles.fontPrimary}>{nickname}</span>
             </div>
             <span className={`${styles.fontPrimary} hide page2-day-reveal-2`}>你的25-26年度旅程即将开启——</span>
           </div>
@@ -121,43 +136,45 @@ export default function Page2() {
               <Image src="/imgs/page2/page2Day/cloud2.svg" alt="Cloud" fill />
             </div>
 
-            <div className={`${styles.sun} hide`} style={{ transform: "scale(0.8)", opacity: "0" }}>
-               <div 
-                 className={styles.treeWrapper} 
-                 onClick={handleTreeClick}
-                 data-next-ignore="true"
-               >
-                  {/* Small Tree (Sapling) */}
-                  <Image 
-                    src="/imgs/page2/tree.svg" 
-                    alt="Small Tree" 
-                    fill 
-                    className={`${styles.smallTree} ${isGrowing ? styles.smallTreeHidden : ""}`}
-                  />
-                  
-                  {/* Big Tree (Grown) */}
-                  <Image 
-                    src="/imgs/page2/page2Day/bigTree.svg" 
-                    alt="Big Tree" 
-                    fill 
-                    className={`${styles.bigTree} ${isGrowing ? styles.bigTreeActive : ""}`}
-                  />
+            <div className={styles.sun}>
+               {/* Sun background only */}
+            </div>
 
-                  {/* Hints */}
-                  <div className={`${styles.arrow} ${isGrowing ? styles.fadeOut : ""}`}>
-                    <Image src="/imgs/page2/arrow.svg" alt="Arrow" fill />
-                  </div>
-                  <span className={`${styles.clickHint} hide ${isGrowing ? styles.fadeOut : ""}`}>
-                    点击树苗
-                  </span>
+            <div 
+              className={styles.treeWrapper} 
+              onClick={handleTreeClick}
+              data-next-ignore="true"
+            >
+               {/* Small Tree (Sapling) */}
+               <Image 
+                 src="/imgs/page2/tree.svg" 
+                 alt="Small Tree" 
+                 fill 
+                 className={`${styles.smallTree} ${isGrowing ? styles.smallTreeHidden : ""}`}
+               />
+               
+               {/* Big Tree (Grown) */}
+               <Image 
+                 src="/imgs/page2/page2Day/bigTree.svg" 
+                 alt="Big Tree" 
+                 fill 
+                 className={`${styles.bigTree} ${isGrowing ? styles.bigTreeActive : ""}`}
+               />
+
+               {/* Hints */}
+               <div className={`${styles.arrow} ${isGrowing ? styles.fadeOut : ""}`}>
+                 <Image src="/imgs/page2/arrow.svg" alt="Arrow" fill />
                </div>
+               <span className={`${styles.clickHint} hide ${isGrowing ? styles.fadeOut : ""}`}>
+                 点击树苗
+               </span>
             </div>
 
             <div className={styles.cloud3}>
               <Image src="/imgs/page2/page2Day/cloud3.svg" alt="Cloud" fill />
             </div>
 
-            <div className={`${styles.field} hide`} style={{ transform: "translateY(50px)", opacity: "0" }}>
+            <div className={styles.field}>
               <Image 
                 src="/imgs/page2/field.png" 
                 alt="Field" 
@@ -184,7 +201,7 @@ export default function Page2() {
             <div className={styles.nightTextBlock}>
                <div className={`${styles.greetingRow} hide page2-night-reveal-1`}>
                   <span className={styles.fontNight}>嘿！</span>
-                  <span className={styles.fontNight}>【用户名称】</span>
+                  <span className={styles.fontNight}>{nickname}</span>
                </div>
                <span className={`${styles.fontNight} hide page2-night-reveal-2`}>你的25-26年度旅程即将开启——</span>
             </div>

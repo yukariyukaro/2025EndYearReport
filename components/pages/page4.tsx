@@ -4,11 +4,14 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page4.module.css";
 
 export default function Page4() {
   const PAGE_NUMBER = 4;
   const { appendNextPage } = usePageManager();
+  const { data } = useSummary();
+  const keyword = "默认"; // Default fallback
   
   const [showHint, setShowHint] = useState(false);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
@@ -138,7 +141,7 @@ export default function Page4() {
                    <Image src="/imgs/page4/pointUp.svg" alt="Point Up" fill />
                 </div>
              </div>
-             <span className={`${styles.keywordText} ${styles.hide} page4-reveal-6`}>【热门树洞关键词】</span>
+             <span className={`${styles.keywordText} ${styles.hide} page4-reveal-6`}>【{keyword}】</span>
           </div>
           {/* Footer removed, will be handled globally */}
         </div>

@@ -4,11 +4,13 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page19.module.css";
 
 export default function Page19() {
   const PAGE_NUMBER = 19;
   const { appendNextPage } = usePageManager();
+  const { data: summaryData } = useSummary();
   const timersRef = useRef<NodeJS.Timeout[]>([]);
   const [showHint, setShowHint] = useState(false);
 
@@ -58,9 +60,10 @@ export default function Page19() {
 
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
 
-  const privateMsgCount = "私信总数";
-  const interactCount = "互动人数";
-  const topChatNickname = "匿名昵称";
+  const pageData = summaryData?.pages?.page14;
+  const privateMsgCount = pageData?.total_messages ?? 0;
+  const interactCount = pageData?.interactive_users ?? 0;
+  const topChatNickname = pageData?.most_frequent_contact?.name ?? "匿名朋友";
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>

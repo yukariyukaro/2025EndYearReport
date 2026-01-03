@@ -4,11 +4,16 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page7.module.css";
 
 export default function Page7() {
   const PAGE_NUMBER = 7;
   const { appendNextPage } = usePageManager();
+  const { data } = useSummary();
+
+  const lateNightRatio = data?.pages?.page4?.late_night_ratio ?? 0;
+  const beatPercentage = data?.pages?.page5?.beat_percentage ?? 0;
   
   const [showHint, setShowHint] = useState(false);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
@@ -93,10 +98,10 @@ export default function Page7() {
           <div className={styles.topTextGroup}>
             <p className={`${styles.topText} ${styles.hide} page7-reveal-1`}>今年</p>
             <p className={`${styles.topText} ${styles.hide} page7-reveal-2`}>
-              你熬夜的比例是 [熬夜比例]%
+              你熬夜的比例是 {lateNightRatio}%
             </p>
             <p className={`${styles.topText} ${styles.hide} page7-reveal-3`}>
-              你的作息打败了 [X]% 的用户！
+              你的作息打败了 {beatPercentage}% 的用户！
             </p>
             
             <p className={`${styles.topText} ${styles.subTitle} ${styles.hide} page7-reveal-4`}>

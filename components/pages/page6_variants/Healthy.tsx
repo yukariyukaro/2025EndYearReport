@@ -4,6 +4,7 @@ import Image from 'next/image';
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { Page6VariantProps } from '../page6';
 import {
   AreaChart,
   Area,
@@ -15,23 +16,7 @@ import {
 } from 'recharts';
 import styles from '../styles/page6Healthy.module.css';
 
-// Mock Data for the chart
-const data = [
-  { name: '0', user: 90, avg: 95 }, // Healthy users might sleep early
-  { name: '2', user: 20, avg: 80 },
-  { name: '4', user: 0, avg: 60 },
-  { name: '6', user: 0, avg: 40 },
-  { name: '8', user: 50, avg: 30 },
-  { name: '10', user: 80, avg: 45 },
-  { name: '12', user: 90, avg: 50 },
-  { name: '14', user: 70, avg: 60 },
-  { name: '16', user: 60, avg: 50 },
-  { name: '18', user: 50, avg: 40 },
-  { name: '20', user: 20, avg: 20 },
-  { name: '22', user: 0, avg: 10 },
-];
-
-export default function Healthy() {
+export default function Healthy({ chartData, peakHour, patternLabel }: Page6VariantProps) {
   const PAGE_NUMBER = 6;
   const { appendNextPage } = usePageManager();
   
@@ -193,11 +178,11 @@ export default function Healthy() {
 
         {/* Stats */}
         <div className={styles.statsContainer}>
-          <div className={`${styles.statText} ${styles.hide} page6-reveal-4`}>你的最活跃时段是 [最活跃时段]</div>
+          <div className={`${styles.statText} ${styles.hide} page6-reveal-4`}>你的最活跃时段是 {peakHour}</div>
           <div className={`${styles.statText} ${styles.hide} page6-reveal-5`}>与全体用户相比</div>
           <div className={`${styles.statRow} ${styles.hide} page6-reveal-6`}>
             <span className={styles.statText}>你的作息是</span>
-            <span className={styles.statHighlight}>【时间段落签】</span>
+            <span className={styles.statHighlight}>{patternLabel}</span>
           </div>
         </div>
 

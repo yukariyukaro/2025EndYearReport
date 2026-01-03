@@ -4,11 +4,13 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page20.module.css";
 
 export default function Page20() {
   const PAGE_NUMBER = 20;
   const { appendNextPage } = usePageManager();
+  const { data: summaryData } = useSummary();
   const timersRef = useRef<NodeJS.Timeout[]>([]);
   const [showHint, setShowHint] = useState(false);
 
@@ -56,10 +58,18 @@ export default function Page20() {
   }
 
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
-  const searchTimes = "搜索次数";
-  const frequentlyUsedWord1 = "高频词1";
-  const frequentlyUsedWord2 = "高频词2";
-  const sameSearchCount = "共同搜索人数";
+  
+  const pageData = summaryData?.pages?.page15;
+  const searchTimes = pageData?.total_searches ?? 0;
+  const keywords = pageData?.top_keywords ?? [];
+  const frequentlyUsedWord1 = keywords[0]?.keyword ?? "生活";
+  const frequentlyUsedWord2 = keywords[1]?.keyword ?? "探索";
+  
+  const topKeyword = keywords[0]?.keyword;
+  const sharedData = (pageData?.shared_search_data as Array<{ keyword?: string; shared_users?: number }> | undefined)?.find(
+    (item) => item.keyword === topKeyword
+  );
+  const sameSearchCount = sharedData?.shared_users ?? 0;
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>

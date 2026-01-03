@@ -5,10 +5,14 @@ import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import styles from "./styles/page21.module.css";
+import { useSummary } from "@/contexts/SummaryContext";
 
 export default function Page21() {
   const PAGE_NUMBER = 21;
   const { appendNextPage } = usePageManager();
+  const { summaryData } = useSummary();
+  const pageData = summaryData?.page16;
+  
   const timersRef = useRef<NodeJS.Timeout[]>([]);
   const [showHint, setShowHint] = useState(false);
 
@@ -54,8 +58,13 @@ export default function Page21() {
   }
 
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
-  const personality_label = '性格标签';
-  const keyword = '关键词';
+  
+  // 绑定后端数据
+  const personality_label = pageData?.ai_title ?? 'PUPUer';
+  const keyword = pageData?.achievements?.[0]?.title ?? '暂无关键词';
+  // moment 字段缺失，暂时使用默认文案
+  const moment = '你与世界产生共鸣的瞬间';
+
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container}>
@@ -80,7 +89,7 @@ export default function Page21() {
         <div className={styles.textBlock}>
           <div className={`${styles.tag} hide page21-reveal-2`}>你是一个「{<span className={styles.personalityLabel}>{personality_label}</span>}」</div>
           <div className={`${styles.keywords} hide page21-reveal-3`}>你的年度关键词是 [{<span className={styles.keywordLabel}>{keyword}</span>}]</div>
-          <div className={`${styles.moment} hide page21-reveal-4`}>这一年，你最动人的一刻是：</div>
+          <div className={`${styles.moment} hide page21-reveal-4`}>这一年，你最动人的一刻是：<br/>{moment}</div>
         </div>
 
         {showHint && (

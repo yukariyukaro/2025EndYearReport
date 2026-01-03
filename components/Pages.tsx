@@ -23,12 +23,11 @@ import Page20 from "@/components/pages/page20";
 import Page21 from "@/components/pages/page21";
 import Page22 from "@/components/pages/page22";
 import Page23 from "@/components/pages/page23";
-import Page24 from "@/components/pages/page24";
 
 const PAGES = [
   Page1, Page2, Page3, Page4, Page5, Page6, Page7, Page8,
   Page9, Page10, Page11, Page12, Page13, Page14, Page15, Page16,
-  Page17, Page18, Page19, Page20, Page21, Page22, Page23, Page24
+  Page17, Page18, Page19, Page20, Page21, Page22, Page23,
 ];
 
 export const TOTAL_PAGES = PAGES.length;

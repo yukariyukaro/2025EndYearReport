@@ -4,6 +4,7 @@ import Image from 'next/image';
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { Page6VariantProps } from '../page6';
 import {
   AreaChart,
   Area,
@@ -15,23 +16,7 @@ import {
 } from 'recharts';
 import styles from '../styles/page6Day.module.css';
 
-// Mock Data for the chart
-const data = [
-  { name: '0', user: 10, avg: 5 },
-  { name: '2', user: 45, avg: 15 },
-  { name: '4', user: 30, avg: 60 },
-  { name: '6', user: 80, avg: 50 },
-  { name: '8', user: 50, avg: 30 },
-  { name: '10', user: 60, avg: 45 },
-  { name: '12', user: 20, avg: 25 },
-  { name: '14', user: 0, avg: 10 },
-  { name: '16', user: 0, avg: 5 },
-  { name: '18', user: 0, avg: 0 },
-  { name: '20', user: 0, avg: 0 },
-  { name: '22', user: 0, avg: 0 },
-];
-
-export default function Day() {
+export default function Day({ chartData, peakHour, patternLabel }: Page6VariantProps) {
   const PAGE_NUMBER = 6;
   const { appendNextPage } = usePageManager();
   
@@ -123,7 +108,7 @@ export default function Day() {
         >
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              data={data}
+              data={chartData}
               margin={{
                 top: 10,
                 right: 10,
@@ -202,11 +187,11 @@ export default function Day() {
 
         {/* Stats */}
         <div className={styles.statsContainer}>
-          <div className={`${styles.statText} ${styles.hide} page6-reveal-4`}>你的最活跃时段是 [最活跃时段]</div>
+          <div className={`${styles.statText} ${styles.hide} page6-reveal-4`}>你的最活跃时段是 {peakHour}</div>
           <div className={`${styles.statText} ${styles.hide} page6-reveal-5`}>与全体用户相比</div>
           <div className={`${styles.statRow} ${styles.hide} page6-reveal-6`}>
             <span className={styles.statText}>你的作息是</span>
-            <span className={styles.statHighlight}>【时间段落签】</span>
+            <span className={styles.statHighlight}>{patternLabel}</span>
           </div>
         </div>
 

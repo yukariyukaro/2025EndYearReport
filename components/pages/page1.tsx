@@ -98,7 +98,7 @@ export default function Page1() {
               </>
             ) : (
               <p>
-                正在布置爱丽丝的兔子洞<span className="loading-animation">...</span>
+                浪漫的年度总结即将开始<span className="loading-animation">...</span>
               </p>
             )}
           </div>

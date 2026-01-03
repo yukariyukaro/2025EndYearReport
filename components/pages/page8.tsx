@@ -4,11 +4,21 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page8.module.css";
 
 export default function Page8() {
   const PAGE_NUMBER = 8;
   const { currentPage } = usePageManager();
+  const { data } = useSummary();
+
+  const page5Data = data?.pages?.page5;
+  const earliestTime = page5Data?.earliest_time || "2025-01-01";
+  const earliestContent = page5Data?.earliest_content || "暂无记录";
+  const latestTime = page5Data?.latest_time || "2025-12-31";
+  const latestContent = page5Data?.latest_content || "暂无记录";
+  const beatPercentage = page5Data?.beat_percentage ?? 0;
+
   const [showHint, setShowHint] = useState(true);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
@@ -100,9 +110,9 @@ export default function Page8() {
           <div className={styles.contentLayer}>
             {/* Earliest Group */}
             <div className={`${styles.groupEarliest} ${styles.hide} page8-reveal-1`}>
-              <p className={styles.labelWhite}>你在 [最早浏览时间] 写下了第一条浏览记录</p>
+              <p className={styles.labelWhite}>你在 {earliestTime} 写下了第一条浏览记录</p>
               <div className={styles.whiteBox}>
-                <p className={styles.boxText}>[最早浏览内容摘要]</p>
+                <p className={styles.boxText}>{earliestContent}</p>
               </div>
               {/* Phone pops in separately */}
               <div className={`${styles.phoneImage} ${styles.popIn} page8-reveal-2`}>
@@ -118,9 +128,9 @@ export default function Page8() {
 
             {/* Latest Group */}
             <div className={`${styles.groupLatest} ${styles.hide} page8-reveal-3`}>
-              <p className={styles.labelWhite}>你在 [最晚浏览时间] 仍在默默守候</p>
+              <p className={styles.labelWhite}>你在 {latestTime} 仍在默默守候</p>
               <div className={styles.whiteBox}>
-                <p className={styles.boxText}>[最晚浏览内容摘要]</p>
+                <p className={styles.boxText}>{latestContent}</p>
               </div>
               {/* Moon pops in separately */}
               <div className={`${styles.moonImage} ${styles.popIn} page8-reveal-4`}>
@@ -141,7 +151,7 @@ export default function Page8() {
             你的这份独特作息
           </p>
           <p className={`${styles.statsText} ${styles.hide} page8-reveal-6`}>
-            打败了 [X]% 的伙伴！
+            打败了 {beatPercentage}% 的伙伴！
           </p>
         </div>
 

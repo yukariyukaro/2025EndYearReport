@@ -3,11 +3,13 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
+import { useSummary } from "@/contexts/SummaryContext";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from "recharts";
 import styles from "./styles/page14.module.css";
 
-const data = [
+// Mock data for chart (Backend missing monthly data)
+const MOCK_CHART_DATA = [
   { name: 'Jan', value: 1 },
   { name: 'Feb', value: 2 },
   { name: 'Mar', value: 1 },
@@ -25,11 +27,18 @@ const data = [
 export default function Page14() {
   const PAGE_NUMBER = 14;
   const { currentPage } = usePageManager();
+  const { data: summaryData } = useSummary();
+  const pageData = summaryData?.pages?.page10;
+  
+  const postCount = pageData?.post_count_2025 ?? 0;
+  const beatPercentage = pageData?.beat_percentage ?? 0;
+  // If no 2024 data or explicitly marked, treat as first year. 
+  // Backend doesn't have explicit 'is_first_year' flag, inferred from post_count_2024
+  const isFirstYear = (pageData?.post_count_2024 ?? 0) === 0;
+  const growthRate = pageData?.growth_rate ?? 0;
+
   const [showHint, setShowHint] = useState(true);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
-  
-  // Mock variable for conditional rendering
-  const isFirstYear = false; // Toggle this to true to see the "First Year" message
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach(clearTimeout);
@@ -61,10 +70,20 @@ export default function Page14() {
 
   const onShow = () => {
     clearTimers();
-    reveal(`.page14-reveal-1`, 300); // Top Text
-    reveal(`.page14-reveal-2`, 800); // Chart Card
-    reveal(`.page14-reveal-3`, 1400); // Bottom Text
-    reveal(`.page14-reveal-4`, 2000); // Footer
+    // Top Text
+    reveal(`.page14-reveal-1-1`, 300);
+    reveal(`.page14-reveal-1-2`, 500);
+    reveal(`.page14-reveal-1-3`, 700);
+    
+    // Chart Card
+    reveal(`.page14-reveal-2`, 800);
+    
+    // Bottom Text
+    reveal(`.page14-reveal-3-1`, 1400);
+    reveal(`.page14-reveal-3-2`, 1600);
+    
+    // Footer
+    reveal(`.page14-reveal-4`, 2000);
   };
 
   return (
@@ -82,13 +101,13 @@ export default function Page14() {
 
         <div className={styles.content}>
           {/* Top Text */}
-          <div className={`${styles.topText} ${styles.reveal} page14-reveal-1`}>
-            <div>今年</div>
-            <div>
-              你发布了 <span className={styles.highlight}>[发布总数]</span> 条内容
+          <div className={styles.topText}>
+            <div className={`${styles.reveal} page14-reveal-1-1`}>今年</div>
+            <div className={`${styles.reveal} page14-reveal-1-2`}>
+              你发布了 <span className={styles.highlight}>{postCount}</span> 条内容
             </div>
-            <div>
-              打败了 <span className={styles.highlight}>[X]%</span> 的用户
+            <div className={`${styles.reveal} page14-reveal-1-3`}>
+              打败了 <span className={styles.highlight}>{beatPercentage}%</span> 的用户
             </div>
           </div>
 
@@ -100,7 +119,7 @@ export default function Page14() {
             </div>
             <div className={styles.chartContainer}>
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data}>
+                <LineChart data={MOCK_CHART_DATA}>
                   <CartesianGrid vertical={false} stroke="#e0e0e0" strokeDasharray="3 3" />
                   <XAxis 
                     dataKey="name" 
@@ -132,19 +151,19 @@ export default function Page14() {
           </div>
 
           {/* Bottom Text */}
-          <div className={`${styles.bottomText} ${styles.reveal} page14-reveal-3`}>
+          <div className={styles.bottomText}>
             {isFirstYear ? (
               <>
-                <div>这是你的第一年</div>
-                <div>
+                <div className={`${styles.reveal} page14-reveal-3-1`}>这是你的第一年</div>
+                <div className={`${styles.reveal} page14-reveal-3-2`}>
                   你与triple uni的精彩才刚刚开始！
                 </div>
               </>
             ) : (
               <>
-                <div>与去年相比</div>
-                <div>
-                  你的发帖量增加了 <span className={styles.highlight}>[百分比]%</span>
+                <div className={`${styles.reveal} page14-reveal-3-1`}>与去年相比</div>
+                <div className={`${styles.reveal} page14-reveal-3-2`}>
+                  你的发帖量增加了 <span className={styles.highlight}>{Math.round(growthRate)}%</span>
                 </div>
               </>
             )}

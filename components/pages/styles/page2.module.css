@@ -17,6 +17,12 @@
   width: 19.375rem; /* 310px */
   height: 3.4375rem; /* 55px */
   z-index: 1;
+  animation: floatCloud1 8s ease-in-out infinite alternate;
+}
+
+@keyframes floatCloud1 {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(20px, 4px); }
 }
 
 /* Text Group 1 */
@@ -69,23 +75,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-}
-
-/* Cloud 2 - Right */
-.cloud2 {
-  position: absolute;
-  right: -1rem;
-  top: 0;
-  width: 11.6875rem; /* 187px */
-  height: 4.125rem; /* 66px */
-  z-index: 1;
+  /* Allow children to be positioned absolutely relative to this area if needed */
+  position: absolute; 
 }
 
 /* Sun Background */
 .sun {
   position: relative; /* Changed from absolute to relative for stacking flow */
-  width: 17.3125rem; /* 277px */
-  height: 17.3125rem;
+  width:20rem; /* 277px */
+  height:20rem;
+  bottom:-2rem;
   background-image: linear-gradient(180deg, #FFF681 0%, rgba(255, 191, 132, 0.43) 100%);
   border-radius: 50%;
   z-index: 1;
@@ -98,15 +97,15 @@
 
 /* Tree Wrapper */
 .treeWrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  z-index: 2;
-  /* Adjust tree image within sun */
+  width: 17.3125rem; /* Match sun width for centering context */
+  height: 17.3125rem; /* Match sun height */
+  position: absolute;
+  bottom: 20%; /* Match sun position */
+  z-index: 3; /* Higher than sun (1), lower than field (4) */
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 3rem; /* Lift tree slightly inside sun */
+  padding-bottom: 3rem; /* Lift tree slightly inside sun/wrapper */
   cursor: pointer;
 }
 
@@ -154,10 +153,26 @@
   opacity: 1;
 }
 
+/* Cloud 2 - Right */
+.cloud2 {
+  position: absolute;
+  right: -1rem;
+  top: 0;
+  width: 11.6875rem; /* 187px */
+  height: 4.125rem; /* 66px */
+  z-index: 1;
+  animation: floatCloud2 10s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes floatCloud2 {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-15px, 6px); }
+}
+
 /* Helper to hide hints */
 .fadeOut {
-  opacity: 0;
-  transition: opacity 0.3s ease-out;
+  opacity: 0 !important;
+  transition: opacity 0.5s ease-out;
   pointer-events: none;
 }
 
@@ -169,6 +184,7 @@
   width: 2.85rem; /* ~45px, scaled down from 57px */
   height: 2.65rem; /* ~42px, scaled down from 53px */
   animation: float 2s ease-in-out infinite;
+  
 }
 
 @keyframes float {
@@ -184,6 +200,7 @@
   font-size: 0.8125rem; /* 13px, scaled down from 15px */
   color: #000000;
   white-space: nowrap;
+  
 }
 
 /* Cloud 3 - Adjusted Position */
@@ -194,6 +211,12 @@
   width: 24.4375rem; /* 391px */
   height: 4.125rem; /* 66px */
   z-index: 3;
+  animation: floatCloud3 12s ease-in-out infinite alternate;
+}
+
+@keyframes floatCloud3 {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(25px, -5px); }
 }
 
 /* Field / Soil */
@@ -239,7 +262,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 13.3rem; /* ~229px */
+  margin-top: 16.8rem; 
   gap: 2.5rem; /* Gap between "开启" and "夜深了" groups */
 }
 

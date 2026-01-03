@@ -4,11 +4,13 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page17.module.css";
 
 export default function Page17() {
   const PAGE_NUMBER = 17;
   const { appendNextPage } = usePageManager();
+  const { data: summaryData } = useSummary();
   const timersRef = useRef<NodeJS.Timeout[]>([]);
   const [showHint, setShowHint] = useState(false);
 
@@ -57,11 +59,16 @@ export default function Page17() {
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
 
   // Text terminal variables (extracted)
-  const FAVORITE_EMOJI = "Emoji";
-  const EMOJI_USE_COUNT = "使用次数";
-  const POSITIVE_PCT = "X";
-  const NEUTRAL_PCT = "X";
-  const HEALING_PCT = "X";
+  const pageData = summaryData?.pages?.page13;
+  // Backend returns top_emojis as null in example, need safety check
+  const topEmojiItem = pageData?.top_emojis?.[0];
+  const FAVORITE_EMOJI = topEmojiItem?.emoji ?? "🌟"; 
+  const EMOJI_USE_COUNT = topEmojiItem?.count ?? 0;
+
+  // Backend missing sentiment percentages
+  const POSITIVE_PCT = 0;
+  const NEUTRAL_PCT = 0;
+  const HEALING_PCT = 0;
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>

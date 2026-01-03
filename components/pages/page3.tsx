@@ -1,34 +1,35 @@
 "use client";
-import { useState, useMemo, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page3.module.css";
+
+function formatDate(dateStr: string | undefined) {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  return `【${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日】`;
+}
 
 export default function Page3() {
   const PAGE_NUMBER = 3;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { appendNextPage } = usePageManager();
+  const { data } = useSummary();
   
   // Toggle for Easter Egg mode (restoring design as Easter Egg version by default)
   const [isEasterEgg] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
-  // Mock Data
-  const summary = {
-    appLaunchDate: "2023-07-28",
-    userJoinDate: "2023-07-28",
-    userRank: 12345,
-  };
-
-  const daysTogether = useMemo(() => {
-    const start = new Date(summary.userJoinDate).getTime();
-    const now = Date.now();
-    return Math.floor((now - start) / (1000 * 60 * 60 * 24));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [summary.userJoinDate]);
+  const pageData = data?.pages?.page2;
+  const launchTimeFormatted = formatDate(pageData?.launch_time);
+  const registerTimeFormatted = formatDate(pageData?.register_time);
+  const daysTogether = pageData?.days_together ?? 0;
+  const registerRank = pageData?.register_rank ?? 0;
 
   // 清理 timers
   const clearTimers = useCallback(() => {
@@ -110,14 +111,14 @@ export default function Page3() {
             <div className={styles.infoGroup}>
               <div className={`${styles.textRow} hide page3-reveal-2`}>
                 <span className={styles.fontPrimary}>噗噗在</span>
-                <span className={styles.fontPrimary}>【2023年7月28日】</span>
+                <span className={styles.fontPrimary}>{launchTimeFormatted}</span>
               </div>
               <div className={`${styles.textRow} hide page3-reveal-3`}>
                 <span className={styles.fontPrimary}>悄然上线</span>
               </div>
               <div className={`${styles.textRow} hide page3-reveal-4`}>
                 <span className={styles.fontPrimary}>你在</span>
-                <span className={styles.fontPrimary}>【2023年7月28日】</span>
+                <span className={styles.fontPrimary}>{registerTimeFormatted}</span>
               </div>
               <div className={`${styles.textRow} hide page3-reveal-5`}>
                 <span className={styles.fontPrimary}>与噗噗相遇~</span>
@@ -149,7 +150,7 @@ export default function Page3() {
               <div className={styles.statGroup}>
                 <div className={`${styles.textRow} hide page3-reveal-8`}>
                   <span className={styles.fontPrimary}>你是第</span>
-                  <span className={styles.highlightText}>{summary.userRank}</span>
+                  <span className={styles.highlightText}>{registerRank}</span>
                   <span className={styles.fontPrimary}>登岛的伙伴</span>
                 </div>
                 <span className={`${styles.fontPrimary} hide page3-reveal-9`}>是噗噗最珍贵的元老🫶</span>

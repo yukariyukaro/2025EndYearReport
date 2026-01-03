@@ -5,10 +5,11 @@ import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page11.module.css";
 
-// Mock Data for the chart
-const data = [
+// Default fallback data
+const DEFAULT_DATA = [
   { name: 'Happy', value: 30, color: '#f4c9aa' },
   { name: 'Peace', value: 25, color: '#ffe6a5' },
   { name: 'Free', value: 15, color: '#d9f0b6' },
@@ -16,9 +17,32 @@ const data = [
   { name: 'Thoughtful', value: 20, color: '#d4ebef' },
 ];
 
+const COLORS = ['#f4c9aa', '#ffe6a5', '#d9f0b6', '#cbdad7', '#d4ebef'];
+
 export default function Page11() {
   const PAGE_NUMBER = 11;
-  const { appendNextPage, currentPage } = usePageManager();
+  const { currentPage } = usePageManager();
+  const { data: summaryData } = useSummary();
+
+  const pageData = summaryData?.pages?.page8;
+  
+  // Transform emotion_analysis to chart data
+  const chartData = pageData?.emotion_analysis?.map((item: { topic: string; count: number }, index: number) => ({
+    name: item.topic,
+    value: item.count,
+    color: COLORS[index % COLORS.length]
+  })) || DEFAULT_DATA;
+
+  // Keywords logic
+  const primaryKeyword = pageData?.keywords?.[0]?.word || "生活";
+  const secondaryKeyword = pageData?.keywords?.[1]?.word || "学习";
+  
+  // Topic logic
+  const topTopic = pageData?.longest_topic?.topic || "日常";
+  const topTopicPercentage = pageData?.longest_topic?.percentage || "0%";
+  // Simple logic to determine "mood" based on topic, or just reuse topic for now
+  const moodDesc = topTopic;
+
   const [showHint, setShowHint] = useState(true);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
@@ -41,6 +65,11 @@ export default function Page11() {
           (el as HTMLElement).style.opacity = '';
         }
       });
+      // Reset donut wipe animation
+      const donut = document.querySelector(`.${styles.donutWrap}`);
+      if (donut) {
+        donut.classList.remove(styles.reveal);
+      }
     }
   }, [currentPage, clearTimers]);
 
@@ -62,12 +91,26 @@ export default function Page11() {
   const onShow = () => {
     clearTimers();
     // Animation sequence
-    reveal(`.page11-reveal-1`, 300); // Top Text
+    
+    // Top Text
+    reveal(`.page11-reveal-1-1`, 300);
+    reveal(`.page11-reveal-1-2`, 500);
+
     reveal(`.page11-reveal-2`, 800); // Chart Background
-    reveal(`.page11-reveal-3`, 1200); // Chart Content (Pie + Fire)
-    reveal(`.page11-reveal-4`, 1800); // Legend
-    reveal(`.page11-reveal-5`, 2400); // Bottom Text
-    reveal(`.page11-reveal-6`, 2800); // Decors (Birds)
+    
+    // Chart Content (Pie + Fire) - Trigger mask animation
+    reveal(`.page11-reveal-3`, 1200); 
+    
+    // Legend
+    reveal(`.page11-reveal-4`, 1800);
+    
+    // Bottom Text
+    reveal(`.page11-reveal-5-1`, 2400);
+    reveal(`.page11-reveal-5-2`, 2600);
+    reveal(`.page11-reveal-5-3`, 2800);
+    reveal(`.page11-reveal-5-4`, 3000);
+
+    reveal(`.page11-reveal-6`, 3400); // Decors (Birds)
   };
 
   return (
@@ -75,9 +118,9 @@ export default function Page11() {
       <div className={styles.container}>
         
         {/* Top Text */}
-        <div className={`${styles.topText} ${styles.hide} page11-reveal-1`}>
-          你经常关注 [关键词] 相关的内容<br />
-          例如：「[例子]」
+        <div className={styles.topText}>
+          <div className={`${styles.hide} page11-reveal-1-1`}>你经常关注 {primaryKeyword} 相关的内容</div>
+          <div className={`${styles.hide} page11-reveal-1-2`}>例如：「{secondaryKeyword}」</div>
         </div>
 
         {/* Background Layer */}
@@ -85,12 +128,12 @@ export default function Page11() {
         </div>
 
         {/* Chart Section */}
-        <div className={`${styles.donutWrap} ${styles.hide} page11-reveal-3`}>
+        <div className={`${styles.donutWrap} page11-reveal-3`}>
             <div className={styles.pieContainer}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={data}
+                    data={chartData}
                     cx="50%"
                     cy="50%"
                     innerRadius="55%"
@@ -100,8 +143,9 @@ export default function Page11() {
                     stroke="none"
                     startAngle={90}
                     endAngle={-270}
+                    isAnimationActive={false} // Disable default animation
                   >
-                    {data.map((entry, index) => (
+                    {chartData.map((entry: { name: string; value: number; color: string }, index: number) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
@@ -132,7 +176,7 @@ export default function Page11() {
              style={{ borderRadius: '12px', zIndex: -1 }}
            />
            <div className={styles.legendGrid}>
-             {data.map((item) => (
+             {chartData.map((item: { name: string; value: number; color: string }) => (
                <div key={item.name} className={styles.legendItem}>
                  <div className={styles.legendDot} style={{ background: item.color }}></div>
                  <span className={styles.legendText}>{item.name}</span>
@@ -142,11 +186,11 @@ export default function Page11() {
         </div>
 
         {/* Bottom Text */}
-        <div className={`${styles.bottomText} ${styles.hide} page11-reveal-5`}>
-           你最常浏览的话题是 [话题]，<br />
-           其中<br />
-           [话题情绪分析]<br />
-           反映了你的[心情倾向]
+        <div className={styles.bottomText}>
+           <div className={`${styles.hide} page11-reveal-5-1`}>你最常浏览的话题是 {topTopic}，</div>
+           <div className={`${styles.hide} page11-reveal-5-2`}>其中</div>
+           <div className={`${styles.hide} page11-reveal-5-3`}>{topTopicPercentage}</div>
+           <div className={`${styles.hide} page11-reveal-5-4`}>反映了你的 {moodDesc} 倾向</div>
         </div>
 
         {/* Birds Decorations */}

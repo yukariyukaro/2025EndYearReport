@@ -117,16 +117,16 @@ export default function Page23() {
 
         <div className="page23-tree-m hide">
           <div className="relative" style={{ width: '100%', height: '100%' }}>
-            <Image src="/imgs/page23/tree_m.png" alt="Tree With Mangos" fill className="object-contain" />
+            <Image src="/imgs/page23/tree_m.png" alt="Tree With Mangos" fill style={{ objectFit: "contain" }} />
           </div>
         </div>
 
         {/* tree-like assets */}
         <div className="page23-mango hide">
-          <Image src="/imgs/page23/mango.png" alt="mango" width={75} height={35} />
+          <Image src="/imgs/page23/mango.png" alt="mango" width={75} height={35} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
         <div className="page23-mangoes hide">
-          <Image src="/imgs/page23/mangoes.png" alt="mangoes" width={80} height={60} />
+          <Image src="/imgs/page23/mangoes.png" alt="mangoes" width={80} height={60} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
         <div className="page23-2023">
           <span style={{ display: 'inline-block', width: 30, height: 30, lineHeight: '37px', textAlign: 'center' }}>2023</span>
@@ -144,13 +144,13 @@ export default function Page23() {
         {/* decorative chatbox elements */}
         <div className="relative w-full min-h-[320px]">
           <div className="page23-chat_b2023 hide">
-            <Image src="/imgs/page23/chat_bubble2023.png" alt="chat_bubble2023" width={115} height={82} />
+            <Image src="/imgs/page23/chat_bubble2023.png" alt="chat_bubble2023" width={115} height={82} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
           <div className="page23-chat_b2024 hide">
-            <Image src="/imgs/page23/chat_bubble2024.png" alt="chat_bubble2024" width={123} height={81} />
+            <Image src="/imgs/page23/chat_bubble2024.png" alt="chat_bubble2024" width={123} height={81} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
           <div className="page23-chat_b2025 hide ">
-            <Image src="/imgs/page23/chat_bubble2025.png" alt="chat_bubble025" width={123} height={83} />
+            <Image src="/imgs/page23/chat_bubble2025.png" alt="chat_bubble025" width={123} height={83} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
           </div>
         </div>
         {/* Minimal template block (from page11) preserved — remove visible text but keep scroll functionality */}

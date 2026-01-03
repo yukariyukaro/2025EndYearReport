@@ -15,23 +15,11 @@ import {
 } from 'recharts';
 import styles from '../styles/page6Night.module.css';
 
-// Mock Data for the chart (Night pattern)
-const data = [
-  { name: '0', user: 90, avg: 85 },
-  { name: '2', user: 50, avg: 20 },
-  { name: '4', user: 75, avg: 70 },
-  { name: '6', user: 60, avg: 30 },
-  { name: '8', user: 50, avg: 40 },
-  { name: '10', user: 20, avg: 15 },
-  { name: '12', user: 0, avg: 5 },
-  { name: '14', user: 0, avg: 0 },
-  { name: '16', user: 0, avg: 0 },
-  { name: '18', user: 0, avg: 0 },
-  { name: '20', user: 0, avg: 0 },
-  { name: '22', user: 0, avg: 0 },
-];
+// Mock Data removed, using props
 
-export default function Night() {
+import { Page6VariantProps } from '../page6';
+
+export default function Night({ chartData, peakHour, patternLabel }: Page6VariantProps) {
   const PAGE_NUMBER = 6;
   const { appendNextPage } = usePageManager();
   
@@ -127,11 +115,11 @@ export default function Night() {
         
         {/* Stats Top */}
         <div className={styles.statsContainer}>
-          <div className={`${styles.statText} ${styles.hide} page6-night-reveal-4`}>你的最活跃时段是 [最活跃时段]</div>
+          <div className={`${styles.statText} ${styles.hide} page6-night-reveal-4`}>你的最活跃时段是 {peakHour}</div>
           <div className={`${styles.statText} ${styles.hide} page6-night-reveal-5`}>与全体用户相比</div>
           <div className={`${styles.statRow} ${styles.hide} page6-night-reveal-6`}>
             <span className={styles.statText}>你的作息是</span>
-            <span className={styles.statHighlight}>【时间段落签】</span>
+            <span className={styles.statHighlight}>【{patternLabel}】</span>
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 "use client";
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSummary } from "@/contexts/SummaryContext";
 import Morning from './page6_variants/Morning';
 import Day from './page6_variants/Day';
 import Night from './page6_variants/Night';
@@ -8,22 +9,72 @@ import Average from './page6_variants/Average';
 
 type UserType = 'morning' | 'day' | 'night' | 'healthy' | 'average';
 
+export interface Page6VariantProps {
+  chartData: Array<{ name: string; user: number; avg: number }>;
+  peakHour: string;
+  patternLabel: string;
+}
+
 export default function Page6() {
-  // Mock backend response - change this to test different variants
-  const userType: UserType = 'average' as UserType;
+  const { data } = useSummary();
+  const page4Data = data?.pages?.page4;
+
+  const { userType, chartData, peakHour, patternLabel } = useMemo(() => {
+    const label = page4Data?.time_pattern_label || "混合型";
+    let type: UserType = 'average';
+
+    if (label.includes("早起")) type = 'morning';
+    else if (label.includes("日间")) type = 'day';
+    else if (label.includes("夜猫")) type = 'night';
+    else if (label.includes("健康")) type = 'healthy';
+    
+    // Transform chart data
+    const userActivity = page4Data?.user_hourly_activity || [];
+    const globalActivity = page4Data?.global_hourly_activity || [];
+    
+    const transformedData = Array.from({ length: 24 }, (_, i) => ({
+      name: i.toString(),
+      user: (userActivity[i] || 0) * 100,
+      avg: (globalActivity[i] || 0) * 100
+    }));
+
+    // Calculate peak hour
+    let maxIdx = 0;
+    let maxVal = -1;
+    userActivity.forEach((val: number, idx: number) => {
+      if (val > maxVal) {
+        maxVal = val;
+        maxIdx = idx;
+      }
+    });
+    const peak = `${maxIdx}:00`;
+
+    return {
+      userType: type,
+      chartData: transformedData,
+      peakHour: peak,
+      patternLabel: label
+    };
+  }, [page4Data]);
+
+  const props: Page6VariantProps = {
+    chartData,
+    peakHour,
+    patternLabel
+  };
 
   switch (userType) {
     case 'morning':
-      return <Morning />;
+      return <Morning {...props} />;
     case 'day':
-      return <Day />;
+      return <Day {...props} />;
     case 'night':
-      return <Night />;
+      return <Night {...props} />;
     case 'healthy':
-      return <Healthy />;
+      return <Healthy {...props} />;
     case 'average':
-      return <Average />;
+      return <Average {...props} />;
     default:
-      return <Morning />;
+      return <Average {...props} />;
   }
 }

@@ -4,6 +4,7 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page5.module.css";
 
 export default function Page5() {
@@ -13,13 +14,15 @@ export default function Page5() {
   const [showHint, setShowHint] = useState(false);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
-  // Mock Data
+  const { data } = useSummary();
+  const page3Data = data?.pages?.page3;
+
   const stats = {
-    days: 365,
-    minutes: 12450,
-    rank: 89,
-    totalUsers: 15420,
-    courses: 12
+    days: page3Data?.login_days ?? 0,
+    minutes: page3Data?.total_minutes ?? 0,
+    rank: page3Data?.school_rank ?? 0,
+    totalUsers: page3Data?.school_total_users ?? 0,
+    courses: page3Data?.pupu_courses ?? 0
   };
 
   // 清理 timers
@@ -111,7 +114,7 @@ export default function Page5() {
           </div>
           <div className={`${styles.textRow} ${styles.hide} page5-reveal-5`}>
              <span className={styles.textBase}>你的坚持让你在</span>
-             <span className={styles.textHighlight}>{stats.rank}</span>
+             <span className={styles.textHighlight}>{stats.totalUsers}</span>
              <span className={styles.textBase}>名</span>
           </div>
           <div className={`${styles.textRow} ${styles.hide} page5-reveal-6`}>

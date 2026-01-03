@@ -15,23 +15,12 @@ import {
 } from 'recharts';
 import styles from '../styles/page6Average.module.css';
 
-// Mock Data for the chart (Average pattern)
-const data = [
-  { name: '0', user: 95, avg: 90 },
-  { name: '2', user: 50, avg: 20 },
-  { name: '4', user: 80, avg: 70 },
-  { name: '6', user: 60, avg: 35 },
-  { name: '8', user: 50, avg: 45 },
-  { name: '10', user: 20, avg: 15 },
-  { name: '12', user: 0, avg: 5 },
-  { name: '14', user: 0, avg: 0 },
-  { name: '16', user: 0, avg: 0 },
-  { name: '18', user: 0, avg: 0 },
-  { name: '20', user: 0, avg: 0 },
-  { name: '22', user: 0, avg: 0 },
-];
+// Mock Data removed, using props
 
-export default function Average() {
+
+import { Page6VariantProps } from '../page6';
+
+export default function Average({ chartData, peakHour, patternLabel }: Page6VariantProps) {
   const PAGE_NUMBER = 6;
   const { appendNextPage } = usePageManager();
   
@@ -110,7 +99,7 @@ export default function Average() {
       <div className={styles.container}>
         {/* Stats Top */}
         <div className={styles.statsContainer}>
-          <div className={`${styles.statText} ${styles.hide} page6-avg-reveal-1`}>你的最活跃时段是 [最活跃时段]</div>
+          <div className={`${styles.statText} ${styles.hide} page6-avg-reveal-1`}>你的最活跃时段是 {peakHour}</div>
           <div className={`${styles.statText} ${styles.hide} page6-avg-reveal-2`}>与全体用户相比</div>
         </div>
 
@@ -133,7 +122,7 @@ export default function Average() {
         >
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              data={data}
+              data={chartData}
               margin={{
                 top: 10,
                 right: 10,

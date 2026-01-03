@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useCallback, useRef, useEffect } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
@@ -42,11 +42,17 @@ export default function Page13() {
     clearTimers();
     // Animation sequence
     reveal(`.page13-reveal-1`, 300);  // Title "BONUS TIME"
-    reveal(`.page13-reveal-2`, 800);  // Question Text
-    reveal(`.page13-reveal-3`, 1300); // Hint Text
-    reveal(`.page13-reveal-4`, 1600); // Arrow
-    reveal(`.page13-reveal-5`, 1800); // Button
-    reveal(`.page13-reveal-6`, 2000); // Footer
+    // Question Text
+    reveal(`.page13-reveal-2-1`, 800);
+    reveal(`.page13-reveal-2-2`, 1000);
+    reveal(`.page13-reveal-2-3`, 1200);
+    // Hint Text
+    reveal(`.page13-reveal-3-1`, 1500);
+    reveal(`.page13-reveal-3-2`, 1700);
+    // Other elements
+    reveal(`.page13-reveal-4`, 2000); // Arrow
+    reveal(`.page13-reveal-5`, 2200); // Button
+    reveal(`.page13-reveal-6`, 2400); // Footer
   };
 
   const handlePress = () => {
@@ -77,18 +83,18 @@ export default function Page13() {
 
           {/* Question Text */}
           <div className={styles.questionGroup}>
-            <p className={`${styles.questionText} ${styles.reveal} page13-reveal-2`}>还记得</p>
-            <p className={`${styles.questionText} ${styles.reveal} page13-reveal-2`}>这条</p>
-            <p className={`${styles.questionText} ${styles.reveal} page13-reveal-2`}>
+            <p className={`${styles.questionText} ${styles.reveal} page13-reveal-2-1`}>还记得</p>
+            <p className={`${styles.questionText} ${styles.reveal} page13-reveal-2-2`}>这条</p>
+            <p className={`${styles.questionText} ${styles.reveal} page13-reveal-2-3`}>
               被你珍藏的 <span className={styles.highlight}>「回忆」</span> 吗？
             </p>
           </div>
 
           {/* Interaction Area */}
           <div className={styles.interactionArea}>
-            <div className={`${styles.hintText} ${styles.reveal} page13-reveal-3`}>
-              点击后随机推荐<br />
-              一条被遗忘的收藏
+            <div className={styles.hintText}>
+                <div className={`${styles.reveal} page13-reveal-3-1`}>点击后随机推荐</div>
+                <div className={`${styles.reveal} page13-reveal-3-2`}>一条被遗忘的收藏</div>
             </div>
 
             <div className={`${styles.arrowWrapper} ${styles.reveal} ${styles.bounce} page13-reveal-4`}>

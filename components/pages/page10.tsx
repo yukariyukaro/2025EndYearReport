@@ -4,11 +4,24 @@ import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page10.module.css";
 
 export default function Page10() {
   const PAGE_NUMBER = 10;
   const { currentPage } = usePageManager();
+  const { data } = useSummary();
+
+  const pageData = data?.pages?.page7;
+  const rawTotalBrowses = pageData?.total_browses_2025;
+  const totalBrowses = typeof rawTotalBrowses === "number" ? rawTotalBrowses : 0;
+
+  const rawFirstContent = pageData?.first_post_content;
+  const firstContent = typeof rawFirstContent === "string" && rawFirstContent ? rawFirstContent : "暂无记录";
+
+  const rawRelationType = pageData?.relationship_type;
+  const relationType = typeof rawRelationType === "string" && rawRelationType ? rawRelationType : "相遇";
+  
   const [showHint, setShowHint] = useState(true);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
@@ -73,7 +86,7 @@ export default function Page10() {
           2025年
         </div>
         <div className={`${styles.textBase} ${styles.statsText} ${styles.reveal} p10-anim-2`}>
-          你浏览了 [浏览总数] 条内容
+          你浏览了 <span className={styles.highlight}>{totalBrowses}</span> 条内容
         </div>
 
         {/* Main Visual */}
@@ -102,7 +115,7 @@ export default function Page10() {
             />
           </div>
           <div className={`${styles.textBase} ${styles.contentText}`}>
-            [第一条浏览内容]
+            {firstContent}
           </div>
           <div className={styles.branch}>
             <Image 
@@ -117,7 +130,7 @@ export default function Page10() {
 
         {/* Footer Info */}
         <div className={`${styles.textBase} ${styles.relationText} ${styles.reveal} p10-anim-5`}>
-          与年度热帖的关系：关系标签
+          与年度热帖的关系：{relationType}
         </div>
         
         <div className={`${styles.footerSection} ${styles.reveal} p10-anim-5`}>
@@ -132,7 +145,7 @@ export default function Page10() {
               />
             </div>
             <div className={`${styles.textBase} ${styles.footerText}`}>
-              这表示你 「xxx」<br />了这条内容!
+              这表示你 「{relationType}」<br />了这条内容!
             </div>
           </div>
         </div>
