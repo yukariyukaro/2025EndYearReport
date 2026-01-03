@@ -92,22 +92,22 @@ function onShow() {
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
 
   const emojiFiles = [
-    "Laugh-half.png",
+    "Laugh.png",
     "Pain.png",
     "Hello.png",
     "Bored.png",
     "Laugh.png",
-    "Pain-half.png",
-    "Bored_half.png",
+    "Pain.png",
+    "Bored.png",
     "Star.png",
     "To tears.png",
     "Birthday.png",
     "Bored.png",
-    "Star-half.png",
+    "Star.png",
   ];
 
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow}>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container}>
         <div className={styles.topArea}>
           {/* 第一排 emoji：判断是否为 facemask.png，动态加放大类 */}
@@ -168,7 +168,7 @@ function onShow() {
         </div>
 
         {showHint && (
-          <div className={styles.hintWrap}>
+          <div className="fade-in">
             <ScrollUpHint />
           </div>
         )}

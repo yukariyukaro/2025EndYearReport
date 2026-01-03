@@ -65,8 +65,8 @@
   z-index: 3;
 }
 
-.leafLeft { left: 6%; top: 8%; }
-.leafRight { right: 6%; bottom: 8%; }
+.leafLeft { left: 0%; top: 12%; }
+.leafRight { right: 3%; bottom: 2%; }
 
 .textBlock {
   margin-top: 1.2rem;
@@ -103,5 +103,4 @@
 
 @media (max-width: 420px) {
   .frame { width: 76%; }
-  .leafLeft, .leafRight { display: none; }
 }

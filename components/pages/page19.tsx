@@ -63,7 +63,7 @@ export default function Page19() {
   const topChatNickname = "匿名昵称";
 
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow}>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container}>
         <div className={styles.topArea}>
           <div className={`hide page19-visual ${styles.headerLeft}`}>
@@ -88,7 +88,7 @@ export default function Page19() {
         </div>
 
         {showHint && (
-          <div className={styles.hintWrap}>
+          <div className="fade-in">
             <ScrollUpHint />
           </div>
         )}

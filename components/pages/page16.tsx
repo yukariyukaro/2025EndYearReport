@@ -8,7 +8,7 @@ import styles from "./styles/page16.module.css";
 
 export default function Page16() {
   const PAGE_NUMBER = 16;
-  const { currentPage } = usePageManager();
+  const { appendNextPage } = usePageManager();
   const timersRef = useRef<NodeJS.Timeout[]>([]);
   const [showHint, setShowHint] = useState(false);
 
@@ -17,44 +17,65 @@ export default function Page16() {
     timersRef.current = [];
   }, []);
 
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
+  useEffect(() => () => clearTimers(), [clearTimers]);
 
-  useEffect(() => {
-    if (currentPage !== PAGE_NUMBER) {
-      clearTimers();
-      document.querySelectorAll('[class*="page16-reveal"]').forEach((el) => {
-        el.classList.remove(styles.visible);
-      });
-    }
-  }, [currentPage, PAGE_NUMBER, clearTimers]);
+  function revealScale(selector: string, delayMs: number, durationMs = 800) {
+    document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
+      el.classList.remove("reveal-scale");
+      el.classList.add("scale-hide");
+      void el.offsetWidth;
+    });
 
-  const reveal = useCallback((selector: string, delayMs: number) => {
-    const timer = setTimeout(() => {
-      document.querySelectorAll(selector).forEach((el) => {
-        el.classList.add(styles.visible);
+    const t = setTimeout(() => {
+      document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
+        el.classList.remove("scale-hide");
+        el.classList.add("reveal-scale");
+        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
       });
     }, delayMs);
-    timersRef.current.push(timer);
-  }, []);
+
+    timersRef.current.push(t);
+  }
+
+  function reveal(selector: string, delayMs: number, durationMs = 1400) {
+    document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
+      el.classList.remove("reveal-line");
+      el.classList.add("hide");
+      void el.offsetWidth;
+    });
+
+    const t = setTimeout(() => {
+      document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
+        el.classList.remove("hide");
+        el.classList.add("reveal-line");
+        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
+      });
+    }, delayMs);
+
+    timersRef.current.push(t);
+  }
 
   function onShow() {
     clearTimers();
     setShowHint(false);
 
-    reveal(`.page16-reveal-spring`, 100);
-    reveal(`.page16-reveal-title`, 400);
-    reveal(`.page16-reveal-summer`, 700);
-    reveal(`.page16-reveal-autumn`, 1000);
-    reveal(`.page16-reveal-rabbit-pair`, 1300);
-    reveal(`.page16-reveal-winter`, 1600);
-    reveal(`.page16-reveal-rabbit-single`, 1900);
-    reveal(`.page16-reveal-bottom-text`, 2200);
+    let t = 120;
+    const step = 360;
 
-    const hintTimer = setTimeout(() => setShowHint(true), 2500);
+    revealScale('.page16-spring', t, 700);
+    revealScale('.page16-summer', (t += step), 700);
+    revealScale('.page16-autumn, .page16-rabbit', (t += step), 700);
+    revealScale('.page16-winter, .page16-rabbits', (t += step), 700);
+
+    // reveal text lines using page17-style reveal
+    reveal('.page16-title-reveal', 200);
+    reveal('.page16-words-reveal', (t += 200));
+
+    const hintTimer = setTimeout(() => setShowHint(true), (t += 900));
     timersRef.current.push(hintTimer);
   }
+
+  const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
 
   // Text variables extracted
   const POST_EMOTION_TITLE_LINE1 = "你的发帖情绪";
@@ -64,51 +85,51 @@ export default function Page16() {
   const FREQ_WORD3 = "高频词3";
 
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow}>
       <div className={styles.container}>
-        {/* Spring Tree */}
-        <div className={`${styles.springWrapper} page16-reveal-spring`}>
-          <Image src="/imgs/page16/springTree.png" alt="springTree" fill style={{objectFit: "contain"}} />
+        <div className={styles.visualArea}>
+          <div className={`scale-hide page16-spring ${styles.springWrap}`}>
+            <div className={styles.springInner}>
+              <Image src="/imgs/page16/springTree.png" alt="springTree" fill className={styles.springTreeImg} />
+              <Image src="/imgs/page16/springLeaves.png" alt="springLeaves" fill className={styles.springLeavesImg} />
+            </div>
+          </div>
+
+
+          <div className={`scale-hide page16-summer ${styles.summerWrap}`}>
+            <Image src="/imgs/page16/summerTree.png" alt="summer" width={200} height={250} />
+          </div>
+
+          <div className={`scale-hide page16-rabbit ${styles.rabbitSummer}`}>
+            <Image src="/imgs/page16/Rabbit.png" alt="rabbit" width={63} height={120} />
+          </div>
+
+          <div className={`scale-hide page16-autumn ${styles.autumnWrap}`}>
+            <Image src="/imgs/page16/autumnTree.png" alt="autumn" width={210} height={250} />
+          </div>
+
+          <div className={`scale-hide page16-winter ${styles.winterWrap}`}>
+            <Image src="/imgs/page16/winterTree.png" alt="winter" width={195} height={240} />
+          </div>
+
+          <div className={`scale-hide page16-rabbits ${styles.rabbitWinter}`}>
+            <Image src="/imgs/page16/Rabbits.png" alt="rabbits" width={190} height={300} />
+          </div>
         </div>
 
-        {/* Summer Tree */}
-        <div className={`${styles.summerTree} page16-reveal-summer`}>
-          <Image src="/imgs/page16/summerTree.png" alt="summer" fill style={{objectFit: "contain"}} />
-        </div>
+        <div className={styles.textArea}>
+          <div className={`hide scale-hide page16-text page16-title-reveal ${styles.titleBlock}`}>
+            <div className={styles.titleLine}>{POST_EMOTION_TITLE_LINE1}</div>
+            <div className={styles.titleLine}>{POST_EMOTION_TITLE_LINE2}</div>
+          </div>
 
-        {/* Autumn Tree */}
-        <div className={`${styles.autumnTree} page16-reveal-autumn`}>
-          <Image src="/imgs/page16/autumnTree.png" alt="autumn" fill style={{objectFit: "contain"}} />
-        </div>
-
-        {/* Rabbit Pair (Sitting + Standing) - Using Rabbits.png based on plural name */}
-        <div className={`${styles.rabbitPair} page16-reveal-rabbit-pair`}>
-          <Image src="/imgs/page16/rabbits.png" alt="rabbits" fill style={{objectFit: "contain"}} />
-        </div>
-
-        {/* Winter Tree */}
-        <div className={`${styles.winterTree} page16-reveal-winter`}>
-          <Image src="/imgs/page16/winterTree.png" alt="winter" fill style={{objectFit: "contain"}} />
-        </div>
-
-        {/* Bottom Rabbit (Single) - Using Rabbit.png based on singular name */}
-        <div className={`${styles.rabbitSingle} page16-reveal-rabbit-single`}>
-          <Image src="/imgs/page16/rabbit.png" alt="rabbit" fill style={{objectFit: "contain"}} />
-        </div>
-
-        {/* Top Text */}
-        <div className={`${styles.topText} page16-reveal-title`}>
-          <div className={styles.topTextLine1}>{POST_EMOTION_TITLE_LINE1}</div>
-          <div className={styles.topTextLine2}>{POST_EMOTION_TITLE_LINE2}</div>
-        </div>
-
-        {/* Bottom Text */}
-        <div className={`${styles.bottomText} page16-reveal-bottom-text`}>
-          <div className={styles.bottomTextTitle}>这一年</div>
-          <div className={styles.bottomTextTitle}>你最常提起的词是</div>
-          <div className={styles.keyword}>[{FREQ_WORD1}]</div>
-          <div className={styles.keyword}>[{FREQ_WORD2}]</div>
-          <div className={styles.keyword}>[{FREQ_WORD3}]</div>
+          <div className={`hide scale-hide page16-text2 page16-words-reveal ${styles.wordsBlock}`}>
+            <div className={styles.yearIntro}>这一年</div>
+            <div className={styles.wordsIntro}>你最常提起的词是</div>
+            <div className={styles.wordsList}>[{FREQ_WORD1}]</div>
+            <div className={styles.wordsList}>[{FREQ_WORD2}]</div>
+            <div className={styles.wordsList}>[{FREQ_WORD3}]</div>
+          </div>
         </div>
 
         {showHint && (
@@ -116,15 +137,6 @@ export default function Page16() {
             <ScrollUpHint />
           </div>
         )}
-        
-        {/* Footer handled globally or manually if needed, checking design */}
-        <div style={{ position: 'absolute', bottom: '2%', right: '50%', transform: 'translateX(50%)', opacity: 0.6, pointerEvents: 'none' }}>
-           {/* Global footer is typically enough, but design shows specific placement. 
-               The global footer might be overlaying. 
-               Let's rely on global footer unless user asked specific. 
-               User asked to check Footer.tsx. 
-           */}
-        </div>
       </div>
     </PageWrapper>
   );

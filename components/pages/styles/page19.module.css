@@ -21,19 +21,19 @@
   z-index: 2;
 }
 
-.headerLeft { width: 0%; display: relative; margin-top: 6rem;}
-.headerRight { width: 100%; display:absolute; margin-top: 0rem; }
+.headerLeft { width: 0%; display: relative; margin-top: 8rem;}
+.headerRight { width: 100%; display:absolute; margin-top: 1rem; }
 
 .mainTitle { font-weight: 400; margin-bottom: 1rem; margin-left: 1rem; font-size:1.2rem; color:#000; }
-.subTitle { font-size:1.2rem; color:#000; margin-bottom: 1rem; margin-left: 1rem; font-weight:400; margin-top:0.4rem }
-.frequently { font-size:1.2rem; margin-top:0.6rem; color:#000; font-weight: 400; margin-left: 1rem;}
+.subTitle { font-size:1.2rem; color:#000; margin-bottom: 1rem; margin-right: 0rem; font-weight:400; margin-top:0.4rem }
+.frequently { margin-left: 3.5rem; font-size:1.2rem; margin-top:1rem; color:#000; font-weight: 400; }
 
 .contentArea { width: 100%; padding: 1.4rem 1.5rem; z-index: 2; color:#000 }
-.quoteLeft { max-width: 60%; margin: 2rem 0 0 1rem; text-align: left; font-weight:400 }
+.quoteLeft { max-width: 60%; margin: 3rem 0 0 1rem; text-align: left; font-weight:400 }
 .quoteRight { max-width: 60%; margin: 0.6rem 1rem 0 7rem; text-align: right; font-weight:400 }
 .highlight { font-weight: 900; }
 
-.hintWrap { position: absolute; bottom: 1.8rem; right: 1.2rem; z-index: 4; }
+.hintWrap { position: absolute; bottom: 1rem; right: 1.2rem; z-index: 4; }
 
 /* reveal helpers */
 :global(.hide) { opacity: 0; }

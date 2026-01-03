@@ -62,7 +62,7 @@ export default function Page20() {
   const sameSearchCount = "共同搜索人数";
 
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow}>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container}>
         <div className={styles.topArea}>
           <div className={`hide page20-walking_people ${styles.headerLeft}`}>
@@ -88,7 +88,7 @@ export default function Page20() {
         </div>
 
         {showHint && (
-          <div className={styles.hintWrap}>
+          <div className="fade-in">
             <ScrollUpHint />
           </div>
         )}

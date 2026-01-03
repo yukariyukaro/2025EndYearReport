@@ -3,185 +3,60 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, #D4EBF0 0%, #4377C6 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url('/imgs/page16/background.png');
+  background-size: cover;
+  background-position: center top;
 }
 
-/* Animations */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+.visualArea {
+  position: relative;
+  width: 100%;
+  height: 56%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1rem 0rem 0 0rem;
+  z-index: 2;
 }
 
-@keyframes swing {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(2deg); }
-  75% { transform: rotate(-2deg); }
-  100% { transform: rotate(0deg); }
-}
+.springTree { margin-top: 1rem;}
+.springLeaves { margin-top: 1rem; }
+.summerWrap { margin-top: 6rem; margin-left: 5rem; margin-bottom: 0rem;}
+.springWrap { margin-top: 1rem; position: relative }
+.springInner { position: relative; width: 150px; height: 180px; }
+.springTreeImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1; }
+.springLeavesImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; z-index: 2; }
+.autumnWrap { margin-top: -6rem; position: relative }
+.winterWrap { margin-top: 5rem; margin-left: 1rem; }
 
-@keyframes popIn {
-  0% { opacity: 0; transform: scale(0.5); }
-  70% { transform: scale(1.1); }
-  100% { opacity: 1; transform: scale(1); }
-}
+.rabbitSummer { position: absolute; left: 45%; top: 90%; transform-origin: center bottom; z-index: 3; }
+.rabbitWinter { position: absolute; right: 30%; bottom: -70%; transform-origin: center bottom; z-index: 3; }
 
-@keyframes slideInRight {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
+.textArea { width: 100%; padding: 0.8rem 1.4rem; z-index: 3; color: #000; display:flex; justify-content:space-between; }
+.titleBlock { position: fixed; margin-top: -20rem; margin-left: 10rem; max-width: 50%; text-align: right; }
+.titleLine { font-weight: 400; font-size: 1.05rem; margin-bottom: 0.2rem; }
 
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
+.wordsBlock { max-width: 45%; text-align: left; margin-top: 5rem; margin-left: 2rem}
+.yearIntro { top: 1rem;  font-weight: 400; font-size: 1rem; margin-bottom: 0.2rem; }
+.wordsIntro { font-size: 0.95rem; margin-bottom: 0.6rem; }
+.wordsList { font-weight: 700; font-size: 1rem; margin-bottom: 1rem; }
 
-.visible {
-  opacity: 1 !important;
-  transform: none !important;
-}
+.hintWrap { position: absolute; bottom: 1.8rem; right: 1.2rem; z-index: 4; }
 
-/* Elements */
-.springWrapper {
-  position: absolute;
-  top: 8%;
-  left: 10%;
-  width: 36%;
-  aspect-ratio: 136/171;
-  opacity: 0;
-  transition: opacity 0.8s ease-out;
-}
-.springWrapper.visible {
-  animation: swing 4s ease-in-out infinite;
-}
+/* scale reveal helpers */
+:global(.scale-hide) { opacity: 0; transform: scale(0.6); }
+:global(.reveal-scale) { opacity: 1; transform: scale(1); transition: opacity var(--reveal-duration, 700ms) ease-out, transform var(--reveal-duration, 700ms) cubic-bezier(.2, .9, .2, 1); }
 
-.summerTree {
-  position: absolute;
-  top: 22%;
-  right: -5%;
-  width: 43%;
-  aspect-ratio: 162/209;
-  opacity: 0;
-  transition: opacity 0.8s ease-out;
-}
-.summerTree.visible {
-  animation: float 5s ease-in-out infinite 0.5s;
-}
+/* line reveal helpers (reused from page17/page20) */
+:global(.hide) { opacity: 0; }
+:global(.reveal-line) { opacity: 1; transform: translateY(0); transition: opacity var(--reveal-duration, 1400ms) ease-out, transform var(--reveal-duration, 1400ms) ease-out; }
 
-.autumnTree {
-  position: absolute;
-  top: 29%;
-  left: -4%;
-  width: 50%;
-  aspect-ratio: 190/236;
-  opacity: 0;
-  transition: opacity 0.8s ease-out;
-}
-.autumnTree.visible {
-  animation: float 5s ease-in-out infinite 1s;
-}
-
-.winterTree {
-  position: absolute;
-  top: 60%;
-  right:-4%;
-  width: 50%;
-  aspect-ratio: 188/213;
-  opacity: 0;
-  transition: opacity 0.8s ease-out;
-}
-.winterTree.visible {
-  animation: float 6s ease-in-out infinite 1.5s;
-}
-
-.rabbitPair {
-  position: absolute;
-  top: 43%;
-  left: 26%;
-  width: 40%; /* Adjust based on image content */
-  aspect-ratio: 142/105;
-  opacity: 0;
-  transition: opacity 0.8s ease-out;
-}
-.rabbitPair.visible {
-  animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-
-.rabbitSingle {
-  position: absolute;
-  top: 72%;
-  right: 15%;
-  width: 20%;
-  aspect-ratio: 72/96;
-  opacity: 0;
-  transition: opacity 0.8s ease-out;
-}
-.rabbitSingle.visible {
-  animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 0.2s;
-}
-
-/* Text Areas */
-.topText {
-  position: absolute;
-  top: 13%;
-  right: 8%;
-  text-align: right;
-  color: #000;
-  opacity: 0;
-}
-.topText.visible {
-  animation: slideInRight 0.8s ease-out forwards;
-}
-
-.topTextLine1 {
-  font-family: 'Agdasima', sans-serif;
-  font-weight: 700;
-  font-size: 1.25rem;
-  line-height: 1.5;
-}
-.topTextLine2 {
-  font-family: 'Agdasima', sans-serif;
-  font-weight: 700;
-  font-size: 1.25rem;
-  line-height: 1.5;
-}
-
-.bottomText {
-  position: absolute;
-  top: 65%;
-  left: 11%;
-  text-align: left;
-  color: #000;
-  opacity: 0;
-}
-.bottomText.visible {
-  animation: slideInLeft 0.8s ease-out forwards;
-}
-
-.bottomTextTitle {
-  font-family: 'Agdasima', sans-serif;
-  font-weight: 700;
-  font-size: 1.25rem;
-  line-height: 1.5;
-  margin-bottom: 0.5rem;
-}
-
-.keyword {
-  font-family: 'Agdasima', sans-serif;
-  font-weight: 700;
-  font-size: 1.25rem;
-  line-height: 1.8;
-}
-
-.hintWrap {
-  position: absolute;
-  bottom: 2rem;
-  right: 1.5rem;
-  z-index: 10;
-}
-
-/* Responsive tweaks */
-@media (max-width: 380px) {
-  .topTextLine1, .topTextLine2, .bottomTextTitle, .keyword {
-    font-size: 1.1rem;
-  }
+@media (max-width: 420px) {
+  .visualArea { height: 52%; }
+  .titleBlock { max-width: 60%; }
+  .wordsBlock { display: none; }
 }

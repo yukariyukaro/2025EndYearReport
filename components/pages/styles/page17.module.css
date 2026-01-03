@@ -22,14 +22,14 @@
 
 .headerLeft { width: 100%; align-items: flex-start}
 
-.headerRight{ font-size:1rem; color:#000; margin-top: 3.5rem; margin-right: 1.5rem; font-weight:400; }
-.emoji { font-size:1.1rem; font-weight: 700;}
-.ILove { font-size:0.9rem; font-weight: 600; color: #000; margin-top: 8rem;}
+.headerRight{ font-size:1.3rem; color:#000; margin-top: 3.5rem; margin-right: 1.5rem; font-weight:400; }
+.emoji { font-size:1.3rem; font-weight: 700;}
+.ILove { font-size:1.2rem; font-weight: 600; color: #000; margin-top: 8rem;}
 
-.contentArea { width: 100%; margin-top: 15rem; padding: 1.4rem 1.5rem; z-index: 2; color:#000 }
+.contentArea { width: 100%;  font-size: 1.2rem; margin-top: 22rem; padding: 1.4rem 1.5rem; z-index: 2; color:#000 }
 .statBlock { max-width: 90%; margin: 0 auto; text-align: left; }
-.caption { font-weight: 700; font-size: 1rem; margin-bottom: 0.6rem; }
-.pcts { font-size: 1rem; }
+.caption { font-weight: 700; font-size: 1.1 rem; margin-bottom: 0.6rem; }
+.pcts { font-size: 1.1rem; }
 .highlight { font-weight: 900; }
 
 .hintWrap { position: absolute; bottom: 1.8rem; right: 1.2rem; z-index: 4; }
