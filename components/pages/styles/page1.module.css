@@ -3,21 +3,64 @@
   height: 100%;
   position: relative;
   overflow: hidden;
+  background-color: #FFF7E4;
 }
 
 .bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem; /* Adjustable gap */
+  padding-top: 2rem;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%);
 }
 
-.bgLoadingImg {
-  filter: blur(10px);
-  transform: scale(1.08);
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Adjustable gap */
 }
 
-.objectCover {
-  object-fit: cover;
+/* Slot machine animation */
+.col1 {
+  animation: scroll 60s linear infinite;
+}
+.col2 {
+  animation: scroll 70s linear infinite reverse; /* Reverse for variety or just different speed? Usually slot machines go same way. Let's do same way different speed or same speed. User said "like slot machine". Let's do same direction, slightly different speeds/delays? Or just uniform for a background. Let's do uniform for now, maybe slower. */
+  animation: scroll 65s linear infinite;
+}
+.col3 {
+  animation: scroll 60s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.gridItem {
+  width: 7.06rem;
+  height: 7.06rem;
+  border: 2px solid #E4C04D;
+  border-radius: 1.25rem; /* 20px */
+  background-color: #FFF7E4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.itemImage {
+  object-fit: contain;
+  padding: 10%;
 }
 
 .content {

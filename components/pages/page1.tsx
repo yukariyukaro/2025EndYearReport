@@ -2,94 +2,88 @@
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
-import { useCallback, useMemo, useState } from "react";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page1.module.css";
-
-type LoadStatus =
-  | { type: "loading" }
-  | { type: "success" }
-  | { type: "error"; message: string };
 
 export default function Page1() {
   const PAGE_NUMBER = 1;
   const { appendNextPage } = usePageManager();
-  const enableReportFetch = process.env.NEXT_PUBLIC_ENABLE_REPORT_FETCH === "1";
-  const [status, setStatus] = useState<LoadStatus>(() =>
-    enableReportFetch ? { type: "loading" } : { type: "success" }
-  );
+  const { isLoading, error, retry } = useSummary();
 
-  const fetchSummary = useCallback(async () => {
-    if (!enableReportFetch) {
-      return;
-    }
-    const url =
-      "https://api.uuunnniii.com/v4/report2025/get.php?user_itsc=ivanfan&user_school_label=HKU";
+  const isBlocking = isLoading || error !== null;
 
-    setStatus({ type: "loading" });
+  // Image Mapping
+  const col1 = [
+    "img1.png",
+    "img2.png",
+    "img3.png",
+    "img4.png",
+    "img5.png",
+    "img6.png",
+    "img7and10and18.png",
+  ];
+  const col2 = [
+    "img8and16.png",
+    "img9and21.png",
+    "img7and10and18.png",
+    "img11.png",
+    "img12.png",
+    "img1.png", // Fallback for 13
+    "img14.png",
+  ];
+  const col3 = [
+    "img15.png",
+    "img8and16.png",
+    "img17.png",
+    "img7and10and18.png",
+    "img19.png",
+    "img20.png",
+    "img9and21.png",
+  ];
 
-    try {
-      const res = await fetch(url, { method: "GET" });
-      const data = (await res.json()) as unknown;
-
-      if (
-        data &&
-        typeof data === "object" &&
-        "success" in data &&
-        (data as { success?: unknown }).success === true
-      ) {
-        setStatus({ type: "success" });
-        return;
-      }
-
-      const message =
-        data &&
-        typeof data === "object" &&
-        "message" in data &&
-        typeof (data as { message?: unknown }).message === "string"
-          ? (data as { message: string }).message
-          : "加载失败";
-
-      setStatus({ type: "error", message });
-    } catch {
-      setStatus({ type: "error", message: "加载失败" });
-    }
-  }, [enableReportFetch]);
-
-  const isBlocking = status.type !== "success";
-  const bgImgClassName = useMemo(
-    () => `${styles.objectCover}${isBlocking ? ` ${styles.bgLoadingImg}` : ""}`,
-    [isBlocking]
-  );
+  const columns = [col1, col2, col3];
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER}>
       <div className={styles.container}>
-        {/* Background Image */}
+        {/* Background Grid */}
         <div className={styles.bg}>
-          <Image
-            src="/imgs/page1/封面1.png"
-            alt="Page 1 Background"
-            fill
-            className={bgImgClassName}
-            priority
-          />
+          {columns.map((col, colIndex) => (
+            <div
+              key={colIndex}
+              className={`${styles.column} ${styles[`col${colIndex + 1}`]}`}
+            >
+              {/* Duplicate items for infinite scroll */}
+              {[...col, ...col].map((imgName, index) => (
+                <div key={index} className={styles.gridItem}>
+                  <Image
+                    src={`/imgs/page1/${imgName}`}
+                    alt=""
+                    fill
+                    className={styles.itemImage}
+                    sizes="15vw"
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
 
         {isBlocking ? (
           <div className="loading-overlay" data-next-ignore="true">
             <div className="loading-spinner" />
-            {status.type === "error" ? (
+            {error ? (
               <>
                 <p>
                   加载失败<span className="loading-animation">...</span>
                 </p>
                 <p style={{ paddingInline: "1.5rem", textAlign: "center" }}>
-                  {status.message}
+                  {error}
                 </p>
                 <button
                   type="button"
                   data-next-ignore="true"
-                  onClick={fetchSummary}
+                  onClick={retry}
                   style={{
                     marginTop: "0.75rem",
                     padding: "0.75rem 1.25rem",
@@ -123,7 +117,10 @@ export default function Page1() {
             </div>
 
             <div className={styles.footer}>
-              <button className={styles.startBtn} onClick={() => appendNextPage(PAGE_NUMBER, true)}>
+              <button
+                className={styles.startBtn}
+                onClick={() => appendNextPage(PAGE_NUMBER, true)}
+              >
                 <span className={styles.startBtnText}>立即开启</span>
               </button>
               <p className={styles.privacy}>点击即代表您同意隐私政策</p>
