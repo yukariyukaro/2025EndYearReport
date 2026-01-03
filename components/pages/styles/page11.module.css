@@ -42,6 +42,7 @@
 
 .donutWrap:global(.reveal-active) {
   --wipe-angle: 360deg;
+  transform: translateX(-50%);
 }
 
 /* Remove old wipeMask styles */

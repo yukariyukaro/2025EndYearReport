@@ -68,15 +68,17 @@ export default function Page12() {
         </div>
 
         {/* Machine Central Image */}
-        <div className={`${styles.machineContainer} hide page12-reveal-3`}>
-          <div className={styles.machineFloat}>
-            <Image
-              src="imgs/page12/pana.png"
-              alt="Machine"
-              width={300}
-              height={400}
-              style={{ width: "100%", height: "auto" }}
-            />
+        <div className={styles.machineContainer}>
+          <div className={`hide page12-reveal-3`}>
+            <div className={styles.machineFloat}>
+              <Image
+                src="imgs/page12/pana.png"
+                alt="Machine"
+                width={300}
+                height={400}
+                style={{ width: "100%", height: "auto" }}
+              />
+            </div>
           </div>
         </div>
 
