@@ -20,11 +20,12 @@ export default function Page8() {
   const latestContent = page5Data?.latest_content || "暂无记录";
   const beatPercentage = page5Data?.beat_percentage ?? 0;
 
-  const [showHint, setShowHint] = useState(true);
+  const [showHint, setShowHint] = useState(false);
   const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   const onShow = () => {
     clearTimers();
+    setShowHint(false);
     // Animation sequence
     reveal(`.page8-reveal-axis`, 300);
     reveal(`.page8-reveal-1`, 800); // Earliest text + box
@@ -33,7 +34,8 @@ export default function Page8() {
     reveal(`.page8-reveal-4`, 2200); // Moon pop in
     reveal(`.page8-reveal-5`, 2800); // Unique schedule
     reveal(`.page8-reveal-6`, 3200); // Beat X%
-    
+    const hintTimer = setTimeout(() => setShowHint(true), (3200 + 600));
+    addTimer(hintTimer);
     // City and stars are static or handled by CSS animations
   };
 

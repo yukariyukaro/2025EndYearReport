@@ -35,8 +35,8 @@ export default function Page11() {
   })) || DEFAULT_DATA;
 
   // Keywords logic
-  const primaryKeyword = pageData?.keywords?.[0]?.word || "生活";
-  const secondaryKeyword = pageData?.keywords?.[1]?.word || "学习";
+  const primaryKeyword = pageData?.keywords?.[0]?.word || "默认";
+  const secondaryKeyword = pageData?.keywords?.[1]?.word || "默认";
   
   // Topic logic
   const topTopic = pageData?.longest_topic?.topic || "日常";
@@ -44,11 +44,12 @@ export default function Page11() {
   // Simple logic to determine "mood" based on topic, or just reuse topic for now
   const moodDesc = topTopic;
 
-  const [showHint, setShowHint] = useState(true);
+  const [showHint, setShowHint] = useState(false);
   const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   const onShow = () => {
     clearTimers();
+    setShowHint(false);
     // Animation sequence
     
     // Top Text
@@ -70,6 +71,9 @@ export default function Page11() {
     reveal(`.page11-reveal-5-4`, 3000);
 
     reveal(`.page11-reveal-6`, 3400); // Decors (Birds)
+    
+    const hintTimer = setTimeout(() => setShowHint(true), 3400 + 600);
+    addTimer(hintTimer);
   };
 
   return (
@@ -82,74 +86,81 @@ export default function Page11() {
           <div className={`hide page11-reveal-1-2`}>例如：「{secondaryKeyword}」</div>
         </div>
 
-        {/* Background Layer */}
-        <div className={`${styles.chartBackground} hide page11-reveal-2`} style={{ backgroundImage: 'url("imgs/page11/graphBackground.png")' }}>
-        </div>
-
-        {/* Chart Section */}
-        <div className={`${styles.donutWrap} page11-reveal-3`}>
-            <div className={styles.pieContainer}>
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={chartData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius="55%"
-                    outerRadius="100%"
-                    paddingAngle={0}
-                    dataKey="value"
-                    stroke="none"
-                    startAngle={90}
-                    endAngle={-270}
-                    isAnimationActive={false} // Disable default animation
-                  >
-                    {chartData.map((entry: { name: string; value: number; color: string }, index: number) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-
-            <div className={`${styles.fireIcon} ${styles.popIn} page11-reveal-3`}>
+        <div className={styles.chartSection}>
+          <div className={styles.chartStage}>
+            <div className={`${styles.chartBackground} hide page11-reveal-2`}>
               <Image
-                src="imgs/page11/fire.png"
-                alt="Fire"
-                width={80}
-                height={94}
-                style={{ width: "100%", height: "auto" }}
+                src="imgs/page11/graphBackground.png"
+                alt="Chart Background"
+                fill
+                style={{ objectFit: "contain" }}
+                priority
               />
             </div>
-        </div>
 
-        {/* Legend */}
-        <div className={`${styles.legendContainer} hide page11-reveal-4`}>
-           {/* If card.png is the background, we use it here */}
-           {/* Based on Figma, 'card' group has the yellow bg. Assuming card.png is that. */}
-           <Image 
-             src="imgs/page11/card.png" 
-             alt="Card Bg" 
-             fill
-             className={styles.objectCover}
-             style={{ borderRadius: '12px', zIndex: -1 }}
-           />
-           <div className={styles.legendGrid}>
-             {chartData.map((item: { name: string; value: number; color: string }) => (
-               <div key={item.name} className={styles.legendItem}>
-                 <div className={styles.legendDot} style={{ background: item.color }}></div>
-                 <span className={styles.legendText}>{item.name}</span>
-               </div>
-             ))}
-           </div>
-        </div>
+            <div className={styles.donutPos}>
+              <div className={`${styles.donutWrap} page11-reveal-3`}>
+                <div className={styles.pieContainer}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={chartData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius="55%"
+                        outerRadius="100%"
+                        paddingAngle={0}
+                        dataKey="value"
+                        stroke="none"
+                        startAngle={90}
+                        endAngle={-270}
+                        isAnimationActive={false}
+                      >
+                        {chartData.map((entry: { name: string; value: number; color: string }, index: number) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
 
-        {/* Bottom Text */}
-        <div className={styles.bottomText}>
-           <div className={`hide page11-reveal-5-1`}>你最常浏览的话题是 {topTopic}，</div>
-           <div className={`hide page11-reveal-5-2`}>其中</div>
-           <div className={`hide page11-reveal-5-3`}>{topTopicPercentage}</div>
-           <div className={`hide page11-reveal-5-4`}>反映了你的 {moodDesc} 倾向</div>
+                <div className={`${styles.fireIcon} ${styles.popIn} page11-reveal-3`}>
+                  <Image
+                    src="imgs/page11/fire.png"
+                    alt="Fire"
+                    width={80}
+                    height={94}
+                    style={{ width: "100%", height: "auto" }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={`${styles.legendContainer} hide page11-reveal-4`}>
+            <Image
+              src="imgs/page11/card.png"
+              alt="Card Bg"
+              fill
+              className={styles.objectCover}
+              style={{ borderRadius: "12px", zIndex: -1 }}
+            />
+            <div className={styles.legendGrid}>
+              {chartData.map((item: { name: string; value: number; color: string }) => (
+                <div key={item.name} className={styles.legendItem}>
+                  <div className={styles.legendDot} style={{ background: item.color }}></div>
+                  <span className={styles.legendText}>{item.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.bottomText}>
+            <div className={`hide page11-reveal-5-1`}>你最常浏览的话题是 {topTopic}，</div>
+            <div className={`hide page11-reveal-5-2`}>其中</div>
+            <div className={`hide page11-reveal-5-3`}>{topTopicPercentage}</div>
+            <div className={`hide page11-reveal-5-4`}>反映了你的 {moodDesc} 倾向</div>
+          </div>
         </div>
 
         {/* Birds Decorations */}

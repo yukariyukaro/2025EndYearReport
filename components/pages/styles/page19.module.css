@@ -14,32 +14,88 @@
 .topArea {
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 2.5rem 1rem 0 1rem;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(3rem, 10vh, 5rem) 1rem 0 1rem;
   z-index: 2;
+  gap: 1.5rem;
 }
 
-.headerLeft { width: 0%; display: relative; margin-top: 8rem;}
-.headerRight { width: 100%; display:absolute; margin-top: 1rem; }
+.textRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 
-.mainTitle { font-weight: 400; margin-bottom: 1rem; margin-left: 1rem; font-size:1.2rem; color:#000; }
-.subTitle { font-size:1.2rem; color:#000; margin-bottom: 1rem; margin-right: 0rem; font-weight:400; margin-top:0.4rem }
-.frequently { margin-left: 3.5rem; font-size:1.2rem; margin-top:1rem; color:#000; font-weight: 400; }
+.mainTitle { 
+  font-weight: 400; 
+  font-size: 1.1rem; 
+  color: #000; 
+  text-align: center;
+  width: 100%;
+}
 
-.contentArea { width: 100%; padding: 1.4rem 1.5rem; z-index: 2; color:#000 }
-.quoteLeft { max-width: 60%; margin: 3rem 0 0 1rem; text-align: left; font-weight:400 }
-.quoteRight { max-width: 60%; margin: 0.6rem 1rem 0 7rem; text-align: right; font-weight:400 }
+.subTitle { 
+  font-size: 1.1rem; 
+  color: #000; 
+  font-weight: 400; 
+  text-align: center;
+  width: 100%;
+}
+
+.frequently { 
+  font-size: 1.1rem; 
+  color: #000; 
+  font-weight: 400; 
+  text-align: center;
+  width: 100%;
+}
+
+.visualArea {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(1rem, 5vh, 3rem);
+  padding: 0 1rem;
+  z-index: 1;
+}
+
+.communityImg {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  justify-content: center;
+}
+
+.contentArea { 
+  width: 100%; 
+  padding: 1.4rem 1.5rem; 
+  z-index: 2; 
+  color: #000;
+  margin-top: auto;
+  margin-bottom: clamp(6rem, 15vh, 10rem);
+}
+
+.quoteLeft { 
+  margin: 0 0 0.5rem 1rem; 
+  text-align: left; 
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+
+.quoteRight { 
+  margin: 0 1rem 0 0; 
+  text-align: right; 
+  font-weight: 400;
+  font-size: 1.1rem;
+}
+
 .highlight { font-weight: 900; }
 
 .hintWrap { position: absolute; bottom: 1rem; right: 1.2rem; z-index: 4; }
 
-/* reveal helpers */
-:global(.hide) { opacity: 0; }
-:global(.reveal-line) { opacity: 1; transform: translateY(0); transition: opacity var(--reveal-duration, 1400ms) ease-out, transform var(--reveal-duration, 1400ms) ease-out; }
+/* reveal helpers are global now */
 
 @media (max-width: 420px) {
-  .quoteLeft, .quoteRight { max-width: 92%; }
-  .topArea { padding-top: 2rem; }
-  .mainTitle, .subTitle { text-align: right; }
+  .quoteLeft, .quoteRight { max-width: 100%; }
 }

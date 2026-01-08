@@ -1,81 +1,54 @@
 "use client";
-import { useCallback, useRef, useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import { useSummary } from "@/contexts/SummaryContext";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import styles from "./styles/page16.module.css";
+import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 
 export default function Page16() {
   const PAGE_NUMBER = 16;
-  const { currentPage } = usePageManager();
+  const { appendNextPage } = usePageManager();
   const { data: summaryData } = useSummary();
   const pageData = summaryData?.pages?.page12;
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
   const [showHint, setShowHint] = useState(false);
-
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  useEffect(() => {
-    if (currentPage !== PAGE_NUMBER) {
-      clearTimers();
-      document.querySelectorAll('[class*="page16-reveal"]').forEach((el) => {
-        el.classList.remove(styles.visible);
-        el.classList.remove("reveal-line");
-      });
-    }
-  }, [currentPage, PAGE_NUMBER, clearTimers]);
-
-  const revealVisible = useCallback((selector: string, delayMs: number) => {
-    const timer = setTimeout(() => {
-      document.querySelectorAll(selector).forEach((el) => {
-        el.classList.add(styles.visible);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }, []);
-
-  const revealLine = useCallback((selector: string, delayMs: number) => {
-    const timer = setTimeout(() => {
-      document.querySelectorAll(selector).forEach((el) => {
-        el.classList.add("reveal-line");
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }, []);
+  
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   function onShow() {
     clearTimers();
     setShowHint(false);
 
-    revealVisible(`.page16-reveal-spring-trunk`, 100);
-    revealVisible(`.page16-reveal-spring-leaves`, 300);
+    let t = 100;
+    
+    // Images
+    reveal('.page16-reveal-spring-trunk', t);
+    reveal('.page16-reveal-spring-leaves', t + 200);
+    
+    // Text lines
+    reveal('.page16-reveal-top-1', t + 300);
+    reveal('.page16-reveal-top-2', t + 450);
 
-    revealLine(`.page16-reveal-top-1`, 200);
-    revealLine(`.page16-reveal-top-2`, 450);
+    // Trees
+    reveal('.page16-reveal-summer', t + 450);
+    reveal('.page16-reveal-autumn', t + 600);
+    reveal('.page16-reveal-rabbit-pair', t + 750);
+    reveal('.page16-reveal-winter', t + 900);
+    reveal('.page16-reveal-rabbit-single', t + 1050);
 
-    revealVisible(`.page16-reveal-summer`, 450);
-    revealVisible(`.page16-reveal-autumn`, 700);
-    revealVisible(`.page16-reveal-rabbit-pair`, 950);
-    revealVisible(`.page16-reveal-winter`, 1200);
-    revealVisible(`.page16-reveal-rabbit-single`, 1450);
+    // Bottom text
+    let t2 = t + 1050;
+    const textStep = 150;
+    reveal('.page16-reveal-bottom-1', t2 += textStep);
+    reveal('.page16-reveal-bottom-2', t2 += textStep);
+    reveal('.page16-reveal-bottom-3', t2 += textStep);
+    reveal('.page16-reveal-bottom-4', t2 += textStep);
+    reveal('.page16-reveal-bottom-5', t2 += textStep);
 
-    revealLine(`.page16-reveal-bottom-1`, 1450);
-    revealLine(`.page16-reveal-bottom-2`, 1650);
-    revealLine(`.page16-reveal-bottom-3`, 1850);
-    revealLine(`.page16-reveal-bottom-4`, 2050);
-    revealLine(`.page16-reveal-bottom-5`, 2250);
-
-    const hintTimer = setTimeout(() => setShowHint(true), 3700);
-    timersRef.current.push(hintTimer);
+    const hintTimer = setTimeout(() => setShowHint(true), t2 + 800);
+    addTimer(hintTimer);
   }
 
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
@@ -90,7 +63,7 @@ export default function Page16() {
   const FREQ_WORD3 = keywords[2]?.word ?? "成长";
 
   return (
-    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow}>
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container}>
         <div className={`${styles.springTrunk} page16-reveal-spring-trunk`}>
           <Image src="imgs/page16/springTree.png" alt="springTree" fill style={{ objectFit: "contain" }} />
@@ -99,6 +72,7 @@ export default function Page16() {
           <Image src="imgs/page16/springLeaves.png" alt="springLeaves" fill style={{ objectFit: "contain" }} />
         </div>
 
+        {/* Trees use custom animations in CSS, so we don't add 'hide' but rely on 'reveal-active' triggering the keyframe */}
         <div className={`${styles.summerTree} page16-reveal-summer`}>
           <Image src="imgs/page16/summerTree.png" alt="summer" fill style={{ objectFit: "contain" }} />
         </div>
@@ -120,16 +94,16 @@ export default function Page16() {
         </div>
 
         <div className={styles.topText}>
-          <div className={`${styles.topTextLine} page16-reveal-top-1`}>{POST_EMOTION_TITLE_LINE1}</div>
-          <div className={`${styles.topTextLine} page16-reveal-top-2`}>{POST_EMOTION_TITLE_LINE2}</div>
+          <div className={`${styles.topTextLine} hide page16-reveal-top-1`}>{POST_EMOTION_TITLE_LINE1}</div>
+          <div className={`${styles.topTextLine} hide page16-reveal-top-2`}>{POST_EMOTION_TITLE_LINE2}</div>
         </div>
 
         <div className={styles.bottomText}>
-          <div className={`${styles.bottomTextLine} page16-reveal-bottom-1`}>这一年</div>
-          <div className={`${styles.bottomTextLine} page16-reveal-bottom-2`}>你最常提起的词是</div>
-          <div className={`${styles.keyword} page16-reveal-bottom-3`}>[{FREQ_WORD1}]</div>
-          <div className={`${styles.keyword} page16-reveal-bottom-4`}>[{FREQ_WORD2}]</div>
-          <div className={`${styles.keyword} page16-reveal-bottom-5`}>[{FREQ_WORD3}]</div>
+          <div className={`${styles.bottomTextLine} hide page16-reveal-bottom-1`}>这一年</div>
+          <div className={`${styles.bottomTextLine} hide page16-reveal-bottom-2`}>你最常提起的词是</div>
+          <div className={`${styles.keyword} hide page16-reveal-bottom-3`}>[{FREQ_WORD1}]</div>
+          <div className={`${styles.keyword} hide page16-reveal-bottom-4`}>[{FREQ_WORD2}]</div>
+          <div className={`${styles.keyword} hide page16-reveal-bottom-5`}>[{FREQ_WORD3}]</div>
         </div>
 
         {showHint && (
@@ -141,4 +115,3 @@ export default function Page16() {
     </PageWrapper>
   );
 }
-

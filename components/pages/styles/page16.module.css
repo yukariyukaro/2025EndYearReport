@@ -12,19 +12,6 @@
   50% { transform: translateY(-10px); }
 }
 
-@keyframes swing {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(2deg); }
-  75% { transform: rotate(-2deg); }
-  100% { transform: rotate(0deg); }
-}
-
-@keyframes popIn {
-  0% { opacity: 0; transform: scale(0.5); }
-  70% { transform: scale(1.1); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
 @keyframes springTrunkIn {
   0% { opacity: 0; transform: translateY(18px) scale(0.98); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -43,10 +30,6 @@
   }
 }
 
-.visible {
-  opacity: 1 !important;
-}
-
 /* Elements */
 .springTrunk {
   position: absolute;
@@ -56,7 +39,7 @@
   aspect-ratio: 136/171;
   opacity: 0;
 }
-.springTrunk.visible {
+.springTrunk :global(.reveal-active) {
   animation: springTrunkIn 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
@@ -72,10 +55,14 @@
   -webkit-clip-path: inset(0 50% 0 50%);
   will-change: clip-path, opacity, transform;
 }
-.springLeaves.visible {
+.springLeaves :global(.reveal-active) {
   animation: springLeavesReveal 1200ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+/* For other trees, we use transitions instead of custom animations where possible, 
+   but they have specific positions. 
+   We'll map .reveal-active to opacity 1. 
+*/
 .summerTree {
   position: absolute;
   top: 22%;
@@ -86,8 +73,10 @@
   transform: translateY(14px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
-.summerTree.visible {
+.summerTree :global(.reveal-active) {
+  opacity: 1;
   transform: translateY(0);
+  /* Add float after appearance */
   animation: float 5s ease-in-out infinite 0.5s;
 }
 
@@ -101,7 +90,8 @@
   transform: translateY(14px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
-.autumnTree.visible {
+.autumnTree :global(.reveal-active) {
+  opacity: 1;
   transform: translateY(0);
   animation: float 5s ease-in-out infinite 1s;
 }
@@ -116,7 +106,8 @@
   transform: translateY(14px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
-.winterTree.visible {
+.winterTree :global(.reveal-active) {
+  opacity: 1;
   transform: translateY(0);
   animation: float 6s ease-in-out infinite 1.5s;
 }
@@ -125,13 +116,14 @@
   position: absolute;
   top: 43%;
   left: 26%;
-  width: 40%; /* Adjust based on image content */
+  width: 40%;
   aspect-ratio: 142/105;
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
-.rabbitPair.visible {
+.rabbitPair :global(.reveal-active) {
+  opacity: 1;
   transform: translateY(0);
 }
 
@@ -145,7 +137,8 @@
   transform: translateY(14px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
-.rabbitSingle.visible {
+.rabbitSingle :global(.reveal-active) {
+  opacity: 1;
   transform: translateY(0);
 }
 
@@ -163,7 +156,7 @@
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.5;
-  opacity: 0;
+  /* opacity controlled by .hide */
 }
 
 .bottomText {
@@ -179,7 +172,7 @@
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.5;
-  opacity: 0;
+  /* opacity controlled by .hide */
 }
 
 .keyword {
@@ -187,7 +180,7 @@
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.8;
-  opacity: 0;
+  /* opacity controlled by .hide */
 }
 
 /* Responsive tweaks */

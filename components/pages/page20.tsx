@@ -19,17 +19,18 @@ export default function Page20() {
     clearTimers();
     setShowHint(false);
 
-    let t = 120;
-    const step = 360;
+    let t = 100;
+    const step = 200; // Increased speed (reduced step)
 
     reveal('.page20-walking_people', t);
-    reveal('.page20-reveal-2', (t += step));
-    reveal('.page20-reveal-3', (t += step));
-    reveal('.page20-reveal-5', (t += step*2));
-    reveal('.page20-reveal-6', (t += step*4));
-    reveal('.page20-reveal-4', (t += step));
-
-    const hintTimer = setTimeout(() => setShowHint(true), (t += 900));
+    reveal('.page20-reveal-2', t += step);
+    reveal('.page20-reveal-3', t += step);
+    reveal('.page20-reveal-5', t += step);
+    reveal('.page20-reveal-6', t += step);
+    // page20-reveal-4 was not in JSX, maybe removed or copy paste error in previous version? 
+    // Checking JSX below... 
+    
+    const hintTimer = setTimeout(() => setShowHint(true), t + 800);
     addTimer(hintTimer);
   }
 

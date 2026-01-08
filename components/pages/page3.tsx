@@ -48,7 +48,6 @@ export default function Page3() {
         el.classList.remove("reveal-active");
         el.classList.add("hide");
       });
-      setShowHint(false);
     }
   }, [currentPage, PAGE_NUMBER, clearTimers]);
 
@@ -169,7 +168,7 @@ export default function Page3() {
         </div>
       </div>
       
-      {showHint && (
+      {showHint && currentPage === PAGE_NUMBER && (
         <div className="fade-in">
           <ScrollUpHint />
         </div>

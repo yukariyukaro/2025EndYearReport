@@ -33,9 +33,7 @@
 
 .hintWrap { position: absolute; bottom: 1.8rem; right: 1.2rem; z-index: 4; }
 
-/* reveal helpers */
-:global(.hide) { opacity: 0; }
-:global(.reveal-line) { opacity: 1; transform: translateY(0); transition: opacity var(--reveal-duration, 1400ms) ease-out, transform var(--reveal-duration, 1400ms) ease-out; }
+/* reveal helpers are now global */
 
 @media (max-width: 420px) {
   .statBlock { max-width: 92%; }

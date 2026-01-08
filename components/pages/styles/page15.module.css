@@ -39,6 +39,12 @@
   width: 80px;
   height: 80px;
   z-index: 2;
+  opacity: 0; /* Hidden initially */
+}
+.bulbWrapper :global(.reveal-active) {
+  opacity: 1;
+  /* Add swing animation after popIn */
+  animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, swing 3s ease-in-out infinite 0.6s;
 }
 
 .topText {
@@ -90,9 +96,12 @@
   bottom: 0;
   width: 40px;
   height: 40px;
+  opacity: 0;
 }
-
-/* Footer */
+.plusIcon :global(.reveal-active) {
+  opacity: 1;
+  animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
 
 .highlight {
   font-size: 1.5rem;
@@ -100,53 +109,20 @@
 }
 
 /* Animations */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.slideLeft {
-  opacity: 0;
-  transform: translateX(30px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.slideLeft.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.slideRight {
-  opacity: 0;
-  transform: translateX(-30px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.slideRight.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
+/* Removed local .reveal, .slideLeft, .slideRight */
 
 .popIn {
-  opacity: 0;
-  transform: scale(0.5);
-  transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* handled via animation in reveal-active */
 }
 
-.popIn.visible {
-  opacity: 1;
-  transform: scale(1);
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 .swing {
   transform-origin: top center;
-  animation: swing 3s ease-in-out infinite;
+  /* animation defined in usage */
 }
 
 @keyframes swing {

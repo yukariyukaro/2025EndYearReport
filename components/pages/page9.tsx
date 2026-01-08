@@ -1,11 +1,12 @@
 "use client";
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page9.module.css";
+import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 
 export default function Page9() {
   type KeywordItem = { word: string };
@@ -26,49 +27,31 @@ export default function Page9() {
 
   const searchKeyword = data?.pages?.page15?.top_keywords?.[0]?.keyword || "暂无记录";
 
-  const [showHint, setShowHint] = useState(true);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  // Cleanup timers
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  useEffect(() => {
-    if (currentPage !== PAGE_NUMBER) {
-      clearTimers();
-      document.querySelectorAll('[class*="page9-reveal"]').forEach((el) => {
-        el.classList.remove(styles.reveal);
-      });
-    }
-  }, [currentPage, PAGE_NUMBER, clearTimers]);
-
-  // Reusing reveal logic
-  const reveal = useCallback((selector: string, delayMs: number) => {
-    const timer = setTimeout(() => {
-      const els = document.querySelectorAll(selector);
-      els.forEach((el) => {
-        el.classList.add(styles.reveal);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }, []);
+  const [showHint, setShowHint] = useState(false);
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   const onShow = () => {
     clearTimers();
+    setShowHint(false);
     // Animation sequence
-    reveal(`.page9-reveal-1`, 300);  // Top Card
-    reveal(`.page9-reveal-2`, 800);  // Flower 1
-    reveal(`.page9-reveal-3`, 1200); // Stats Text
-    reveal(`.page9-reveal-4`, 1600); // Keywords Title
-    reveal(`.page9-reveal-5`, 2000); // Bubbles
-    reveal(`.page9-reveal-6`, 2400); // Magnifying Glass
-    reveal(`.page9-reveal-7`, 2600); // Flower 2
+    const revealNormal = (selector: string, delay: number) => 
+      reveal(selector, delay, { activeClass: styles.reveal, initialClass: styles.hide });
+    
+    const revealPop = (selector: string, delay: number) => 
+      reveal(selector, delay, { activeClass: styles.reveal, initialClass: styles.popIn });
+
+    revealNormal(`.page9-reveal-1`, 300);  // Top Card
+    revealNormal(`.page9-reveal-2`, 800);  // Flower 1
+    revealNormal(`.page9-reveal-3`, 1200); // Stats Text
+    revealNormal(`.page9-reveal-4`, 1600); // Keywords Title
+    
+    revealPop(`.page9-reveal-5`, 2000); // Bubbles
+    revealPop(`.page9-reveal-6`, 2400); // Magnifying Glass
+    
+    revealNormal(`.page9-reveal-7`, 2600); // Flower 2
+    
+    const hintTimer = setTimeout(() => setShowHint(true), (2600 + 600));
+    addTimer(hintTimer);
   };
 
   return (

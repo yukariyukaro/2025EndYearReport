@@ -321,6 +321,8 @@ a {
     drop-shadow(60px 0 0 currentColor) drop-shadow(120px 0 0 currentColor);
   clip-path: inset(0 100% 0 0);
   animation: l12 2s infinite steps(7);
+  will-change: clip-path; /* Optimization */
+  z-index: 10000;
 }
 .loading-spinner:before {
   content: "";

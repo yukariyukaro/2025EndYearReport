@@ -1,59 +1,33 @@
 "use client";
-import { useCallback, useRef, useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page17.module.css";
+import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 
 export default function Page17() {
   const PAGE_NUMBER = 17;
   const { appendNextPage } = usePageManager();
   const { data: summaryData } = useSummary();
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
   const [showHint, setShowHint] = useState(false);
-
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => () => clearTimers(), [clearTimers]);
-
-  function reveal(selector: string, delayMs: number, durationMs = 1400) {
-    document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-      el.classList.remove("reveal-line");
-      el.classList.add("hide");
-      void el.offsetWidth;
-    });
-
-    const t = setTimeout(() => {
-      document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
-        el.classList.remove("hide");
-        el.classList.add("reveal-line");
-        el.style.setProperty("--reveal-duration", `${durationMs}ms`);
-      });
-    }, delayMs);
-
-    timersRef.current.push(t);
-  }
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   function onShow() {
     clearTimers();
     setShowHint(false);
 
-    let t = 120;
-    const step = 360;
+    let t = 100;
+    const step = 200; // Faster step
 
+    reveal('.page17-reveal-2', t);
+    reveal('.page17-reveal-4', t += step);
+    reveal('.page17-reveal-3', t += step);
 
-    reveal('.page17-reveal-2', (t += step));
-    reveal('.page17-reveal-4', (t += step));
-    reveal('.page17-reveal-3', (t += step));
-
-
-    const hintTimer = setTimeout(() => setShowHint(true), (t += 900));
-    timersRef.current.push(hintTimer);
+    const hintTimer = setTimeout(() => setShowHint(true), t + 800);
+    addTimer(hintTimer);
   }
 
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);

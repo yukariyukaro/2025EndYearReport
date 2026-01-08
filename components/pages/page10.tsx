@@ -1,11 +1,12 @@
 "use client";
-import { useCallback, useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page10.module.css";
+import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 
 export default function Page10() {
   const PAGE_NUMBER = 10;
@@ -22,45 +23,24 @@ export default function Page10() {
   const rawRelationType = pageData?.relationship_type;
   const relationType = typeof rawRelationType === "string" && rawRelationType ? rawRelationType : "相遇";
   
-  const [showHint, setShowHint] = useState(true);
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
-
-  // Cleanup timers
-  const clearTimers = useCallback(() => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-  }, []);
-
-  useEffect(() => {
-    return () => clearTimers();
-  }, [clearTimers]);
-
-  useEffect(() => {
-    if (currentPage !== PAGE_NUMBER) {
-      clearTimers();
-      document.querySelectorAll('[class*="p10-anim"]').forEach((el) => {
-        el.classList.remove(styles.visible);
-      });
-    }
-  }, [currentPage, clearTimers]);
-
-  const reveal = useCallback((selector: string, delayMs: number) => {
-    const timer = setTimeout(() => {
-      const els = document.querySelectorAll(selector);
-      els.forEach((el) => {
-        el.classList.add(styles.visible);
-      });
-    }, delayMs);
-    timersRef.current.push(timer);
-  }, []);
+  const [showHint, setShowHint] = useState(false);
+  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   const onShow = () => {
     clearTimers();
-    reveal(`.p10-anim-1`, 300);  // Hearts
-    reveal(`.p10-anim-2`, 600);  // Year/Stats
-    reveal(`.p10-anim-3`, 900);  // Main Image
-    reveal(`.p10-anim-4`, 1200); // Content Box
-    reveal(`.p10-anim-5`, 1500); // Footer
+    setShowHint(false);
+    
+    const revealAnim = (selector: string, delay: number) => 
+      reveal(selector, delay, { activeClass: styles.visible, initialClass: styles.reveal });
+
+    revealAnim(`.p10-anim-1`, 300);  // Hearts
+    revealAnim(`.p10-anim-2`, 600);  // Year/Stats
+    revealAnim(`.p10-anim-3`, 900);  // Main Image
+    revealAnim(`.p10-anim-4`, 1200); // Content Box
+    revealAnim(`.p10-anim-5`, 1500); // Footer
+    
+    const hintTimer = setTimeout(() => setShowHint(true), 1500 + 600);
+    addTimer(hintTimer);
   };
 
   return (

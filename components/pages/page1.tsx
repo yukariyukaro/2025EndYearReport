@@ -1,4 +1,4 @@
-"use client";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
@@ -10,7 +10,7 @@ export default function Page1() {
   const { appendNextPage } = usePageManager();
   const { isLoading, error, retry } = useSummary();
 
-  const isBlocking = isLoading || error !== null;
+  const [loadedCount, setLoadedCount] = useState(0);
 
   // Image Mapping
   const col1 = [
@@ -42,11 +42,19 @@ export default function Page1() {
   ];
 
   const columns = [col1, col2, col3];
+  
+  // Each column is duplicated in the render: [...col, ...col]
+  const totalImages = columns.reduce((acc, col) => acc + col.length * 2, 0);
+  
+  // Block until data is loaded AND images are ready
+  // We can add a timeout or threshold if needed, but for now strict checking
+  const imagesReady = loadedCount >= totalImages;
+  const isBlocking = isLoading || error !== null || !imagesReady;
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER}>
       <div className={styles.container}>
-        {/* Background Grid */}
+        {/* Background Grid - Always Rendered to trigger image loading */}
         <div className={styles.bg}>
           {columns.map((col, colIndex) => (
             <div
@@ -62,6 +70,10 @@ export default function Page1() {
                     fill
                     className={styles.itemImage}
                     sizes="15vw"
+                    priority={index < 3} // Only prioritize visible images to unblock main thread
+                    loading="eager" // Load all immediately to satisfy loadedCount check
+                    onLoad={() => setLoadedCount(prev => prev + 1)}
+                    onError={() => setLoadedCount(prev => prev + 1)}
                   />
                 </div>
               ))}
@@ -69,8 +81,34 @@ export default function Page1() {
           ))}
         </div>
 
-        {isBlocking ? (
-          <div className="loading-overlay" data-next-ignore="true">
+        {/* Content - Always Rendered */}
+        <div className={styles.content}>
+            <div className={styles.titleCard}>
+              <div className={styles.titleHeader}>
+                <h1 className={styles.titleEn}>TRIPLE UNI</h1>
+                <h2 className={styles.titleCn}>年度总结</h2>
+              </div>
+              <div className={styles.schoolList}>
+                <div className={`${styles.schoolBadge} ${styles.cuhk}`}>CUHK</div>
+                <div className={`${styles.schoolBadge} ${styles.hku}`}>HKU</div>
+                <div className={`${styles.schoolBadge} ${styles.hkust}`}>HKUST</div>
+              </div>
+            </div>
+
+            <div className={styles.footer}>
+              <button
+                className={styles.startBtn}
+                onClick={() => appendNextPage(PAGE_NUMBER, true)}
+              >
+                <span className={styles.startBtnText}>立即开启</span>
+              </button>
+              <p className={styles.privacy}>点击即代表您同意隐私政策</p>
+            </div>
+        </div>
+
+        {/* Loading Overlay */}
+        {isBlocking && (
+          <div className="loading-overlay" data-next-ignore="true" style={{ position: 'fixed', inset: 0, zIndex: 9999 }}>
             <div className="loading-spinner" />
             {error ? (
               <>
@@ -101,30 +139,6 @@ export default function Page1() {
                 浪漫的年度总结即将开始<span className="loading-animation">...</span>
               </p>
             )}
-          </div>
-        ) : (
-          <div className={styles.content}>
-            <div className={styles.titleCard}>
-              <div className={styles.titleHeader}>
-                <h1 className={styles.titleEn}>TRIPLE UNI</h1>
-                <h2 className={styles.titleCn}>年度总结</h2>
-              </div>
-              <div className={styles.schoolList}>
-                <div className={`${styles.schoolBadge} ${styles.cuhk}`}>CUHK</div>
-                <div className={`${styles.schoolBadge} ${styles.hku}`}>HKU</div>
-                <div className={`${styles.schoolBadge} ${styles.hkust}`}>HKUST</div>
-              </div>
-            </div>
-
-            <div className={styles.footer}>
-              <button
-                className={styles.startBtn}
-                onClick={() => appendNextPage(PAGE_NUMBER, true)}
-              >
-                <span className={styles.startBtnText}>立即开启</span>
-              </button>
-              <p className={styles.privacy}>点击即代表您同意隐私政策</p>
-            </div>
           </div>
         )}
       </div>
