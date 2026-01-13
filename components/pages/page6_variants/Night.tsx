@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Image from 'next/image';
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
@@ -62,10 +62,16 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
     appendNextPage(PAGE_NUMBER, true);
   };
 
-  // Generate stars
-  const starsSmall = useMemo(() => generateStars(100), []);
-  const starsMedium = useMemo(() => generateStars(50), []);
-  const starsLarge = useMemo(() => generateStars(20), []);
+  // Generate stars - Moved to useEffect to prevent hydration mismatch
+  const [stars, setStars] = useState({ small: "", medium: "", large: "" });
+
+  useEffect(() => {
+    setStars({
+      small: generateStars(100),
+      medium: generateStars(50),
+      large: generateStars(20)
+    });
+  }, []);
 
   return (
     <PageWrapper 
@@ -76,9 +82,9 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
       <div className={styles.container}>
         {/* Stars Background */}
         <div className={styles.starsWrapper}>
-            <div className={styles.starsSmall} style={{ boxShadow: starsSmall }}></div>
-            <div className={styles.starsMedium} style={{ boxShadow: starsMedium }}></div>
-            <div className={styles.starsLarge} style={{ boxShadow: starsLarge }}></div>
+            <div className={styles.starsSmall} style={{ boxShadow: stars.small }}></div>
+            <div className={styles.starsMedium} style={{ boxShadow: stars.medium }}></div>
+            <div className={styles.starsLarge} style={{ boxShadow: stars.large }}></div>
         </div>
 
         {/* Header */}
