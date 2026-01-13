@@ -15,13 +15,51 @@ export default function Page7() {
 
   const lateNightRatio = data?.pages?.page4?.late_night_ratio ?? 0;
   const beatPercentage = data?.pages?.page5?.beat_percentage ?? 0;
+  const earliestContentRaw = data?.pages?.page5?.earliest_content;
+
+  // 智能截断逻辑：一句话或15字
+  const formatEarliestContent = (text: string | undefined | null) => {
+    if (!text) return "（树洞）";
+    
+    const MAX_LENGTH = 15;
+    
+    // 1. 找第一句结束位置
+    const punctuationRegex = /[。！？.!?\n]/;
+    const match = punctuationRegex.exec(text);
+    
+    let cutIndex = text.length;
+
+    if (match) {
+      // 如果有标点
+      if (match.index + 1 <= MAX_LENGTH) {
+         // 第一句在限制内，完美
+         return text.substring(0, match.index + 1);
+      } else {
+         // 第一句太长，强制截断
+         cutIndex = MAX_LENGTH;
+      }
+    } else {
+      // 无标点，检查长度
+      if (text.length > MAX_LENGTH) {
+        cutIndex = MAX_LENGTH;
+      } else {
+        return text;
+      }
+    }
+
+    return text.substring(0, cutIndex) + "...";
+  };
+
+  const earliestContent = formatEarliestContent(earliestContentRaw);
   
   const [showHint, setShowHint] = useState(false);
+  const [capsuleOpened, setCapsuleOpened] = useState(false);
   const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   function onShow() {
     clearTimers();
     setShowHint(false);
+    setCapsuleOpened(false);
 
     let t = 100;
     const step = 300;
@@ -31,10 +69,8 @@ export default function Page7() {
     reveal(".page7-reveal-2", (t += step));
     reveal(".page7-reveal-3", (t += step));
     
-    // 2. Question section
+    // 2. Question section - Only title
     reveal(".page7-reveal-4", (t += step)); // Subtitle
-    reveal(".page7-reveal-5", (t += step)); // Tree hole
-    reveal(".page7-reveal-6", (t += step)); // Open question
 
     // 3. Bottom interaction
     reveal(".page7-reveal-7", (t += step)); // Time travel text
@@ -44,7 +80,15 @@ export default function Page7() {
     addTimer(hintTimer);
   }
 
-  const handleNext = () => {
+  const handleCapsuleClick = () => {
+    if (!capsuleOpened) {
+      setCapsuleOpened(true);
+      return;
+    }
+    // Already opened, allow next page? Or just do nothing?
+    // User said: "不需要修改page7时间胶囊的位置...点击按钮后显示"
+    // Original behavior was handleNext -> appendNextPage
+    // Let's keep it so second click goes to next page, similar to Page4 logic we added.
     appendNextPage(PAGE_NUMBER, true);
   };
 
@@ -82,20 +126,21 @@ export default function Page7() {
             </p>
           </div>
 
-          {/* Tree Hole Box */}
-          <div className={`${styles.treeHoleBox} hide page7-reveal-5`}>
-            <span className={styles.treeHoleText}>（树洞）</span>
-          </div>
+          {/* Tree Hole Box & Open Question - Hidden initially */}
+          <div className={`${styles.hiddenPlaceholder} ${capsuleOpened ? styles.visible : ''}`}>
+             <div className={`${styles.treeHoleBox} ${capsuleOpened ? styles.expandActive : ''}`}>
+               <span className={styles.treeHoleText}>{earliestContent}</span>
+             </div>
 
-          {/* Open Question Box */}
-          <div className={`${styles.openQuestionBox} hide page7-reveal-6`}>
-            <div className={styles.questionHeader}>
-              <div className={styles.questionIcon}>
-                <Image src="imgs/page7/questionIcon.svg" alt="Question" fill />
-              </div>
-              <span className={styles.questionLabel}>Open Question</span>
-            </div>
-            <p className={styles.questionText}>那时的你在想什么？🤔</p>
+             <div className={`${styles.openQuestionBox} ${capsuleOpened ? styles.expandActiveDelayed : ''}`}>
+               <div className={styles.questionHeader}>
+                 <div className={styles.questionIcon}>
+                   <Image src="imgs/page7/questionIcon.svg" alt="Question" fill />
+                 </div>
+                 <span className={styles.questionLabel}>Open Question</span>
+               </div>
+               <p className={styles.questionText}>那时的你在想什么？🤔</p>
+             </div>
           </div>
 
           {/* Bottom Area */}
@@ -104,12 +149,25 @@ export default function Page7() {
               时间旅行，回到那天
             </p>
             
-            <div className={`${styles.playButtonWrapper} hide page7-reveal-8`}>
-              <button className={styles.playButton} onClick={handleNext}>
+            <div 
+              className={`${styles.playButtonWrapper} ${!capsuleOpened ? styles.pulseGlow : ""} hide page7-reveal-8`}
+              onClick={handleCapsuleClick}
+              data-next-ignore="true"
+            >
+              <div className={styles.playButton}>
                 <div className={styles.playIcon}>
-                  <Image src="imgs/page7/PlayCircle.svg" alt="Play" fill />
+                  {capsuleOpened ? (
+                     <div className={styles.pauseIconCircle}>
+                        <div className={styles.pauseBars}>
+                           <div className={styles.pauseBar} />
+                           <div className={styles.pauseBar} />
+                        </div>
+                     </div>
+                  ) : (
+                     <Image src="imgs/page7/PlayCircle.svg" alt="Play" fill />
+                  )}
                 </div>
-              </button>
+              </div>
               
               <div className={styles.arrowDecor}>
                  <Image src="imgs/page7/arrow.svg" alt="Arrow" fill />

@@ -164,13 +164,13 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
           <div className={`${styles.statText} hide page6-reveal-5`}>与全体用户相比</div>
           <div className={`${styles.statRow} hide page6-reveal-6`}>
             <span className={styles.statText}>你的作息是</span>
-            <span className={styles.statHighlight}>{patternLabel}</span>
+            <span className={styles.statHighlight}>日理万机型</span>
           </div>
         </div>
 
         {/* Center Text / Quote replacing Stats */}
         <div className={`${styles.centerText} hide page6-reveal-7`}>
-          “白昼是你的主场{'\n'}能量满满，高效在线”
+          白昼是你的主场，能量满满，高效在线
         </div>
 
         <button 
@@ -195,6 +195,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
             alt="Mountain Layer 1" 
             fill
             priority
+            style={{ objectFit: 'cover', objectPosition: 'bottom' }}
           />
         </div>
         {/* Mountain Layer 2 */}
@@ -204,6 +205,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
             alt="Mountain Layer 2" 
             fill
             priority
+            style={{ objectFit: 'cover', objectPosition: 'bottom' }}
           />
           {/* Mountain Layer 3 */}
         </div>
@@ -213,6 +215,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
             alt="Mountain Layer 3" 
             fill
             priority
+            style={{ objectFit: 'cover', objectPosition: 'bottom' }}
           />
           {/* Mountain Layer 4 */}
         </div>
@@ -222,6 +225,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
             alt="Mountain Layer 4" 
             fill
             priority
+            style={{ objectFit: 'cover', objectPosition: 'bottom' }}
           />
           {/* Mountain Layer 5 */}
         </div>
@@ -231,6 +235,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
             alt="Mountain Layer 5" 
             fill
             priority
+            style={{ objectFit: 'cover', objectPosition: 'bottom' }}
           />
         </div>
         <div className={styles.stone}>

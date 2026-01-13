@@ -12,21 +12,43 @@ import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 export default function Page22() {
   const PAGE_NUMBER = 22;
   const { appendNextPage } = usePageManager();
-  const { summaryData } = useSummary();
-  const pageData = summaryData?.page16;
+  const { data } = useSummary();
+  const pageData = data?.pages?.page16;
 
-  const achievementCount = pageData?.achievements?.length ?? 0;
-  const growthPercentage = 0;
-
+  const achievementCount = pageData?.user_achievements?.length ?? 0;
+  
   const [showHint, setShowHint] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
+  // 计算成就增长率
+  // 逻辑: (今年成就数 - 去年成就数) / 去年成就数 * 100
+  const count2025 = pageData?.user_achievements?.length ?? 0;
+  const count2024 = pageData?.user_achievements_2024?.length ?? 0;
+  
+  let growthPercentage = 0;
+  let isNegativeGrowth = false;
+
+  if (count2024 > 0) {
+    const rawGrowth = ((count2025 - count2024) / count2024 * 100);
+    growthPercentage = Number(Math.abs(rawGrowth).toFixed(1));
+    isNegativeGrowth = rawGrowth < 0;
+  } else if (count2025 > 0) {
+    // 去年为0，今年有，增长率为100%
+    growthPercentage = 100;
+  }
+
   const handleTreeTrunkClick = () => {
-    try {
-      appendNextPage(PAGE_NUMBER, true);
-    } catch (e) {
-      console.log("点击树干查看成长足迹");
-    }
+    if (isClicked) return;
+    setIsClicked(true);
+    // 延迟跳转，展示点击反馈动画
+    setTimeout(() => {
+      try {
+        appendNextPage(PAGE_NUMBER, true);
+      } catch (e) {
+        console.log("点击树干查看成长足迹");
+      }
+    }, 300);
   };
 
   const doReveal = (selector: string, delay: number) => {
@@ -59,11 +81,11 @@ export default function Page22() {
     >
       <div className={`${styles.headerText} reveal fromLeft page22-reveal-header`}>
         <p>今年你收获了 <span className={styles.figure}>{achievementCount}</span> 个成就</p>
-        <p>比去年增长了 <span className={styles.figure}>{growthPercentage}</span>%</p>
+        <p>比去年{isNegativeGrowth ? "减少了" : "增长了"} <span className={styles.figure}>{growthPercentage}</span>%</p>
       </div>
 
       <div 
-        className={styles.treeContainer} 
+        className={`${styles.treeContainer} ${styles.treeBreathing} ${isClicked ? styles.treeClickFeedback : ''}`}
         onClick={handleTreeTrunkClick} 
         data-next-ignore="true"
       >

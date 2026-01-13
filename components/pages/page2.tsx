@@ -15,8 +15,18 @@ export default function Page2() {
   // Get nickname from page1 data (as per backend response structure)
   const nickname = data?.pages?.page1?.nickname || "同学";
 
-  // 暂时强制显示 Night 模式以还原设计稿
-  const [variant] = useState<"day" | "night">("day"); 
+  // 根据当前时间判断 Day/Night 模式 (6:00 - 18:00 为 Day)
+  const [variant, setVariant] = useState<"day" | "night">("day");
+  
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const hour = new Date().getHours();
+      setVariant(hour >= 6 && hour < 18 ? "day" : "night");
+    }, 0);
+
+    return () => clearTimeout(t);
+  }, []);
+
   const [isGrowing, setIsGrowing] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
@@ -46,7 +56,8 @@ export default function Page2() {
         el.classList.remove("reveal-active");
         el.classList.add("hide");
       });
-      setShowHint(false);
+      const t = setTimeout(() => setShowHint(false), 0);
+      return () => clearTimeout(t);
     }
   }, [currentPage, PAGE_NUMBER, clearTimers]);
 

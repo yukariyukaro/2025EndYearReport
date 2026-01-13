@@ -120,5 +120,19 @@
   50% { transform: translateY(-10px); }
 }
 
+@keyframes breathe {
+  0%, 100% { filter: brightness(100%) drop-shadow(0 0 0px rgba(255, 215, 0, 0)); }
+  50% { filter: brightness(110%) drop-shadow(0 0 15px rgba(255, 215, 0, 0.4)); }
+}
+
+.treeBreathing {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+.treeClickFeedback {
+  transform: translateX(-50%) scale(0.95);
+  transition: transform 0.1s ease-out;
+}
+
 /* Animations - Now using global .reveal, .visible, .fromLeft, etc. */
 /* See app/globals.css for definitions */

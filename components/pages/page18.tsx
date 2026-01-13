@@ -1,15 +1,50 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
+import { useSummary } from "@/contexts/SummaryContext";
 import styles from "./styles/page18.module.css";
 import { useRevealAnimation } from "@/hooks/useRevealAnimation";
+
+type EmojiSentiment = "positive" | "neutral" | "healing" | "negative" | string;
+
+function normalizeTopEmojis(
+  input:
+    | Array<{ emoji?: string; count?: number; sentiment?: EmojiSentiment }>
+    | Record<string, { count?: number; sentiment?: EmojiSentiment }>
+    | null
+    | undefined
+) {
+  if (!input) return [];
+
+  if (Array.isArray(input)) {
+    return input
+      .map((item) => ({
+        emoji: item?.emoji ?? "",
+        count: typeof item?.count === "number" ? item.count : Number(item?.count ?? 0),
+        sentiment: item?.sentiment,
+      }))
+      .filter((x) => x.emoji && Number.isFinite(x.count) && x.count > 0);
+  }
+
+  if (typeof input === "object") {
+    return Object.entries(input)
+      .map(([emoji, value]) => ({
+        emoji,
+        count: typeof value?.count === "number" ? value.count : Number(value?.count ?? 0),
+        sentiment: value?.sentiment,
+      }))
+      .filter((x) => x.emoji && Number.isFinite(x.count) && x.count > 0);
+  }
+
+  return [];
+}
 
 export default function Page18() {
   const PAGE_NUMBER = 18;
   const { appendNextPage } = usePageManager();
+  const { data: summaryData } = useSummary();
   const [showHint, setShowHint] = useState(false);
   const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
@@ -18,28 +53,10 @@ export default function Page18() {
     setShowHint(false);
 
     let t = 100;
-    const rowDelay = 300; 
-    const stepDelay = 80; // Faster individual item delay
-    
-    // Row 1
-    const row1 = document.querySelectorAll('.emoji-row-1 .emoji');
-    row1.forEach((_, i) => {
-        reveal(`.emoji-row-1 .emoji:nth-child(${i + 1})`, t + i * stepDelay);
-    });
-
-    // Row 2
-    t += rowDelay;
-    const row2 = document.querySelectorAll('.emoji-row-2 .emoji');
-    row2.forEach((_, i) => {
-        reveal(`.emoji-row-2 .emoji:nth-child(${i + 1})`, t + i * stepDelay);
-    });
-
-    t += row2.length * stepDelay + 200;
-
     const step = 200;
-    reveal('.October_face', t += step);
-    reveal('.page18-cta', t += step);
-    reveal('.PlayButton', t += step);
+    reveal(".page17-reveal-2", t);
+    reveal(".page17-reveal-4", (t += step));
+    reveal(".page17-reveal-3", (t += step));
 
     const hintTimer = setTimeout(() => setShowHint(true), t + 800);
     addTimer(hintTimer);
@@ -47,83 +64,85 @@ export default function Page18() {
 
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
 
-  const emojiFiles = [
-    "Laugh.png",
-    "Pain.png",
-    "Hello.png",
-    "Bored.png",
-    "Laugh.png",
-    "Pain.png",
-    "Bored.png",
-    "Star.png",
-    "To tears.png",
-    "Birthday.png",
-    "Bored.png",
-    "Star.png",
-    "To tears.png",
-    "Birthday.png"
-  ];
+  const pageData = summaryData?.pages?.page13;
+  const topEmojis = normalizeTopEmojis(pageData?.top_emojis);
+  const hasData = topEmojis.length > 0;
+
+  const favoriteEmojiItem =
+    topEmojis.length === 0
+      ? undefined
+      : topEmojis.reduce((best, curr) => (curr.count > best.count ? curr : best), topEmojis[0]);
+
+  const FAVORITE_EMOJI = favoriteEmojiItem?.emoji ?? "😶";
+  const EMOJI_USE_COUNT = favoriteEmojiItem?.count ?? 0;
+
+  const totalCount = topEmojis.reduce((sum, x) => sum + x.count, 0);
+  const sentimentCount = topEmojis.reduce(
+    (acc, x) => {
+      const sentiment = String(x.sentiment ?? "").toLowerCase();
+      if (sentiment === "positive") acc.positive += x.count;
+      else if (sentiment === "healing") acc.healing += x.count;
+      else if (sentiment === "neutral") acc.neutral += x.count;
+      else acc.neutral += x.count;
+      return acc;
+    },
+    { positive: 0, neutral: 0, healing: 0 }
+  );
+
+  const POSITIVE_PCT = totalCount > 0 ? Math.round((sentimentCount.positive / totalCount) * 100) : 0;
+  const NEUTRAL_PCT = totalCount > 0 ? Math.round((sentimentCount.neutral / totalCount) * 100) : 0;
+  const HEALING_PCT = totalCount > 0 ? Math.round((sentimentCount.healing / totalCount) * 100) : 0;
+  const sentimentDescription = pageData?.sentiment_description;
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container} style={{ backgroundImage: 'url("imgs/page18/background.png")' }}>
+        {/* Flash In Effect from Page 17 */}
+        <div className={styles.fadeInOverlay} />
+
         <div className={styles.topArea}>
-          {/* Row 1 */}
-          <div className={`emoji-row-1 ${styles.topEmojiRow}`}>
-            {Array.from({ length: 6 }).map((_, i) => {
-              const file = emojiFiles[i % emojiFiles.length];
-              const isFacemask = file === "facemask.png";
-              return (
-                <div 
-                  key={`r1-${i}`} 
-                  // Use global hide and fromLeft (or fromFade)
-                  className={`emoji hide fromLeft ${styles.bigEmoji} ${isFacemask ? styles.facemask : ""}`}
-                >
-                  <Image 
-                    src={`imgs/page18/${encodeURIComponent(file)}`} 
-                    alt={file} 
-                    width={64} 
-                    height={64} 
-                    priority={isFacemask}
-                  />
+          <div className={`hide page17-reveal-2 ${styles.headerRight}`}>
+            {hasData ? (
+              <>
+                <div className={styles.title}>
+                  今年你最爱的表情是： <span className={styles.emoji}>[{FAVORITE_EMOJI}]</span>
                 </div>
-              );
-            })}
-          </div>
-
-          {/* Row 2 */}
-          <div className={`emoji-row-2 ${styles.topEmojiRow}`}>
-            {Array.from({ length: 6 }).map((_, i) => {
-              const file = emojiFiles[(i + 6) % emojiFiles.length];
-              const isFacemask = file === "facemask.png";
-              return (
-                <div 
-                  key={`r2-${i}`} 
-                  className={`emoji hide fromLeft ${styles.bigEmoji} ${isFacemask ? styles.facemask : ""}`}
-                >
-                  <Image 
-                    src={`imgs/page18/${encodeURIComponent(file)}`} 
-                    alt={file} 
-                    width={64} 
-                    height={64} 
-                  />
+                <div className={styles.subtitle}>
+                  它陪你表达了 <span className={styles.highlight}>[{EMOJI_USE_COUNT}]</span> 次心情
                 </div>
-              );
-            })}
-          </div>
-
-          <div className={`October_face hide ${styles.octoberFaceWrap}`}>
-            <Image src="imgs/page18/October_face.png" alt="October face" width={260} height={430} />
+              </>
+            ) : (
+              <>
+                <div className={styles.title}>
+                  今年你似乎更喜欢
+                </div>
+                <div className={styles.subtitle}>
+                  用文字表达心情
+                </div>
+              </>
+            )}
           </div>
         </div>
 
-        <div className={styles.contentArea}>
-          <div className={`page18-cta hide ${styles.cta}`}>查看我的emoji年度表情包</div>
+        <div className={`hide page17-reveal-4 ${styles.ILove}`}>I LOVE</div>
 
-          <div className={`PlayButton hide ${styles.playWrap}`}>
-            <div className={styles.playIcon} />
-            <Image src="imgs/page18/button.png" alt="Button" width={200} height={100} />
-            <Image src="imgs/page18/Vector.png" alt="Vector" width={50} height={90} />
+        <div className={styles.contentArea}>
+          <div className={`hide page17-reveal-3 ${styles.statBlock}`}>
+            {hasData ? (
+              <>
+                <div className={styles.caption}>{sentimentDescription ?? "你的emoji情绪倾向："}</div>
+                <div className={styles.pcts}>
+                  [{POSITIVE_PCT}%] 正向 · [{NEUTRAL_PCT}%] 中性 · [{HEALING_PCT}%] 疗愈
+                </div>
+              </>
+            ) : (
+              <>
+                <div className={styles.caption}>{sentimentDescription ?? "暂无表情使用数据"}</div>
+                <div className={styles.pcts}>
+                  期待明年看到你的表情包~
+                </div>
+              </>
+            )}
           </div>
         </div>
 

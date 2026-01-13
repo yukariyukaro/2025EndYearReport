@@ -5,12 +5,24 @@ import PageWrapper from "@/components/PageWrapper";
 import usePageManager from "@/hooks/usePageManager";
 import { sendViewPageTracking } from "@/utils/dom";
 import styles from "./styles/page23.module.css";
+import { useSummary } from "@/contexts/SummaryContext";
+
+interface Achievement {
+  title: string;
+  description: string;
+  importance: number;
+}
 
 export default function Page23() {
   const PAGE_NUMBER = 23;
   const { appendNextPage, onAppendNext, offAppendNext } = usePageManager();
+  const { data } = useSummary();
+  const page16 = data?.pages?.page16;
+
   const [isGrowing, setIsGrowing] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  
   const lastShownRef = useRef<number | null>(null);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
@@ -20,11 +32,31 @@ export default function Page23() {
   };
 
   const scrollToNext = () => {
+    // Page 23 is likely the last page or close to it. 
+    // If there is a page 24, this works. If not, it might do nothing.
     appendNextPage(PAGE_NUMBER, true);
   };
 
+  const getAchievementsByYear = (year: number): Achievement[] => {
+    if (!page16) return [];
+    switch (year) {
+      case 2023: return page16.user_achievements_2023 || [];
+      case 2024: return page16.user_achievements_2024 || [];
+      case 2025: return page16.user_achievements || [];
+      default: return [];
+    }
+  };
+
+  const handleYearClick = (year: number) => {
+    setSelectedYear(year);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedYear(null);
+  };
+
   function slideIn(selector: string, delayMs: number, fromDirection: 'left' | 'right' | 'top' | 'bottom' = 'bottom', durationMs = 800) {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if (typeof document === "undefined") return;
       const pageElement = document.getElementById(`page${PAGE_NUMBER}`);
       if (!pageElement) return;
@@ -47,6 +79,7 @@ export default function Page23() {
         });
       });
     }, delayMs);
+    timersRef.current.push(timer);
   }
 
   function onShow() {
@@ -60,26 +93,20 @@ export default function Page23() {
     // Title
     slideIn('.page23-text-1', (t += step), 'left', 800);
 
-    // Main tree and tree-like elements (mango, mangoes, chat_box) slide from bottom like page22 tree
+    // Main tree and tree-like elements
     slideIn('.page23-tree-m', (t += step * 1.2), 'bottom', 1000);
+    
     // trigger growth animation
-    setTimeout(() => setIsGrowing(true), t + 50);
+    const growTimer = setTimeout(() => setIsGrowing(true), t + 50);
+    timersRef.current.push(growTimer);
+
     slideIn('.page23-mango', (t += step), 'bottom', 900);
     slideIn('.page23-mangoes', (t += step), 'bottom', 900);
     slideIn('.page23-2023', (t += step), 'bottom', 900);
     slideIn('.page23-2024', (t += step), 'bottom', 900);
     slideIn('.page23-2025', (t += step), 'bottom', 900);
 
-    // Decorative elements behave like leaves
-    slideIn('.page23-chat_b2023', (t += step), 'top', 700);
-    slideIn('.page23-chat_b2024', (t += step), 'left', 700);
-    slideIn('.page23-chat_b2025', (t += step), 'left', 700);
-    slideIn('.page23-mango', (t += step), 'right', 700);
-    slideIn('.page23-mangoes', (t += step), 'bottom', 700);
-
-    // footer
-    slideIn('.page23-footer', (t += step), 'bottom', 600);
-    const hintTimer = setTimeout(() => setShowHint(true), t + 700);
+    const hintTimer = setTimeout(() => setShowHint(true), t + 1500);
     timersRef.current.push(hintTimer);
   }
 
@@ -105,6 +132,8 @@ export default function Page23() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const currentAchievements = selectedYear ? getAchievementsByYear(selectedYear) : [];
+
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={handleShow} className={styles.container} style={{ backgroundImage: 'url("imgs/page22/background.png")' }}>
       <div className="content-block">
@@ -128,43 +157,56 @@ export default function Page23() {
         <div className="page23-mangoes hide">
           <Image src="imgs/page23/mangoes.png" alt="mangoes" width={80} height={60} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </div>
-        <div className="page23-2023">
-          <span style={{ display: 'inline-block', width: 30, height: 30, lineHeight: '37px', textAlign: 'center' }}>2023</span>
-        </div>
-
-        <div className="page23-2024">
-          <span style={{ display: 'inline-block', width: 30, height: 30, lineHeight: '37px', textAlign: 'center' }}>2024</span>
-        </div>
-
-        <div className="page23-2025">
-          <span style={{ display: 'inline-block', width: 30, height: 30, lineHeight: '37px', textAlign: 'center' }}>2025</span>
-        </div>
-
-
-        {/* decorative chatbox elements */}
-        <div className="relative w-full min-h-[320px]">
-          <div className="page23-chat_b2023 hide">
-            <Image src="imgs/page23/chat_bubble2023.png" alt="chat_bubble2023" width={115} height={82} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-          </div>
-          <div className="page23-chat_b2024 hide">
-            <Image src="imgs/page23/chat_bubble2024.png" alt="chat_bubble2024" width={123} height={81} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-          </div>
-          <div className="page23-chat_b2025 hide ">
-            <Image src="imgs/page23/chat_bubble2025.png" alt="chat_bubble025" width={123} height={83} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        
+        {/* Interactive Bubbles */}
+        <div className="page23-2023 hide" onClick={() => handleYearClick(2023)}>
+          <div className={`${styles.bubble} ${styles.bubble2023}`}>
+            <span className={styles.yearText}>2023</span>
           </div>
         </div>
-        {/* Minimal template block (from page11) preserved — remove visible text but keep scroll functionality */}
+
+        <div className="page23-2024 hide" onClick={() => handleYearClick(2024)}>
+          <div className={`${styles.bubble} ${styles.bubble2024}`}>
+            <span className={styles.yearText}>2024</span>
+          </div>
+        </div>
+
+        <div className="page23-2025 hide" onClick={() => handleYearClick(2025)}>
+          <div className={`${styles.bubble} ${styles.bubble2025}`}>
+            <span className={styles.yearText}>2025</span>
+          </div>
+        </div>
+
+        {/* Achievement Modal */}
+        <div className={`${styles.modalOverlay} ${selectedYear ? styles.modalActive : ''}`} onClick={handleCloseModal}>
+          <div className={styles.cardContainer} onClick={e => e.stopPropagation()}>
+            <div className={styles.cardHeader}>
+              <span className={styles.yearTitle}>{selectedYear} 年度成就</span>
+              <button className={styles.closeButton} onClick={handleCloseModal}>×</button>
+            </div>
+            
+            <div className={styles.bentoGrid}>
+              {currentAchievements.length > 0 ? (
+                currentAchievements.map((ach, index) => (
+                  <div 
+                    key={index} 
+                    className={`${styles.achievementItem} ${ach.importance >= 3 ? styles.important : ''}`}
+                    style={{ transitionDelay: `${index * 100}ms` }}
+                  >
+                    <div className={styles.achTitle}>{ach.title}</div>
+                    <div className={styles.achDesc}>{ach.description}</div>
+                  </div>
+                ))
+              ) : (
+                <div className={styles.emptyState}>暂无成就记录</div>
+              )}
+            </div>
+          </div>
+        </div>
+
         <div style={{ marginTop: '1.25rem' }}>
           <button onClick={scrollToNext} aria-label="Show next page" style={{border: 'none', background: 'transparent', padding: 0, width: 0, height: 0}} />
         </div>
-
-        {showHint && (
-          <div style={{ position: 'absolute', bottom: 24, right: 20 }}>
-            <div className="fade-in">
-              <span />
-            </div>
-          </div>
-        )}
       </div>
     </PageWrapper>
   );

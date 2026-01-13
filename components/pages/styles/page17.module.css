@@ -1,3 +1,4 @@
+/* page18 styles (Actually Page 17 styles based on filename) */
 .container {
   width: 100%;
   height: 100%;
@@ -13,30 +14,166 @@
 .topArea {
   width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 1rem 1rem 0 1rem;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1.2rem;
   z-index: 2;
 }
 
-.headerLeft { width: 100%; align-items: flex-start}
+.topEmojiRow { display:flex; gap:1.6rem; justify-content:center; margin: 0.4rem 0 }
+.emoji { display:flex; align-items:center; justify-content:center} 
 
-.headerRight{ font-size:1.3rem; color:#000; margin-top: 3.5rem; margin-right: 1.5rem; font-weight:400; }
-.emoji { font-size:1.3rem; font-weight: 700;}
-.ILove { font-size:1.2rem; font-weight: 600; color: #000; margin-top: 8rem;}
+.bigEmoji { width:56px; height:56px; border-radius:50%; background: rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center }
 
-.contentArea { width: 100%;  font-size: 1.2rem; margin-top: 22rem; padding: 1.4rem 1.5rem; z-index: 2; color:#000 }
-.statBlock { max-width: 90%; margin: 0 auto; text-align: left; }
-.caption { font-weight: 700; font-size: 1.1 rem; margin-bottom: 0.6rem; }
-.pcts { font-size: 1.1rem; }
-.highlight { font-weight: 900; }
+.facemask {
+  transform: scale(2);
+  width: 64px;
+  height: 64px;
+  background-size: cover;
+  background-position: center top;
+}
+.octoberFaceWrap { margin: 0rem 0.5rem; position: relative; height: 100%; }
+
+.contentArea { width: 100%; padding: 0rem 1.5rem; z-index: 2; color:#000; display:flex; flex-direction:column; align-items:center }
+.cta { margin-top:0.3rem; font-size:1.05rem; font-weight:400 }
+
+.playWrap { 
+  display: flex; 
+  margin-top: 0.4rem; 
+  flex-direction: row; 
+  justify-content: center;
+  width: 100%;
+}
 
 .hintWrap { position: absolute; bottom: 1.8rem; right: 1.2rem; z-index: 4; }
 
-/* reveal helpers are now global */
-
 @media (max-width: 420px) {
-  .statBlock { max-width: 92%; }
-  .topArea { padding-top: 2rem; }
-  .title, .subtitle { text-align: right; }
+  .bigEmoji { width:48px; height:48px }
+}
+
+/* --- Time Capsule / Button Styles (Ported from Page 4/7) --- */
+.playButtonWrapper {
+  position: relative;
+  width: 12.25rem; /* 196px */
+  height: 5.5rem; /* 88px */
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playButton {
+  width: 100%;
+  height: 100%;
+  background-color: #4B7C56; /* Green theme */
+  border: 2px solid rgba(120, 169, 166, 0.42);
+  border-radius: 6.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.playButton:active {
+  transform: scale(0.95);
+}
+
+.playIcon {
+  width: 4.5rem;
+  height: 4.3rem;
+  position: relative;
+}
+
+/* Pulse Glow */
+.pulseGlow::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 6.75rem;
+  border: 2px solid rgba(75, 124, 86, 0.5);
+  z-index: -1;
+  animation: rippleGlow 2s ease-out infinite;
+  opacity: 0;
+}
+
+.pulseGlow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6.25rem;
+  box-shadow: 0 0 15px 2px rgba(75, 124, 86, 0.4);
+  z-index: -2;
+  animation: breatheGlow 2s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+@keyframes rippleGlow {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
+
+@keyframes breatheGlow {
+  0%, 100% { opacity: 0.4; box-shadow: 0 0 10px 2px rgba(75, 124, 86, 0.3); }
+  50% { opacity: 0.8; box-shadow: 0 0 20px 5px rgba(75, 124, 86, 0.6); }
+}
+
+/* Pause Icon */
+.pauseIconCircle {
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: #384230;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pauseBars {
+  display: flex;
+  gap: 0.6rem;
+  height: 62%;
+}
+
+.pauseBar {
+  width: 0.6rem;
+  height: 100%;
+  border-radius: 0.2rem;
+  background: #4B7C56;
+}
+
+/* Decor Arrow */
+.arrowDecor {
+  position: absolute;
+  right: -3rem;
+  top: 1rem;
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Warp Overlay */
+.warpOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.warpActive {
+  opacity: 1;
+  pointer-events: auto;
+  animation: warpFlash 1s ease-in-out forwards;
+}
+
+@keyframes warpFlash {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 1; }
 }

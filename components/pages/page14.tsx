@@ -9,21 +9,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tool
 import styles from "./styles/page14.module.css";
 import { useRevealAnimation } from "@/hooks/useRevealAnimation";
 
-// Mock data for chart (Backend missing monthly data)
-const MOCK_CHART_DATA = [
-  { name: 'Jan', value: 1 },
-  { name: 'Feb', value: 2 },
-  { name: 'Mar', value: 1 },
-  { name: 'Apr', value: 1 },
-  { name: 'May', value: 0 },
-  { name: 'Jun', value: 2 },
-  { name: 'Jul', value: 0 },
-  { name: 'Aug', value: 0 },
-  { name: 'Sep', value: 0 },
-  { name: 'Oct', value: 1 },
-  { name: 'Nov', value: 3 },
-  { name: 'Dec', value: 2 },
-];
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export default function Page14() {
   const PAGE_NUMBER = 14;
@@ -37,6 +23,17 @@ export default function Page14() {
   // Backend doesn't have explicit 'is_first_year' flag, inferred from post_count_2024
   const isFirstYear = (pageData?.post_count_2024 ?? 0) === 0;
   const growthRate = pageData?.growth_rate ?? 0;
+  const isGrowthNegative = growthRate < 0;
+  const displayGrowthRate = Math.round(Math.abs(growthRate));
+
+  // Generate chart data from backend monthly_stats
+  const chartData = (pageData?.monthly_stats || []).map((value: number, index: number) => ({
+    name: MONTH_NAMES[index] || '',
+    value
+  }));
+
+  // Fallback if no data
+  const finalChartData = chartData.length > 0 ? chartData : MONTH_NAMES.map(name => ({ name, value: 0 }));
 
   const [showHint, setShowHint] = useState(false);
   const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
@@ -96,7 +93,7 @@ export default function Page14() {
             </div>
             <div className={styles.chartContainer}>
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={MOCK_CHART_DATA}>
+                <LineChart data={finalChartData}>
                   <CartesianGrid vertical={false} stroke="#e0e0e0" strokeDasharray="3 3" />
                   <XAxis 
                     dataKey="name" 
@@ -140,7 +137,7 @@ export default function Page14() {
               <>
                 <div className={`hide page14-reveal-3-1`}>与去年相比</div>
                 <div className={`hide page14-reveal-3-2`}>
-                  你的发帖量增加了 <span className={styles.highlight}>{Math.round(growthRate)}%</span>
+                  你的发帖量{isGrowthNegative ? "减少了" : "增加了"} <span className={styles.highlight}>{displayGrowthRate}%</span>
                 </div>
               </>
             )}

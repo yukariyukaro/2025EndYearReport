@@ -162,7 +162,7 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
           <div className={`${styles.statText} hide page6-reveal-5`}>与全体用户相比</div>
           <div className={`${styles.statRow} hide page6-reveal-6`}>
             <span className={styles.statText}>你的作息是</span>
-            <span className={styles.statHighlight}>{patternLabel}</span>
+            <span className={styles.statHighlight}>早鸟型</span>
           </div>
         </div>
 
@@ -199,9 +199,9 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
             fill
             sizes="100vw"
             priority
+            style={{ objectFit: 'cover', objectPosition: 'bottom' }}
           />
         </div>
-        {/* Mountain Layer 2 */}
         <div className={styles.m2}>
           <Image
             src="imgs/page6/morning/m2.svg" 
@@ -209,8 +209,8 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
             fill
             sizes="100vw"
             priority
+            style={{ objectFit: 'cover', objectPosition: 'bottom' }}
           />
-          {/* Mountain Layer 3 */}
         </div>
         <div className={styles.m3}>
           <Image
@@ -219,8 +219,8 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
             fill
             sizes="100vw"
             priority
+            style={{ objectFit: 'cover', objectPosition: 'bottom' }}
           />
-          {/* Mountain Layer 4 */}
         </div>
         <div className={styles.m4}>
           <Image
@@ -229,8 +229,8 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
             fill
             sizes="100vw"
             priority
+            style={{ objectFit: 'cover', objectPosition: 'bottom' }}
           />
-          {/* Mountain Layer 5 */}
         </div>
         <div className={styles.m5}>
           <Image
@@ -239,6 +239,7 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
             fill
             sizes="100vw"
             priority
+            style={{ objectFit: 'cover', objectPosition: 'bottom' }}
           />
         </div>
       </div>

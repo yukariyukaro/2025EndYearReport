@@ -69,9 +69,11 @@
 .chartBackground {
   position: absolute;
   inset: 0;
+  margin: auto;
+  width: var(--sim-w);
+  height: var(--sim-w);
   z-index: 0;
   pointer-events: none;
-  width:400px;
 }
 
 .donutPos {

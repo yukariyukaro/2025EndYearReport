@@ -157,7 +157,7 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
           <div className={`${styles.statText} hide page6-reveal-5`}>与全体用户相比</div>
           <div className={`${styles.statRow} hide page6-reveal-6`}>
             <span className={styles.statText}>你的作息是</span>
-            <span className={styles.statHighlight}>{patternLabel}</span>
+            <span className={styles.statHighlight}>养生型</span>
           </div>
         </div>
 

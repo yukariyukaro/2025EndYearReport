@@ -92,7 +92,7 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
           <div className={`${styles.statText} ${styles.hide} page6-night-reveal-5`}>与全体用户相比</div>
           <div className={`${styles.statRow} ${styles.hide} page6-night-reveal-6`}>
             <span className={styles.statText}>你的作息是</span>
-            <span className={styles.statHighlight}>【{patternLabel}】</span>
+            <span className={styles.statHighlight}>夜猫子型</span>
           </div>
         </div>
 
@@ -102,7 +102,7 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
         >
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              data={data}
+              data={chartData}
               margin={{
                 top: 10,
                 right: 10,
@@ -181,7 +181,7 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
 
         {/* Bottom Text / Quote */}
         <div className={`${styles.centerText} hide page6-night-reveal-7`}>
-          “嘘——夜晚的灵感正在为你开会”
+          嘘——夜晚的灵感正在为你开会。
         </div>
         
         {/* Reusing Morning's Mountain Assets */}

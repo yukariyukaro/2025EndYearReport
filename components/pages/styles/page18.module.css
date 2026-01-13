@@ -1,4 +1,3 @@
-/* page18 styles */
 .container {
   width: 100%;
   height: 100%;
@@ -14,38 +13,46 @@
 .topArea {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 1.2rem;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1rem 1rem 0 1rem;
   z-index: 2;
 }
 
-.topEmojiRow { display:flex; gap:1.6rem; justify-content:center; margin: 0.4rem 0 }
-/* .emoji { display:flex; align-items:center; justify-content:center}  removed to avoid conflict with global .emoji class if any, though local scope handles it. */
-/* actually .emoji was used as a class in TSX. keeping it locally scoped is fine. */
-.emoji { display:flex; align-items:center; justify-content:center} 
+.headerLeft { width: 100%; align-items: flex-start}
 
-.bigEmoji { width:56px; height:56px; border-radius:50%; background: rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center }
+.headerRight{ font-size:1.3rem; color:#000; margin-top: 3.5rem; margin-right: 1.5rem; font-weight:400; }
+.emoji { font-size:1.3rem; font-weight: 700;}
+.ILove { font-size:1.2rem; font-weight: 600; color: #000; margin-top: 8rem;}
 
-.facemask {
-  transform: scale(2);
-  width: 64px;
-  height: 64px;
-  background-size: cover;
-  background-position: center top;
-}
-.octoberFaceWrap { margin: 0rem 0.5rem; position: relative; height: 100%; }
-
-.contentArea { width: 100%; padding: 0rem 1.5rem; z-index: 2; color:#000; display:flex; flex-direction:column; align-items:center }
-.cta { margin-top:0.3rem; font-size:1.05rem; font-weight:400 }
-
-.playWrap { display: flex; margin-top: 0.4rem; gap: 1rem;  flex-direction: row; justify-content: flex-end}
+.contentArea { width: 100%;  font-size: 1.2rem; margin-top: 2rem; padding: 1.4rem 1.5rem; z-index: 2; color:#000 }
+.statBlock { max-width: 90%; margin: 0 auto; text-align: left; }
+.caption { font-weight: 700; font-size: 1.1 rem; margin-bottom: 0.6rem; }
+.pcts { font-size: 1.1rem; }
+.highlight { font-weight: 900; }
 
 .hintWrap { position: absolute; bottom: 1.8rem; right: 1.2rem; z-index: 4; }
 
-/* reveal helpers removed, using globals */
-
 @media (max-width: 420px) {
-  .bigEmoji { width:48px; height:48px }
-  .playButton { width: 140px; height:56px }
+  .statBlock { max-width: 92%; }
+  .topArea { padding-top: 2rem; }
+  .title, .subtitle { text-align: right; }
+}
+
+/* Entrance Animation from Time Warp */
+.fadeInOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 20;
+  animation: fadeOutWhite 1.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes fadeOutWhite {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }

@@ -23,6 +23,7 @@
 
 .textRow {
   width: 100%;
+  font-size:1.1rem;
   display: flex;
   justify-content: center;
 }
@@ -88,6 +89,15 @@
   text-align: right; 
   font-weight: 400;
   font-size: 1.1rem;
+}
+
+.descriptionText {
+  text-align: center;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-weight: 400;
+  white-space: pre-wrap;
+  width: 100%;
 }
 
 .highlight { font-weight: 900; }

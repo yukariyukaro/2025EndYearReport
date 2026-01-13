@@ -10,11 +10,13 @@ import { useSummary } from "@/contexts/SummaryContext";
 export default function Page21() {
   const PAGE_NUMBER = 21;
   const { appendNextPage } = usePageManager();
-  const { summaryData } = useSummary();
-  const pageData = summaryData?.page16;
+  const { data: summaryData } = useSummary();
+  const pageData = summaryData?.pages?.page16;
   
   const timersRef = useRef<NodeJS.Timeout[]>([]);
   const [showHint, setShowHint] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageFailed, setImageFailed] = useState(false);
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach(clearTimeout);
@@ -22,6 +24,17 @@ export default function Page21() {
   }, []);
 
   useEffect(() => () => clearTimers(), [clearTimers]);
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const params = new URLSearchParams(window.location.search);
+      const itsc = params.get("user_itsc") || "ivanfan";
+      setImageUrl(`https://api.uuunnniii.com/v4/report2025/images/${encodeURIComponent(itsc)}.png`);
+      setImageFailed(false);
+    }, 0);
+
+    return () => clearTimeout(t);
+  }, []);
 
   function reveal(selector: string, delayMs: number, durationMs = 1400) {
     document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
@@ -60,10 +73,8 @@ export default function Page21() {
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
   
   // 绑定后端数据
-  const personality_label = pageData?.ai_title ?? 'PUPUer';
-  const keyword = pageData?.achievements?.[0]?.title ?? '暂无关键词';
-  // moment 字段缺失，暂时使用默认文案
-  const moment = '你与世界产生共鸣的瞬间';
+  const personality_label = pageData?.ai_title ?? "PUPUer";
+  const keyword = pageData?.user_achievements?.[0]?.title ?? "暂无关键词";
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
@@ -75,7 +86,19 @@ export default function Page21() {
 
         <div className={styles.visualArea} onClick={goNext} data-next-ignore="true">
           <div className={`${styles.frame} hide page21-reveal-3`}>
-            <Image src="imgs/page21/frame.png" alt="中心图片" fill className={styles.objectContain} />
+            {imageUrl && !imageFailed ? (
+              <Image
+                src={imageUrl}
+                alt="AI Portrait"
+                fill
+                className={styles.objectContain}
+                sizes="(max-width: 768px) 60vw, 40vw"
+                priority
+                onError={() => setImageFailed(true)}
+              />
+            ) : (
+              <Image src="imgs/page21/frame.png" alt="中心图片" fill className={styles.objectContain} priority />
+            )}
           </div>
 
           <div className={`${styles.leafLeft} hide page21-reveal-4`}>
@@ -89,7 +112,7 @@ export default function Page21() {
         <div className={styles.textBlock}>
           <div className={`${styles.tag} hide page21-reveal-2`}>你是一个「{<span className={styles.personalityLabel}>{personality_label}</span>}」</div>
           <div className={`${styles.keywords} hide page21-reveal-3`}>你的年度关键词是 [{<span className={styles.keywordLabel}>{keyword}</span>}]</div>
-          <div className={`${styles.moment} hide page21-reveal-4`}>这一年，你最动人的一刻是：<br/>{moment}</div>
+
         </div>
 
         {showHint && (

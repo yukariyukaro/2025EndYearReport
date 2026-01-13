@@ -17,17 +17,9 @@
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes springLeavesReveal {
-  0% {
-    opacity: 0;
-    clip-path: inset(0 50% 0 50%);
-    transform: scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    clip-path: inset(0 0 0 0);
-    transform: scale(1);
-  }
+@keyframes treeBloom {
+  0% { clip-path: inset(100% 0 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
 }
 
 /* Elements */
@@ -43,20 +35,14 @@
   animation: springTrunkIn 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.springLeaves {
-  position: absolute;
-  top: 8%;
-  left: 9.5%;
-  width: 36%;
-  aspect-ratio: 136/171;
-  opacity: 0;
-  transform-origin: 50% 70%;
-  clip-path: inset(0 50% 0 50%);
-  -webkit-clip-path: inset(0 50% 0 50%);
-  will-change: clip-path, opacity, transform;
+.springTreeFull {
+  clip-path: inset(100% 0 0 0);
+  /* Ensure it sits on top */
+  z-index: 2; 
 }
-.springLeaves :global(.reveal-active) {
-  animation: springLeavesReveal 1200ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+.springTrunk :global(.reveal-active) .springTreeFull {
+  animation: treeBloom 2s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.5s;
 }
 
 /* For other trees, we use transitions instead of custom animations where possible, 

@@ -181,3 +181,105 @@
   opacity: 0;
   transform: translateY(10px);
 }
+
+/* Hidden Placeholder Logic */
+.hiddenPlaceholder {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease;
+  width: 100%; /* Ensure layout space is reserved */
+  /* Do NOT use display: none, we want space reserved */
+}
+
+.hiddenPlaceholder.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.expandActive {
+  animation: expandIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.expandActiveDelayed {
+  animation: expandIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Button Pulse Glow (Replaced with ripple/breathe effect) */
+.pulseGlow::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 6.75rem;
+  border: 2px solid rgba(75, 124, 86, 0.4); /* Greenish tint for Page7 */
+  z-index: -1;
+  animation: rippleGlow 2s ease-out infinite;
+  opacity: 0;
+}
+
+.pulseGlow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6.25rem;
+  box-shadow: 0 0 15px 2px rgba(75, 124, 86, 0.3);
+  z-index: -2;
+  animation: breatheGlow 2s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+@keyframes rippleGlow {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
+@keyframes breatheGlow {
+  0%, 100% {
+    opacity: 0.4;
+    box-shadow: 0 0 10px 2px rgba(75, 124, 86, 0.2);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 20px 5px rgba(75, 124, 86, 0.5);
+  }
+}
+
+/* Pause Icon Styles */
+.pauseIconCircle {
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background: #384230; /* Dark background as requested */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pauseBars {
+  display: flex;
+  gap: 0.6rem;
+  height: 62%;
+}
+
+.pauseBar {
+  width: 0.6rem;
+  height: 100%;
+  border-radius: 0.2rem;
+  background: #4B7C56; /* Green bars */
+}
