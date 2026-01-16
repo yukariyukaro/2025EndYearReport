@@ -17,6 +17,7 @@ export default function Page12() {
   // Data binding
   const collectTitle = "某条热门树洞"; 
   const collectRank = pageData?.collect_rank_data?.user_rank ?? 0;
+  const hasCollectHotPost = (pageData?.collect_rank_data?.post_id ?? 0) !== 0;
   
   const frequentTitle = pageData?.frequent_post_data?.post_content || "暂无记录";
   const frequentCount = pageData?.frequent_post_data?.browse_count ?? 0;
@@ -62,9 +63,21 @@ export default function Page12() {
 
         {/* Top Text */}
         <div className={`${styles.textBlock} ${styles.topText}`}>
-          <p className={`hide page12-reveal-2-1`}>在 {collectTitle} 中</p>
-          <p className={`hide page12-reveal-2-2`}>你是第 <span className={styles.highlight}>{collectRank}</span> 个收藏的人</p>
-          <p className={`hide page12-reveal-2-3`}>真是慧眼识珠！</p>
+          {hasCollectHotPost ? (
+            <>
+              <p className={`hide page12-reveal-2-1`}>在 {collectTitle} 中</p>
+              <p className={`hide page12-reveal-2-2`}>
+                你是第 <span className={styles.highlight}>{collectRank}</span> 个收藏的人
+              </p>
+              <p className={`hide page12-reveal-2-3`}>真是慧眼识珠！</p>
+            </>
+          ) : (
+            <>
+              <p className={`hide page12-reveal-2-1`}>今年你还没有收藏过</p>
+              <p className={`hide page12-reveal-2-2`}>热门树洞</p>
+              <p className={`hide page12-reveal-2-3`}>下次看到喜欢的就收藏吧！</p>
+            </>
+          )}
         </div>
 
         {/* Machine Central Image */}

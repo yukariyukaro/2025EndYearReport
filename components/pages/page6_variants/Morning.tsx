@@ -169,7 +169,7 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
         {/* Sun Image */}
         <div className={styles.sunContainer}>
              <Image 
-               src="imgs/page6/morning/Sun.png" 
+               src="imgs/page6/morning/sun.png" 
                alt="Sun" 
                width={200} 
                height={200}

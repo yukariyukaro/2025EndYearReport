@@ -66,7 +66,7 @@ export default function Page16() {
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container}>
         <div className={`${styles.springTrunk} page16-reveal-spring-trunk`}>
-          <Image src="imgs/page16/springTree.png" alt="springTree" fill style={{ objectFit: "contain" }} />
+          <Image src="imgs/page16/springTreeFull.png" alt="springTree" fill style={{ objectFit: "contain" }} />
         </div>
         <div className={`${styles.springLeaves} page16-reveal-spring-leaves`}>
           <Image src="imgs/page16/springLeaves.png" alt="springLeaves" fill style={{ objectFit: "contain" }} />

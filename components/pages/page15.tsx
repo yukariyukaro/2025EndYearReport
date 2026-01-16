@@ -21,14 +21,56 @@ export default function Page15() {
   // Backend page11 missing interactive_users, use 0 or fallback
   const interactiveCount = 0; 
 
+  const getPreviewText = () => {
+    const candidates = [
+      pageData?.most_viewed?.content_preview,
+      pageData?.most_commented?.content_preview,
+      pageData?.most_collected?.content_preview,
+    ];
+
+    const normalized = candidates
+      .filter((s): s is string => typeof s === "string")
+      .map((s) => s.trim())
+      .find((s) => s.length > 0 && !s.includes("内容不可用"));
+
+    const text = normalized || "内容暂不可用";
+    const maxLen = 96;
+    return text.length > maxLen ? `${text.slice(0, maxLen)}...` : text;
+  };
+
+  const previewText = getPreviewText();
+
+  const [previewPhase, setPreviewPhase] = useState<"showing" | "closing" | "hidden">("hidden");
+
   const [showHint, setShowHint] = useState(true);
   const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   const onShow = () => {
     clearTimers();
     setShowHint(false);
+
+    setPreviewPhase("showing");
+
+    const previewInDelay = 120;
+    const previewInDuration = 420;
+    const previewHold = 1100;
+    const previewOutDuration = 300;
+
+    reveal(`.page15-preview`, previewInDelay, { durationMs: previewInDuration });
+
+    const closeTimer = setTimeout(
+      () => setPreviewPhase("closing"),
+      previewInDelay + previewInDuration + previewHold
+    );
+    addTimer(closeTimer);
+
+    const hideTimer = setTimeout(
+      () => setPreviewPhase("hidden"),
+      previewInDelay + previewInDuration + previewHold + previewOutDuration
+    );
+    addTimer(hideTimer);
     
-    let t = 100;
+    let t = previewInDelay + previewInDuration + previewHold + previewOutDuration + 120;
     const step = 150;
 
     reveal(`.page15-reveal-1`, t);  // Light Bulb
@@ -54,6 +96,18 @@ export default function Page15() {
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
       <div className={styles.container}>
+
+        {previewPhase !== "hidden" && (
+          <div className={styles.previewOverlay}>
+            <div
+              className={`${styles.previewCard} hide page15-preview ${
+                previewPhase === "closing" ? styles.previewCardClosing : ""
+              }`}
+            >
+              <div className={styles.previewText}>{previewText}</div>
+            </div>
+          </div>
+        )}
         
         {/* Top Section */}
         <div className={styles.topSection}>

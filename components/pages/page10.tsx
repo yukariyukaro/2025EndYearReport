@@ -22,7 +22,11 @@ export default function Page10() {
 
   const rawRelationType = pageData?.relationship_type;
   const relationType = typeof rawRelationType === "string" && rawRelationType ? rawRelationType : "相遇";
-  
+
+  const rawRelationDesc = pageData?.relationship_desc;
+  const relationDesc =
+    typeof rawRelationDesc === "string" && rawRelationDesc ? rawRelationDesc : "暂无记录";
+
   const [showHint, setShowHint] = useState(false);
   const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
@@ -125,7 +129,7 @@ export default function Page10() {
               />
             </div>
             <div className={`${styles.textBase} ${styles.footerText}`}>
-              这表示你 「{relationType}」<br />了这条内容!
+              {relationDesc}
             </div>
           </div>
         </div>

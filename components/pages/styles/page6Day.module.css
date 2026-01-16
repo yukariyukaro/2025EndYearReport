@@ -149,7 +149,7 @@
 .m1 {
   position: absolute;
   width: 100%; 
-  height: 19.2%; 
+  aspect-ratio:375/231;
   bottom:0;
   left: 50%;
   transform: translateX(-50%);
@@ -159,7 +159,7 @@
 .m2 {
   position: absolute;
   width: 100%; 
-  height: 29%;
+  aspect-ratio:375/240;
   bottom: 0.5rem; 
   left: 50%;
   transform: translateX(-50%);
@@ -169,7 +169,7 @@
 .m3{
   position: absolute;
   width: 100%; 
-  height: 24%; 
+  aspect-ratio:375/191; 
   bottom: 12%; 
   left: 50%;
   transform: translateX(-50%);
@@ -180,7 +180,7 @@
 .m4{
   position: absolute;
   width: 100%; 
-  height: 27%; 
+  aspect-ratio:375/216;
   bottom: 20%; 
   left: 50%;
   transform: translateX(-50%);
@@ -190,7 +190,7 @@
 .m5{
   position: absolute;
   width: 100%; 
-  height: 25.5%; 
+  aspect-ratio:375/218; 
   bottom: 31%; 
   left: 50%;
   transform: translateX(-50%);

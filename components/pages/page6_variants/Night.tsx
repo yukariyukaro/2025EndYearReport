@@ -244,7 +244,6 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
           />
         </div>
         
-        <div className={styles.footerText}>@TripleUni 2025</div>
 
       </div>
       

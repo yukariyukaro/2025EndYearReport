@@ -16,23 +16,7 @@ export type PageData = any;
 export interface SummaryData {
   user_id: number;
   generated_at: string;
-  pages: Record<string, PageData> & {
-    page1: {
-      nickname: string;
-      greeting: string;
-    };
-    page2: {
-      launch_time: string;
-      register_time: string;
-      days_together: number;
-      register_rank: number;
-      time_capsule: {
-        year: number;
-        month: number;
-        top_posts: number[];
-      };
-    };
-  };
+  pages: Record<string, PageData>;
 }
 
 interface SummaryContextType {

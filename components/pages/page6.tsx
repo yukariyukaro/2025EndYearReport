@@ -21,12 +21,13 @@ export default function Page6() {
 
   const { userType, chartData, peakHour, patternLabel } = useMemo(() => {
     const label = page4Data?.time_pattern_label || "混合型";
-    const type: UserType = 'night';
+    let type: UserType = 'day';
 
-    //if (label.includes("早起")) type = 'morning';
-    //else if (label.includes("日理万机")) type = 'day';
-    //else if (label.includes("夜猫")) type = 'night';
-    //else if (label.includes("养生")) type = 'healthy';
+    if (label.includes("早起")) type = 'morning';
+    else if (label.includes("日理万机")) type = 'day';
+    else if (label.includes("夜猫")) type = 'night';
+    else if (label.includes("养生")) type = 'healthy';
+    else if (label.includes("平均")) type = 'average';
     
     // Transform chart data
     const userActivity = page4Data?.user_hourly_activity || [];
