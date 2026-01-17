@@ -117,7 +117,8 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
                 tick={{fill: '#222b59', fontSize: 12, opacity: 0.6}} 
                 axisLine={false} 
                 tickLine={false} 
-                ticks={[0, 25, 50, 75, 100]}
+                domain={[0, (dataMax: number) => Math.max(dataMax, 25)]}
+                ticks={[0, 5, 10, 15, 20, 25]}
               />
               <Tooltip 
                 contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: 'none', borderRadius: '8px', color: '#000' }}

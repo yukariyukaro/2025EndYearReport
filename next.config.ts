@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
   assetPrefix: basePath || undefined,
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api.uuunnniii.com",
+        pathname: "/v4/report2025/images/**",
+      },
+    ],
   },
   typescript: {
     ignoreBuildErrors: true,

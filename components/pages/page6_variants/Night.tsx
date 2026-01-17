@@ -144,7 +144,8 @@ export default function Night({ chartData, peakHour, patternLabel }: Page6Varian
                 tick={{fill: '#FFF7E4', fontSize: 12, opacity: 0.8}} 
                 axisLine={false} 
                 tickLine={false} 
-                ticks={[0, 25, 50, 75, 100]}
+                domain={[0, (dataMax: number) => Math.max(dataMax, 25)]}
+                ticks={[0, 5, 10, 15, 20, 25]}
               />
               <Tooltip 
                 contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: 'none', borderRadius: '8px', color: '#000' }}

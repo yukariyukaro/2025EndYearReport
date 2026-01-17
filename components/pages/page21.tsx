@@ -6,17 +6,21 @@ import usePageManager from "@/hooks/usePageManager";
 import ScrollUpHint from "@/components/ScrollUpHint";
 import styles from "./styles/page21.module.css";
 import { useSummary } from "@/contexts/SummaryContext";
+import { getOptimizedAIImageUrl } from "@/utils/resources";
 
 export default function Page21() {
   const PAGE_NUMBER = 21;
   const { appendNextPage } = usePageManager();
-  const { data: summaryData } = useSummary();
+  const { data: summaryData, userItsc } = useSummary();
   const pageData = summaryData?.pages?.page16;
   
   const timersRef = useRef<NodeJS.Timeout[]>([]);
   const [showHint, setShowHint] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageFailed, setImageFailed] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  // 直接计算 URL，不再依赖 useEffect 异步设置
+  const imageUrl = getOptimizedAIImageUrl(userItsc);
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach(clearTimeout);
@@ -24,17 +28,6 @@ export default function Page21() {
   }, []);
 
   useEffect(() => () => clearTimers(), [clearTimers]);
-
-  useEffect(() => {
-    const t = setTimeout(() => {
-      const params = new URLSearchParams(window.location.search);
-      const itsc = params.get("user_itsc") || "ivanfan";
-      setImageUrl(`https://api.uuunnniii.com/v4/report2025/images/${encodeURIComponent(itsc)}.png`);
-      setImageFailed(false);
-    }, 0);
-
-    return () => clearTimeout(t);
-  }, []);
 
   function reveal(selector: string, delayMs: number, durationMs = 1400) {
     document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
@@ -86,18 +79,18 @@ export default function Page21() {
 
         <div className={styles.visualArea} onClick={goNext} data-next-ignore="true">
           <div className={`${styles.frame} hide page21-reveal-3`}>
-            {imageUrl && !imageFailed ? (
+            {imageUrl && !imageFailed && (
               <Image
+                key={imageUrl}
                 src={imageUrl}
                 alt="AI Portrait"
                 fill
-                className={styles.objectContain}
+                className={`${styles.objectContain} ${isImageLoaded ? styles.imgLoaded : styles.imgLoading}`}
                 sizes="(max-width: 768px) 60vw, 40vw"
                 priority
+                onLoad={() => setIsImageLoaded(true)}
                 onError={() => setImageFailed(true)}
               />
-            ) : (
-              <Image src="imgs/page21/frame.png" alt="中心图片" fill className={styles.objectContain} priority />
             )}
           </div>
 
@@ -110,7 +103,7 @@ export default function Page21() {
         </div>
         
         <div className={styles.textBlock}>
-          <div className={`${styles.tag} hide page21-reveal-2`}>你是一个「{<span className={styles.personalityLabel}>{personality_label}</span>}」</div>
+          <div className={`${styles.tag} hide page21-reveal-2`}>——{<span className={styles.personalityLabel}>{personality_label}</span>}</div>
           <div className={`${styles.keywords} hide page21-reveal-3`}>你的年度关键词是 [{<span className={styles.keywordLabel}>{keyword}</span>}]</div>
 
         </div>
