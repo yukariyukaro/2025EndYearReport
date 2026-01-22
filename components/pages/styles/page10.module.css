@@ -45,6 +45,7 @@
 }
 
 .yearText {
+  font-family: var(--font-gochi-hand), cursive;
   font-size: 1.5rem; /* 25px */
   margin-bottom: 0.5rem;
 }

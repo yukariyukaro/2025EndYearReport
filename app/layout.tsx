@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Italiana, Leckerli_One, Gochi_Hand } from "next/font/google";
+import { Italiana, Leckerli_One, Gochi_Hand, Agdasima } from "next/font/google";
 import "./globals.css";
 
 const italiana = Italiana({
@@ -19,6 +19,12 @@ const gochiHand = Gochi_Hand({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-gochi-hand",
+});
+
+const agdasima = Agdasima({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-agdasima",
 });
 
 const abhayaLibre = localFont({
@@ -47,7 +53,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${abhayaLibre.variable} ${italiana.variable} ${leckerliOne.variable} ${gochiHand.variable}`}>
+      <body
+        className={`${abhayaLibre.variable} ${italiana.variable} ${leckerliOne.variable} ${gochiHand.variable} ${agdasima.variable}`}
+      >
         {children}
       </body>
     </html>

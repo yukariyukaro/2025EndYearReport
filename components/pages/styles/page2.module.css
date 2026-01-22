@@ -262,7 +262,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 16.8rem; 
+  margin-top: 12.8rem; 
   gap: 2.5rem; /* Gap between "开启" and "夜深了" groups */
 }
 

@@ -10,7 +10,6 @@ import {
   ReactNode,
   useMemo,
 } from "react";
-import { getOptimizedAIImageUrl, preloadImage } from "@/utils/resources";
 
 // 开发阶段使用的默认 Token
 const DEV_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiLpqazmlpnmsLTlk5Tlk5TmnLoiLCJhdWQiOiJDVUhLZXIiLCJpYXQiOjE3Njg1NzMwNTMuMDE5OTg1LCJleHAiOjE3NjkxNzc4NTMuMDE5OTg1LCJ1c2VyX2l0c2MiOiIxMTU1MjExMjI2IiwidXNlcl9zY2hvb2xfbGFiZWwiOiJDVUhLIiwicGxhdGZvcm0iOiJ3ZWNoYXQifQ.-x2gFDHACpFVohLB4yLqP8_nZ66KNYtuOXiT2yBUqP4";
@@ -88,16 +87,6 @@ export function SummaryProvider({ children }: { children: ReactNode }) {
     }
     return urlItsc;
   }, [data, urlItsc]);
-
-  // 触发预加载逻辑：一旦确定了 itsc，立即预加载 page21 的图片
-  useEffect(() => {
-    if (userItsc) {
-      // 预加载优化后的图片，确保进入 page21 时可以立即显示
-      const url = getOptimizedAIImageUrl(userItsc);
-      preloadImage(url);
-      console.log(`[SummaryContext] Preloading Optimized AI Image for ${userItsc}: ${url}`);
-    }
-  }, [userItsc]);
 
   const fetchSummary = useCallback(async () => {
     const url = `https://api.uuunnniii.com/v4/report2025/get.php`;

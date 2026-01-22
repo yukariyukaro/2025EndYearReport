@@ -1,141 +1,213 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import PageWrapper from "@/components/PageWrapper";
-import ScrollUpHint from "@/components/ScrollUpHint";
+import usePageManager from "@/hooks/usePageManager";
 import { sendViewPageTracking } from "@/utils/dom";
 import styles from "./styles/page22.module.css";
-import usePageManager from "@/hooks/usePageManager";
 import { useSummary } from "@/contexts/SummaryContext";
-import { useRevealAnimation } from "@/hooks/useRevealAnimation";
+
+interface Achievement {
+  title: string;
+  description: string;
+  importance: number;
+}
 
 export default function Page22() {
   const PAGE_NUMBER = 22;
-  const { appendNextPage } = usePageManager();
+  const { appendNextPage, onAppendNext, offAppendNext } = usePageManager();
   const { data } = useSummary();
-  const pageData = data?.pages?.page16;
+  const page16 = data?.pages?.page16;
 
-  const achievementCount = pageData?.user_achievements?.length ?? 0;
-  
+  const [isGrowing, setIsGrowing] = useState(false);
   const [showHint, setShowHint] = useState(false);
-  const [isClicked, setIsClicked] = useState(false);
-  const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
-
-  // 计算成就增长率
-  // 逻辑: (今年成就数 - 去年成就数) / 去年成就数 * 100
-  const count2025 = pageData?.user_achievements?.length ?? 0;
-  const count2024 = pageData?.user_achievements_2024?.length ?? 0;
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
   
-  let growthPercentage = 0;
-  let isNegativeGrowth = false;
+  const lastShownRef = useRef<number | null>(null);
+  const timersRef = useRef<NodeJS.Timeout[]>([]);
 
-  if (count2024 > 0) {
-    const rawGrowth = ((count2025 - count2024) / count2024 * 100);
-    growthPercentage = Number(Math.abs(rawGrowth).toFixed(1));
-    isNegativeGrowth = rawGrowth < 0;
-  } else if (count2025 > 0) {
-    // 去年为0，今年有，增长率为100%
-    growthPercentage = 100;
+  const clearTimers = () => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+  };
+
+  const scrollToNext = () => {
+    // Page 22 is likely the last page or close to it. 
+    // If there is a page 23, this works. If not, it might do nothing.
+    appendNextPage(PAGE_NUMBER, true);
+  };
+
+  const getAchievementsByYear = (year: number): Achievement[] => {
+    if (!page16) return [];
+    switch (year) {
+      case 2023: return page16.user_achievements_2023 || [];
+      case 2024: return page16.user_achievements_2024 || [];
+      case 2025: return page16.user_achievements || [];
+      default: return [];
+    }
+  };
+
+  const handleYearClick = (year: number) => {
+    setSelectedYear(year);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedYear(null);
+  };
+
+  function slideIn(selector: string, delayMs: number, fromDirection: 'left' | 'right' | 'top' | 'bottom' = 'bottom', durationMs = 800) {
+    const timer = setTimeout(() => {
+      if (typeof document === "undefined") return;
+      const pageElement = document.getElementById(`page${PAGE_NUMBER}`);
+      if (!pageElement) return;
+      const elements = pageElement.querySelectorAll<HTMLElement>(selector);
+      elements.forEach((el) => {
+        el.classList.remove("hide");
+        let initialTransform = "";
+        switch (fromDirection) {
+          case 'left': initialTransform = "translateX(-100px)"; break;
+          case 'right': initialTransform = "translateX(100px)"; break;
+          case 'top': initialTransform = "translateY(-100px)"; break;
+          case 'bottom': initialTransform = "translateY(100px)"; break;
+        }
+        el.style.transform = initialTransform;
+        el.style.opacity = "0";
+        el.style.transition = `transform ${durationMs}ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity ${durationMs}ms ease-out`;
+        requestAnimationFrame(() => {
+          el.style.transform = "translate(0, 0)";
+          el.style.opacity = "1";
+        });
+      });
+    }, delayMs);
+    timersRef.current.push(timer);
   }
 
-  const handleTreeTrunkClick = () => {
-    if (isClicked) return;
-    setIsClicked(true);
-    // 延迟跳转，展示点击反馈动画
-    setTimeout(() => {
-      try {
-        appendNextPage(PAGE_NUMBER, true);
-      } catch (e) {
-        console.log("点击树干查看成长足迹");
-      }
-    }, 300);
-  };
-
-  const doReveal = (selector: string, delay: number) => {
-    reveal(selector, delay, { activeClass: "visible", initialClass: "reveal" });
-  };
-
-  function handleShow() {
+  function onShow() {
+    if (lastShownRef.current === PAGE_NUMBER) return;
+    lastShownRef.current = PAGE_NUMBER;
     clearTimers();
     setShowHint(false);
-    doReveal(".page22-reveal-header", 250);
-    doReveal(".page22-reveal-tree", 600);
-    doReveal(".page22-reveal-hint", 1050);
-    doReveal(".page22-reveal-leaf-1", 600);
-    doReveal(".page22-reveal-leaf-2", 700);
-    doReveal(".page22-reveal-leaf-3", 800);
-    doReveal(".page22-reveal-leaf-4", 900);
-    doReveal(".page22-reveal-leaf-5", 1000);
-    doReveal(".page22-reveal-leaf-6", 1100);
-    sendViewPageTracking(PAGE_NUMBER);
-    const hintTimer = setTimeout(() => setShowHint(true), 1500);
-    addTimer(hintTimer);
+    let t = 0;
+    const step = 200;
+
+    // Title
+    slideIn('.page22-text-1', (t += step), 'left', 800);
+
+    // Main tree and tree-like elements
+    slideIn('.page22-tree-m', (t += step * 1.2), 'bottom', 1000);
+    
+    // trigger growth animation
+    const growTimer = setTimeout(() => setIsGrowing(true), t + 50);
+    timersRef.current.push(growTimer);
+
+    slideIn('.page22-mango', (t += step), 'bottom', 900);
+    slideIn('.page22-mangoes', (t += step), 'bottom', 900);
+    slideIn('.page22-2023', (t += step), 'bottom', 900);
+    slideIn('.page22-2024', (t += step), 'bottom', 900);
+    slideIn('.page22-2025', (t += step), 'bottom', 900);
+
+    const hintTimer = setTimeout(() => setShowHint(true), t + 1500);
+    timersRef.current.push(hintTimer);
   }
 
-  return (
-    <PageWrapper
-      pageNumber={PAGE_NUMBER}
-      onShow={handleShow}
-      onAppendNext={() => setShowHint(false)}
-      className={styles.container}
-    >
-      <div className={`${styles.headerText} reveal fromLeft page22-reveal-header`}>
-        <p>今年你收获了 <span className={styles.figure}>{achievementCount}</span> 个成就</p>
-        <p>比去年{isNegativeGrowth ? "减少了" : "增长了"} <span className={styles.figure}>{growthPercentage}</span>%</p>
-      </div>
+  function handleShow() {
+    onShow();
+    sendViewPageTracking(PAGE_NUMBER);
+  }
 
-      <div 
-        className={`${styles.treeContainer} ${styles.treeBreathing} ${isClicked ? styles.treeClickFeedback : ''}`}
-        onClick={handleTreeTrunkClick} 
-        data-next-ignore="true"
-      >
-        <div className={`reveal fromBottom page22-reveal-tree`} style={{ width: "100%", height: "100%", position: "relative" }}>
-          <Image 
-            src="imgs/page22/tree.png" 
-            alt="Tree" 
-            fill
-            style={{ objectFit: "contain" }}
-            priority
-          />
+  // If page21 triggers appendNextPage(21,...), start growth animation here as well
+  useEffect(() => {
+    const handler = () => {
+      setIsGrowing(true);
+    };
+    try {
+      onAppendNext && onAppendNext(21, handler);
+    } catch (e) {
+      // ignore
+    }
+    return () => {
+      try { offAppendNext && offAppendNext(21, handler); } catch (e) {}
+      clearTimers();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const currentAchievements = selectedYear ? getAchievementsByYear(selectedYear) : [];
+
+  return (
+    <PageWrapper pageNumber={PAGE_NUMBER} onShow={handleShow} className={styles.container} style={{ backgroundImage: 'url("imgs/page22/background.png")' }}>
+      <div className="content-block">
+        <div className="page22-text-1 hide">
+          <p>点击不同年份
+            <br />
+            展开成就详情卡片
+          </p>
         </div>
 
-        <div className={styles.hintContainer}>
-          <div className={`reveal fromRight page22-reveal-hint`}>
-            <div className={styles.arrow}>
-              <Image src="imgs/page22/arrow.png" alt="Arrow" fill style={{ objectFit: "contain" }} />
+        <div className="page22-tree-m hide">
+          <div className="relative" style={{ width: '100%', height: '100%' }}>
+            <Image src="imgs/page23/tree_m.png" alt="Tree With Mangos" fill style={{ objectFit: "contain" }} />
+          </div>
+        </div>
+
+        {/* tree-like assets */}
+        <div className="page22-mango hide">
+          <Image src="imgs/page23/mango.png" alt="mango" width={75} height={35} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
+        <div className="page22-mangoes hide">
+          <Image src="imgs/page23/mangoes.png" alt="mangoes" width={80} height={60} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        </div>
+        
+        {/* Interactive Bubbles */}
+        <div className="page22-2023 hide" onClick={() => handleYearClick(2023)}>
+          <div className={`${styles.bubble} ${styles.bubble2023}`}>
+            <span className={styles.yearText}>2023</span>
+          </div>
+        </div>
+
+        <div className="page22-2024 hide" onClick={() => handleYearClick(2024)}>
+          <div className={`${styles.bubble} ${styles.bubble2024}`}>
+            <span className={styles.yearText}>2024</span>
+          </div>
+        </div>
+
+        <div className="page22-2025 hide" onClick={() => handleYearClick(2025)}>
+          <div className={`${styles.bubble} ${styles.bubble2025}`}>
+            <span className={styles.yearText}>2025</span>
+          </div>
+        </div>
+
+        {/* Achievement Modal */}
+        <div className={`${styles.modalOverlay} ${selectedYear ? styles.modalActive : ''}`} onClick={handleCloseModal}>
+          <div className={styles.cardContainer} onClick={e => e.stopPropagation()}>
+            <div className={styles.cardHeader}>
+              <span className={styles.yearTitle}>{selectedYear} 年度成就</span>
+              <button className={styles.closeButton} onClick={handleCloseModal}>×</button>
             </div>
-            <div className={styles.hintText}>
-              <p>点击树干</p>
-              <p>看看你的成长足迹</p>
+            
+            <div className={styles.bentoGrid}>
+              {currentAchievements.length > 0 ? (
+                currentAchievements.map((ach, index) => (
+                  <div 
+                    key={index} 
+                    className={`${styles.achievementItem} ${ach.importance >= 3 ? styles.important : ''}`}
+                    style={{ transitionDelay: `${index * 100}ms` }}
+                  >
+                    <div className={styles.achTitle}>{ach.title}</div>
+                    <div className={styles.achDesc}>{ach.description}</div>
+                  </div>
+                ))
+              ) : (
+                <div className={styles.emptyState}>暂无成就记录</div>
+              )}
             </div>
           </div>
         </div>
-      </div>
 
-      <div className={`${styles.leaf} ${styles.leaf1} reveal fromFade page22-reveal-leaf-1`}>
-        <Image src="imgs/page22/leaf1.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
-      </div>
-      <div className={`${styles.leaf} ${styles.leaf2} reveal fromFade page22-reveal-leaf-2`}>
-        <Image src="imgs/page22/leaf2.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
-      </div>
-      <div className={`${styles.leaf} ${styles.leaf3} reveal fromFade page22-reveal-leaf-3`}>
-        <Image src="imgs/page22/leaf3.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
-      </div>
-      <div className={`${styles.leaf} ${styles.leaf4} reveal fromFade page22-reveal-leaf-4`}>
-        <Image src="imgs/page22/leaf4.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
-      </div>
-      <div className={`${styles.leaf} ${styles.leaf5} reveal fromFade page22-reveal-leaf-5`}>
-        <Image src="imgs/page22/leaf5.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
-      </div>
-      <div className={`${styles.leaf} ${styles.leaf6} reveal fromFade page22-reveal-leaf-6`}>
-        <Image src="imgs/page22/leaf6.png" alt="Leaf" fill style={{ objectFit: "contain" }} />
-      </div>
-
-      {showHint && (
-        <div className="fade-in">
-          <ScrollUpHint />
+        <div style={{ marginTop: '1.25rem' }}>
+          <button onClick={scrollToNext} aria-label="Show next page" style={{border: 'none', background: 'transparent', padding: 0, width: 0, height: 0}} />
         </div>
-      )}
+      </div>
     </PageWrapper>
   );
 }

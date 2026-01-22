@@ -131,7 +131,7 @@ export default function Page17() {
           </div>
 
           <div className={`October_face hide ${styles.octoberFaceWrap}`}>
-            <Image src="imgs/page17/October_face.png" alt="October face" width={260} height={430} />
+            <Image src="imgs/page17/October_face.png" alt="October face" fill style={{objectFit: 'contain'}} />
           </div>
         </div>
 

@@ -159,8 +159,9 @@
 
 .legendText {
   font-family: 'Inter', sans-serif;
-  font-size: 0.75rem; /* 12px */
-  color: #8baab7;
+  font-size: 0.85rem; /* 12px */
+  font-weight:400;
+  color: 	#008B8B;
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -168,7 +169,7 @@
 
 /* Bottom Text */
 .bottomText {
-  width: min(90%, calc(var(--sim-w) * 0.82));
+  width: 90%;
   font-family: var(--font-agdasima, sans-serif);
   font-size: 1.4rem;
   font-weight: 700;
@@ -186,7 +187,7 @@
 
   .topText {
     margin-top: clamp(1.75rem, 4vh, 3.25rem);
-    font-size: clamp(0.95rem, 3.2vw, 1.15rem);
+    font-size: clamp(1.05rem, 3.2vw, 1.15rem);
     line-height: 1.4;
   }
 
@@ -207,7 +208,7 @@
   }
 
   .bottomText {
-    font-size: clamp(0.95rem, 3.2vw, 1.15rem);
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
     line-height: 1.55;
   }
 

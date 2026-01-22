@@ -27,11 +27,11 @@
   --clr-text: var(--clr-offwhite);
 
   /* Fonts */
-  --ff-primary: AaTangYuanTi, -apple-system, BlinkMacSystemFont, Segoe UI,
+  --ff-primary: var(--font-agdasima), -apple-system, BlinkMacSystemFont, Segoe UI,
     Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
     Helvetica Neue, PingFang SC, Hiragino Sans GB, Microsoft YaHei,
     Noto Sans CJK SC, sans-serif;
-  --ff-accent: IrishGrover, serif;
+  --ff-accent: serif;
   --ff-post: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
     Cantarell, Fira Sans, Droid Sans, Helvetica Neue, PingFang SC,
     Hiragino Sans GB, Microsoft YaHei;
@@ -94,18 +94,7 @@ a {
 }
 
 /* Fonts (remote) */
-@font-face {
-  font-family: "AaTangYuanTi";
-  src: url("https://i.boatonland.com/report2024/assets/fonts/AaTangYuanTi-2.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: "IrishGrover";
-  src: url("https://i.boatonland.com/report2024/assets/fonts/IrishGrover-Regular.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-}
+
 
 /* 移除旧的媒体查询覆盖，统一使用流体字号 */
 /* @media (min-height: 790px) and (min-width: 390px) { ... } */
@@ -249,6 +238,60 @@ a {
 
 @media (prefers-reduced-motion: reduce) {
   .reveal-line { animation-duration: 1ms; animation-delay: 0ms; }
+}
+
+.page23-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #000;
+}
+
+.page23-content {
+  width: min(90%, 26rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.6rem, 3vw, 1rem);
+  text-align: center;
+  padding-bottom: 3rem;
+}
+
+.page23-figure {
+  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.page23-title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.page23-year {
+  font-size: clamp(3.5rem, 18vw, 7rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.page23-title {
+  font-size: clamp(1.8rem, 7vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.page23-accent {
+  font-size: clamp(1rem, 4.6vw, 1.4rem);
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 /* Page 1 specific styles removed and moved to module */

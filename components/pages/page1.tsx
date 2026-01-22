@@ -11,6 +11,7 @@ export default function Page1() {
   const { isLoading, error, retry } = useSummary();
 
   const [loadedCount, setLoadedCount] = useState(0);
+  const [fontsReady, setFontsReady] = useState(false);
 
   // Image Mapping
   const col1 = [
@@ -46,10 +47,47 @@ export default function Page1() {
   // Each column is duplicated in the render: [...col, ...col]
   const totalImages = columns.reduce((acc, col) => acc + col.length * 2, 0);
   
+  useEffect(() => {
+    let cancelled = false;
+    if (typeof document === "undefined") {
+      setFontsReady(true);
+      return;
+    }
+
+    const fontSet = document.fonts;
+    if (!fontSet || !fontSet.ready) {
+      setFontsReady(true);
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
+      if (!cancelled) setFontsReady(true);
+    }, 4000);
+
+    fontSet.ready
+      .then(() => {
+        if (!cancelled) {
+          clearTimeout(timeoutId);
+          setFontsReady(true);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          clearTimeout(timeoutId);
+          setFontsReady(true);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
   // Block until data is loaded AND images are ready
   // We can add a timeout or threshold if needed, but for now strict checking
   const imagesReady = loadedCount >= totalImages;
-  const isBlocking = isLoading || error !== null || !imagesReady;
+  const isBlocking = isLoading || error !== null || !imagesReady || !fontsReady;
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER}>

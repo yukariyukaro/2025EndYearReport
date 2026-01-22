@@ -38,12 +38,12 @@
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  gap: 1.5rem; /* Gap between title and text rows */
+  gap: 1.5rem; 
 }
 
 .titleEnglish {
   font-family: var(--ff-primary); /* Should technically be ADLaM Display but using primary for now */
-  font-weight: 400;
+  font-weight: 700;
   font-size: 1.25rem; /* 20px */
   color: #000000;
 }
