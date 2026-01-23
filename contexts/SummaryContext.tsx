@@ -43,6 +43,8 @@ interface SummaryContextType {
   isLoading: boolean;
   error: string | null;
   userItsc: string;
+  appName: string;
+  launchDate: string;
   retry: () => void;
 }
 
@@ -78,15 +80,39 @@ export function SummaryProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // 优先从后端返回的数据中获取 itsc (nickname)，如果未获取到则使用 URL/Token 中的 Fallback
-  // data.pages.page1.nickname 是确定的用户名称
   const userItsc = useMemo(() => {
     if (data?.pages?.page1?.nickname) {
       return data.pages.page1.nickname;
-      console.log(userItsc)
     }
     return urlItsc;
   }, [data, urlItsc]);
+
+  const { appName, launchDate } = useMemo(() => {
+    const label = data?.pages?.page3?.school_label || schoolLabel;
+
+    let resolvedAppName = "噗噗";
+    let resolvedLaunchDate = "2020-10-31";
+
+    switch (label) {
+      case "HKU":
+        resolvedAppName = "噗噗";
+        resolvedLaunchDate = "2020-10-31";
+        break;
+      case "UST":
+        resolvedAppName = "星尘";
+        resolvedLaunchDate = "2020-05-02";
+        break;
+      case "CUHK":
+        resolvedAppName = "哔哔机";
+        resolvedLaunchDate = "2020-08-24";
+        break;
+      default:
+        resolvedAppName = "噗噗";
+        resolvedLaunchDate = "2020-10-31";
+    }
+
+    return { appName: resolvedAppName, launchDate: resolvedLaunchDate };
+  }, [data, schoolLabel]);
 
   const fetchSummary = useCallback(async () => {
     const url = `https://api.uuunnniii.com/v4/report2025/get.php`;
@@ -140,6 +166,8 @@ export function SummaryProvider({ children }: { children: ReactNode }) {
         isLoading,
         error,
         userItsc,
+        appName,
+        launchDate,
         retry: fetchSummary,
       }}
     >
