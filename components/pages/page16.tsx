@@ -29,7 +29,6 @@ export default function Page16() {
     
     // Text lines
     reveal('.page16-reveal-top-1', t + 300);
-    reveal('.page16-reveal-top-2', t + 450);
 
     // Trees
     reveal('.page16-reveal-summer', t + 450);
@@ -54,13 +53,38 @@ export default function Page16() {
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
 
   // Text variables extracted
-  const POST_EMOTION_TITLE_LINE1 = "你的发帖情绪";
-  const POST_EMOTION_TITLE_LINE2 = "随季节流转";
+  const activeSeasonDesc = pageData?.active_season_desc ?? "你的发帖情绪随季节流转";
   
   const keywords = pageData?.top_keywords ?? [];
   const FREQ_WORD1 = keywords[0]?.word ?? "生活";
   const FREQ_WORD2 = keywords[1]?.word ?? "探索";
   const FREQ_WORD3 = keywords[2]?.word ?? "成长";
+
+  // Format activeSeasonDesc: split after the last occurrence of a season name
+  const formatSeasonText = (text: string) => {
+    const seasons = ["春季", "夏季", "秋季", "冬季"];
+    let splitIndex = -1;
+    
+    // Find the last occurrence of any season to split after
+    seasons.forEach(season => {
+      const idx = text.lastIndexOf(season);
+      if (idx !== -1 && idx + season.length > splitIndex) {
+        splitIndex = idx + season.length;
+      }
+    });
+
+    // If a season is found and it's not at the very end of the string
+    if (splitIndex !== -1 && splitIndex < text.length) {
+      return (
+        <>
+          <div>{text.slice(0, splitIndex)}</div>
+          <div>{text.slice(splitIndex)}</div>
+        </>
+      );
+    }
+    
+    return text;
+  };
 
   return (
     <PageWrapper pageNumber={PAGE_NUMBER} onShow={onShow} onAppendNext={() => setShowHint(false)}>
@@ -94,8 +118,9 @@ export default function Page16() {
         </div>
 
         <div className={styles.topText}>
-          <div className={`${styles.topTextLine} hide page16-reveal-top-1`}>{POST_EMOTION_TITLE_LINE1}</div>
-          <div className={`${styles.topTextLine} hide page16-reveal-top-2`}>{POST_EMOTION_TITLE_LINE2}</div>
+          <div className={`${styles.topTextLine} hide page16-reveal-top-1`}>
+            {formatSeasonText(activeSeasonDesc)}
+          </div>
         </div>
 
         <div className={styles.bottomText}>
