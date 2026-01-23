@@ -135,6 +135,7 @@
   right: 8%;
   text-align: right;
   color: #000;
+  max-width: 50%;
 }
 
 .topTextLine {

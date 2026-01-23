@@ -39,6 +39,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  transition: filter 0.5s ease;
 }
 
 .bonusText {
@@ -56,14 +57,15 @@
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  transition: filter 0.5s ease;
 }
 
 .questionText {
   font-family: var(--ff-primary);
-  font-weight: 800;
   font-size: 1.5rem;
   color: #000000;
   line-height: 1.4;
+  font-weight: 800;
 }
 
 .highlight {
@@ -80,6 +82,7 @@
   flex-direction: column;
   align-items: center;
   position: relative;
+  min-height: 100px; /* Prevent collapse when empty */
 }
 
 .hintText {
@@ -176,4 +179,96 @@
 @keyframes bounce {
   0%, 100% { transform: translateY(0) rotate(15deg); }
   50% { transform: translateY(-10px) rotate(10deg); }
+}
+
+/* Post Card Animation */
+.blur {
+  filter: blur(4px);
+}
+
+.postCardContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  max-width: 320px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: cardPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.postCard {
+  background: rgba(255, 247, 228, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.postContent {
+  font-family: var(--ff-primary);
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #4a4a4a;
+  text-align: justify;
+  margin: 0.5rem 0;
+  max-height: 40vh;
+  overflow-y: auto;
+  font-weight: 600;
+}
+
+.postDecor {
+  font-family: serif;
+  font-size: 4rem;
+  line-height: 0.5;
+  color: #aadddd;
+  align-self: flex-start;
+  opacity: 0.8;
+  margin-left: -0.5rem;
+  margin-bottom: -1rem;
+}
+
+.postDecorBottom {
+  font-family: serif;
+  font-size: 4rem;
+  line-height: 0.5;
+  color: #aadddd;
+  align-self: flex-end;
+  opacity: 0.8;
+  transform: rotate(180deg);
+  margin-right: -0.5rem;
+  margin-top: -1rem;
+}
+
+.tapContinue {
+  margin-top: 2rem;
+  font-size: 1rem;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  opacity: 0;
+  animation: fadeIn 0.8s ease 0.8s forwards;
+  letter-spacing: 1px;
+}
+
+@keyframes cardPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -40%) scale(0.8) rotate(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
 }
