@@ -120,26 +120,23 @@ export default function Page15() {
             />
           </div>
           <div className={styles.topText}>
-            <div className={`hide page15-reveal-2-1`}>这条内容收获了</div>
-            <div className={`hide page15-reveal-2-2`}><span className={styles.highlight}>{viewCount}</span> 次阅读</div>
+            <div className={`hide page15-reveal-2-1`}>你的“高光时刻”:</div>
+            <div className={`hide page15-reveal-2-2`}>这条内容收获了<span className={styles.highlight}>{viewCount}</span> 次阅读</div>
             <div className={`hide page15-reveal-2-3`}><span className={styles.highlight}>{commentCount}</span> 条评论</div>
             <div className={`hide page15-reveal-2-4`}><span className={styles.highlight}>{collectCount}</span> 次收藏</div>
-            <div className={`hide page15-reveal-2-5`}>是今年最受欢迎的一条</div>
           </div>
         </div>
 
         {/* Main Illustration */}
         <div className={`${styles.mainImageWrapper} hide page15-reveal-3`}>
-          <div className={styles.float}>
-             <Image
+           <div className={styles.imageContainer}>
+              <Image
                src="imgs/page15/bro.png"
                alt="Illustration"
-               width={300}
-               height={300}
+               fill
                className={styles.broImage}
-               style={{ width: "100%", height: "auto", maxHeight: "40vh" }}
              />
-          </div>
+           </div>
         </div>
 
         {/* Bottom Section */}

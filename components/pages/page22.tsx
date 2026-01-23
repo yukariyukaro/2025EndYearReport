@@ -159,26 +159,26 @@ export default function Page22() {
         </div>
         
         {/* Interactive Bubbles */}
-        <div className="page22-2023 hide" onClick={() => handleYearClick(2023)}>
+        <div className="page22-2023 hide" onClick={() => handleYearClick(2023)} data-next-ignore>
           <div className={`${styles.bubble} ${styles.bubble2023}`}>
             <span className={styles.yearText}>2023</span>
           </div>
         </div>
 
-        <div className="page22-2024 hide" onClick={() => handleYearClick(2024)}>
+        <div className="page22-2024 hide" onClick={() => handleYearClick(2024)} data-next-ignore>
           <div className={`${styles.bubble} ${styles.bubble2024}`}>
             <span className={styles.yearText}>2024</span>
           </div>
         </div>
 
-        <div className="page22-2025 hide" onClick={() => handleYearClick(2025)}>
+        <div className="page22-2025 hide" onClick={() => handleYearClick(2025)} data-next-ignore>
           <div className={`${styles.bubble} ${styles.bubble2025}`}>
             <span className={styles.yearText}>2025</span>
           </div>
         </div>
 
         {/* Achievement Modal */}
-        <div className={`${styles.modalOverlay} ${selectedYear ? styles.modalActive : ''}`} onClick={handleCloseModal}>
+        <div className={`${styles.modalOverlay} ${selectedYear ? styles.modalActive : ''}`} onClick={handleCloseModal} data-next-ignore>
           <div className={styles.cardContainer} onClick={e => e.stopPropagation()}>
             <div className={styles.cardHeader}>
               <span className={styles.yearTitle}>{selectedYear} 年度成就</span>
