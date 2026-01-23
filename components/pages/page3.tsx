@@ -18,7 +18,7 @@ export default function Page3() {
   const PAGE_NUMBER = 3;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { appendNextPage, currentPage } = usePageManager();
-  const { data } = useSummary();
+  const { data, appName, launchDate: launchDateStr } = useSummary();
   
   // Toggle for Easter Egg mode (restoring design as Easter Egg version by default)
   const [isEasterEgg] = useState(false);
@@ -26,9 +26,18 @@ export default function Page3() {
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
   const pageData = data?.pages?.page2;
-  const launchTimeFormatted = formatDate(pageData?.launch_time);
+  const launchTimeFormatted = formatDate(launchDateStr);
   const registerTimeFormatted = formatDate(pageData?.register_time);
-  const daysTogether = pageData?.days_together ?? 0;
+  
+  // Manually calculate days together from registration time
+  const daysTogether = (() => {
+    if (!pageData?.register_time) return 0;
+    const regDate = new Date(pageData.register_time);
+    const now = new Date();
+    const diff = now.getTime() - regDate.getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24));
+  })();
+
   const registerRank = pageData?.register_rank ?? 0;
 
   // 清理 timers
@@ -75,20 +84,18 @@ export default function Page3() {
     let t = 100; // 初始延迟缩短为 100ms
     const stepSlow = 300; 
 
-    // Top Section
-    reveal(".page3-reveal-1", t); // Title
-    reveal(".page3-reveal-2", (t += stepSlow)); // 噗噗在...
-    reveal(".page3-reveal-3", (t += stepSlow)); // 悄然上线
-    reveal(".page3-reveal-4", (t += stepSlow)); // 你在...
-    reveal(".page3-reveal-5", (t += stepSlow)); // 与噗噗相遇
+    reveal(".page3-reveal-1", t);
+    reveal(".page3-reveal-2", (t += stepSlow));
+    reveal(".page3-reveal-3", (t += stepSlow));
+    reveal(".page3-reveal-4", (t += stepSlow));
+    reveal(".page3-reveal-5", (t += stepSlow));
 
     // Middle Section - Circle (Static, no reveal)
 
-    // Bottom Section
-    reveal(".page3-reveal-6", (t += stepSlow)); // 我们已经相互陪伴了
-    reveal(".page3-reveal-7", (t += stepSlow)); // 879 天！
-    reveal(".page3-reveal-8", (t += stepSlow)); // 你是第...登岛的伙伴
-    reveal(".page3-reveal-9", (t += stepSlow)); // 是噗噗最珍贵的元老
+    reveal(".page3-reveal-6", (t += stepSlow));
+    reveal(".page3-reveal-7", (t += stepSlow));
+    reveal(".page3-reveal-8", (t += stepSlow));
+    reveal(".page3-reveal-9", (t += stepSlow));
 
     const hintTimer = setTimeout(() => setShowHint(true), (t += 600));
     timersRef.current.push(hintTimer);
@@ -118,7 +125,7 @@ export default function Page3() {
             
             <div className={styles.infoGroup}>
               <div className={`${styles.textRow} hide page3-reveal-2`}>
-                <span className={styles.fontPrimary}>噗噗在</span>
+                <span className={styles.fontPrimary}>{appName}在</span>
                 <span className={styles.fontPrimary}>{launchTimeFormatted}</span>
               </div>
               <div className={`${styles.textRow} hide page3-reveal-3`}>
@@ -129,7 +136,7 @@ export default function Page3() {
                 <span className={styles.fontPrimary}>{registerTimeFormatted}</span>
               </div>
               <div className={`${styles.textRow} hide page3-reveal-5`}>
-                <span className={styles.fontPrimary}>与噗噗相遇~</span>
+                <span className={styles.fontPrimary}>与{appName}相遇~</span>
               </div>
             </div>
           </div>
@@ -161,7 +168,7 @@ export default function Page3() {
                   <span className={styles.highlightText}>{registerRank}</span>
                   <span className={styles.fontPrimary}>登岛的伙伴</span>
                 </div>
-                <span className={`${styles.fontPrimary} hide page3-reveal-9`}>是噗噗最珍贵的元老🫶</span>
+                <span className={`${styles.fontPrimary} hide page3-reveal-9`}>是{appName}最珍贵的元老🫶</span>
               </div>
             )}
           </div>

@@ -14,7 +14,7 @@ export default function Page5() {
   const [showHint, setShowHint] = useState(false);
   const timersRef = useRef<NodeJS.Timeout[]>([]);
 
-  const { data } = useSummary();
+  const { data, appName } = useSummary();
   const page3Data = data?.pages?.page3;
 
   const stats = {
@@ -103,7 +103,7 @@ export default function Page5() {
             <span className={styles.textBase}>在过去的四季里</span>
           </div>
           <div className={`${styles.textRow} ${styles.hide} page5-reveal-3`}>
-            <span className={styles.textBase}>噗噗默默陪伴了你</span>
+            <span className={styles.textBase}>{appName}默默陪伴了你</span>
             <span className={styles.textHighlight}>【{stats.days}】</span>
             <span className={styles.textBase}>天</span>
           </div>
@@ -141,7 +141,7 @@ export default function Page5() {
                     </div>
                     <span className={styles.cardText}>门</span>
                  </div>
-                 <span className={styles.cardText}>噗噗课程呢~</span>
+                 <span className={styles.cardText}>{appName}课程呢~</span>
               </div>
            </div>
 
@@ -157,10 +157,6 @@ export default function Page5() {
            </div>
         </div>
 
-        {/* Bottom Hint */}
-        <div className={`${styles.bottomHint} ${styles.hide} page5-reveal-8`}>
-           点击探索，感受四季陪伴的温暖
-        </div>
       </div>
 
       {showHint && (

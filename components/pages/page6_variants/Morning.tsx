@@ -69,7 +69,7 @@ export default function Morning({ chartData, peakHour, patternLabel }: Page6Vari
         {/* Header */}
         <div className={`${styles.headerText} hide page6-reveal-1`}>
           <div>/清晨的宁静</div>
-          <div>是你与噗噗的专属频道</div>
+          <div>是你与{appName}的专属频道</div>
         </div>
         
         <div 

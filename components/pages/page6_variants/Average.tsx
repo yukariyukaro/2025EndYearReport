@@ -169,7 +169,7 @@ export default function Average({ chartData, peakHour, patternLabel }: Page6Vari
         {/* Quote & Rabbit */}
         <div className={styles.bottomSection}>
              <div className={`${styles.quoteText} hide page6-avg-reveal-5`}>
-                你的陪伴不分昼夜，{'\n'}是噗噗最忠实的伙伴。
+                你的陪伴不分昼夜，{'\n'}是{appName}最忠实的伙伴。
             </div>
             
             <div className={`${styles.rabbitContainer} hide page6-avg-reveal-6`}>
