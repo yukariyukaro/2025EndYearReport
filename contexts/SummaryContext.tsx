@@ -138,7 +138,6 @@ export function SummaryProvider({ children }: { children: ReactNode }) {
         message?: string; // 兼容旧字段
       };
 
-      console.log('[SummaryContext] Report Data:', json);
 
       if (json && (json.code === 200 || json.success === true) && json.data) {
         setData(json.data);

@@ -22,7 +22,7 @@ export default function Page5() {
     minutes: page3Data?.total_minutes ?? 0,
     rank: page3Data?.school_rank ?? 0,
     totalUsers: page3Data?.school_total_users ?? 0,
-    courses: page3Data?.pupu_courses ?? 0
+    courses: ((page3Data?.pupu_courses ?? 0) / 12).toFixed(1)
   };
 
   // 清理 timers
