@@ -13,13 +13,14 @@ export interface Page6VariantProps {
   chartData: Array<{ name: string; user: number; avg: number }>;
   peakHour: string;
   patternLabel: string;
+  maxY: number;
 }
 
 export default function Page6() {
   const { data } = useSummary();
   const page4Data = data?.pages?.page4;
 
-  const { userType, chartData, peakHour, patternLabel } = useMemo(() => {
+  const { userType, chartData, peakHour, patternLabel, maxY } = useMemo(() => {
     const label = page4Data?.time_pattern_label || "混合型";
     let type: UserType = 'day';
 
@@ -50,18 +51,27 @@ export default function Page6() {
     });
     const peak = `${maxIdx}:00`;
 
+    // Calculate Y-axis max (highest value + 5)
+    let globalMax = 0;
+    transformedData.forEach(d => {
+      globalMax = Math.max(globalMax, d.user, d.avg);
+    });
+    const maxY = Math.ceil(globalMax) + 5;
+
     return {
       userType: type,
       chartData: transformedData,
       peakHour: peak,
-      patternLabel: label
+      patternLabel: label,
+      maxY
     };
   }, [page4Data]);
 
   const props: Page6VariantProps = {
     chartData,
     peakHour,
-    patternLabel
+    patternLabel,
+    maxY
   };
 
   switch (userType) {

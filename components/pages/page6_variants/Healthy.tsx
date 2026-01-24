@@ -17,7 +17,7 @@ import {
 import styles from '../styles/page6Healthy.module.css';
 import { useRevealAnimation } from '@/hooks/useRevealAnimation';
 
-export default function Healthy({ chartData, peakHour, patternLabel }: Page6VariantProps) {
+export default function Healthy({ chartData, peakHour, patternLabel, maxY }: Page6VariantProps) {
   const PAGE_NUMBER = 6;
   const { appendNextPage } = usePageManager();
   
@@ -109,8 +109,7 @@ export default function Healthy({ chartData, peakHour, patternLabel }: Page6Vari
                 tick={{fill: '#842e00', fontSize: 12, opacity: 0.6}} 
                 axisLine={false} 
                 tickLine={false} 
-                domain={[0, (dataMax: number) => Math.max(dataMax, 25)]}
-                ticks={[0, 5, 10, 15, 20, 25]}
+                domain={[0, maxY]}
               />
               <Tooltip 
                 contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: 'none', borderRadius: '8px', color: '#000' }}

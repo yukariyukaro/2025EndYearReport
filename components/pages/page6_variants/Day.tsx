@@ -17,7 +17,7 @@ import {
 import styles from '../styles/page6Day.module.css';
 import { useRevealAnimation } from '@/hooks/useRevealAnimation';
 
-export default function Day({ chartData, peakHour, patternLabel }: Page6VariantProps) {
+export default function Day({ chartData, peakHour, patternLabel, maxY }: Page6VariantProps) {
   const PAGE_NUMBER = 6;
   const { appendNextPage } = usePageManager();
   
@@ -117,8 +117,7 @@ export default function Day({ chartData, peakHour, patternLabel }: Page6VariantP
                 tick={{fill: '#222b59', fontSize: 12, opacity: 0.6}} 
                 axisLine={false} 
                 tickLine={false} 
-                domain={[0, (dataMax: number) => Math.max(dataMax, 25)]}
-                ticks={[0, 5, 10, 15, 20, 25]}
+                domain={[0, maxY]}
               />
               <Tooltip 
                 contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: 'none', borderRadius: '8px', color: '#000' }}

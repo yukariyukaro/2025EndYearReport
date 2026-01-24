@@ -18,7 +18,7 @@ import { useRevealAnimation } from '@/hooks/useRevealAnimation';
 
 import { Page6VariantProps } from '../page6';
 
-export default function Average({ chartData, peakHour, patternLabel }: Page6VariantProps) {
+export default function Average({ chartData, peakHour, patternLabel, maxY }: Page6VariantProps) {
   const PAGE_NUMBER = 6;
   const { appendNextPage } = usePageManager();
   
@@ -128,8 +128,7 @@ export default function Average({ chartData, peakHour, patternLabel }: Page6Vari
                 tick={{fill: '#666', fontSize: 12}} 
                 axisLine={false} 
                 tickLine={false} 
-                domain={[0, (dataMax: number) => Math.max(dataMax, 25)]}
-                ticks={[0, 5, 10, 15, 20, 25]}
+                domain={[0, maxY]}
               />
               <Tooltip 
                 contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: 'none', borderRadius: '8px', color: '#000' }}
