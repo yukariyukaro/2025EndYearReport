@@ -145,10 +145,12 @@ export default function Night({ chartData, peakHour, patternLabel, maxY }: Page6
                 axisLine={false} 
                 tickLine={false} 
                 domain={[0, maxY]}
+                tickFormatter={(val: number) => String(+val.toFixed(1))}
               />
               <Tooltip 
                 contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: 'none', borderRadius: '8px', color: '#000' }}
                 itemStyle={{ color: '#000' }}
+                formatter={(val: number) => [+val.toFixed(1)]}
               />
               <Area 
                 type="monotone" 

@@ -129,10 +129,12 @@ export default function Average({ chartData, peakHour, patternLabel, maxY }: Pag
                 axisLine={false} 
                 tickLine={false} 
                 domain={[0, maxY]}
+                tickFormatter={(val: number) => String(+val.toFixed(1))}
               />
               <Tooltip 
                 contentStyle={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', border: 'none', borderRadius: '8px', color: '#000' }}
                 itemStyle={{ color: '#000' }}
+                formatter={(val: number) => [+val.toFixed(1)]}
               />
               {/* Note: In design, lines are strokes, areas are fill. Recharts Area can do both. */}
               <Area 
