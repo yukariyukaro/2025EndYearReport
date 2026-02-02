@@ -16,10 +16,10 @@ export default function Page15() {
 
   // Data binding
   const viewCount = pageData?.most_viewed?.view_count ?? 0;
-  const commentCount = pageData?.most_commented?.comment_count ?? 0;
-  const collectCount = pageData?.most_collected?.collect_count ?? 0;
+  const commentCount = pageData?.most_viewed?.comment_count ?? 0;
+  const collectCount = pageData?.most_viewed?.collect_count ?? 0;
   // Backend page11 missing interactive_users, use 0 or fallback
-  const interactiveCount = 0; 
+  const interactiveCount = pageData?.most_viewed?.collect_count ?? 0; 
 
   const getPreviewText = () => {
     const candidates = [

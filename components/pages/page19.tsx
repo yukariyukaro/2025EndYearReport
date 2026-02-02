@@ -49,13 +49,13 @@ export default function Page19() {
           {hasData ? (
             <>
               <div className={`hide page19-reveal-2 ${styles.textRow}`}>
-                <div className={styles.mainTitle}>今年你发出了 <span className={styles.highlight}>[{privateMsgCount}]</span> 条私信</div>
+                <div className={styles.mainTitle}>今年你发出了 <span className={styles.highlight}>{privateMsgCount}</span> 条私信</div>
               </div>
               <div className={`hide page19-reveal-3 ${styles.textRow}`}>
-                <div className={styles.subTitle}>与 <span className={styles.highlight}>[{interactCount}]</span> 位伙伴悄悄交流</div>
+                <div className={styles.subTitle}>与 <span className={styles.highlight}>{interactCount}</span> 位伙伴悄悄交流</div>
               </div>
               <div className={`hide page19-reveal-4 ${styles.textRow}`}>
-                <div className={styles.frequently}>与你聊天最频繁的是：<span className={styles.highlight}>[{topChatNickname}]</span></div>
+                <div className={styles.frequently}>与你聊天最频繁的是：<span className={styles.highlight}>{topChatNickname}</span></div>
               </div>
             </>
           ) : (

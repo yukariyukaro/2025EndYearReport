@@ -66,7 +66,7 @@ export default function Page10() {
         </div>
 
         {/* Top Text */}
-        <div className={`${styles.textBase} ${styles.yearText} ${styles.reveal} p10-anim-2`}>
+        <div className={`${styles.textBase}  ${styles.reveal} p10-anim-2`}>
           2025年
         </div>
         <div className={`${styles.textBase} ${styles.statsText} ${styles.reveal} p10-anim-2`}>

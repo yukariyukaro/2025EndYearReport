@@ -38,7 +38,7 @@
 
 /* Typography Defaults */
 .textBase {
-  font-family: var(--ff-primary); /* Fallback to primary font */
+  font-family: var(--font-agdasima); /* Fallback to primary font */
   color: #000;
   text-align: center;
   line-height: 1.2;

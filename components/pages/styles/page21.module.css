@@ -4,7 +4,7 @@
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg, #FFEBB1 0%, #FFF7E4 27.4%, #FFF7E4 76.44%, #FFD0D0 100%);
-  font-family: "Agdasima", sans-serif;
+  font-family: var(--font-agdasima);
 }
 
 .headerText {

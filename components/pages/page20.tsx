@@ -64,13 +64,13 @@ export default function Page20() {
 
         <div className={styles.contentArea}>
           <div className={`hide page20-reveal-3 ${styles.statBlock}`}>
-            <div className={styles.statTitle}>今年你搜索了 <span className={styles.highlight}>[{searchTimes}]</span> 次</div>
+            <div className={styles.statTitle}>今年你搜索了 <span className={styles.highlight}>{searchTimes}</span> 次</div>
           </div>
           <div className={`hide page20-reveal-5 ${styles.statBlock}`}>
-            <div className={styles.statDesc}>最常搜索的是：<br/><span className={styles.highlight}>[{frequentlyUsedWord1}]、[{frequentlyUsedWord2}]</span>……</div>
+            <div className={styles.statDesc}>最常搜索的是：<br/><span className={styles.highlight}>{frequentlyUsedWord1}、{frequentlyUsedWord2}</span>……</div>
           </div>
           <div className={`hide page20-reveal-6 ${styles.statBlock}`}>
-            <div className={styles.statPeople}>有 <span className={styles.highlight}>[{sameSearchCount}]</span> 位<p>伙伴也在寻找同样的答案</p></div>
+            <div className={styles.statPeople}>有 <span className={styles.highlight}>{sameSearchCount}</span> 位<p>伙伴也在寻找同样的答案</p></div>
           </div>
         </div>
 

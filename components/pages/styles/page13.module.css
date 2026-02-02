@@ -61,7 +61,7 @@
 }
 
 .questionText {
-  font-family: var(--ff-primary);
+  font-family: var(--font-agdasima);
   font-size: 1.5rem;
   color: #000000;
   line-height: 1.4;
@@ -86,7 +86,7 @@
 }
 
 .hintText {
-  font-family: var(--ff-primary);
+  font-family: var(--font-agdasima);
   font-size: 1rem;
   color: #333333;
   text-align: left; /* Aligned left relative to button? Screenshot shows it offset left */

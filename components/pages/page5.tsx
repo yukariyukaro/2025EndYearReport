@@ -104,7 +104,7 @@ export default function Page5() {
           </div>
           <div className={`${styles.textRow} ${styles.hide} page5-reveal-3`}>
             <span className={styles.textBase}>{appName}默默陪伴了你</span>
-            <span className={styles.textHighlight}>【{stats.days}】</span>
+            <span className={styles.textHighlight}>{stats.days}</span>
             <span className={styles.textBase}>天</span>
           </div>
           <div className={`${styles.textRow} ${styles.hide} page5-reveal-4`}>

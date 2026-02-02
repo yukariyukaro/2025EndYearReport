@@ -126,9 +126,9 @@ export default function Page16() {
         <div className={styles.bottomText}>
           <div className={`${styles.bottomTextLine} hide page16-reveal-bottom-1`}>这一年</div>
           <div className={`${styles.bottomTextLine} hide page16-reveal-bottom-2`}>你最常提起的词是</div>
-          <div className={`${styles.keyword} hide page16-reveal-bottom-3`}>[{FREQ_WORD1}]</div>
-          <div className={`${styles.keyword} hide page16-reveal-bottom-4`}>[{FREQ_WORD2}]</div>
-          <div className={`${styles.keyword} hide page16-reveal-bottom-5`}>[{FREQ_WORD3}]</div>
+          <div className={`${styles.keyword} hide page16-reveal-bottom-3`}>{FREQ_WORD1}</div>
+          <div className={`${styles.keyword} hide page16-reveal-bottom-4`}>{FREQ_WORD2}</div>
+          <div className={`${styles.keyword} hide page16-reveal-bottom-5`}>{FREQ_WORD3}</div>
         </div>
 
         {showHint && (

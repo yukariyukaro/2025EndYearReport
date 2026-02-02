@@ -11,7 +11,7 @@ function formatDate(dateStr: string | undefined) {
   if (!dateStr) return "";
   const date = new Date(dateStr);
   if (isNaN(date.getTime())) return dateStr;
-  return `【${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日】`;
+  return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
 }
 
 export default function Page3() {

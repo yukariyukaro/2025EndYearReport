@@ -31,7 +31,7 @@
 .statTitle { font-weight: 700; font-size: 1.25rem; margin-bottom: 0.8rem; }
 .statDesc { font-size: 1.25rem; margin-bottom: 0.8rem; }
 .statPeople { margin-top: 1rem; font-size: 1.25rem; }
-.highlight { font-weight: 900;font-size:1.5rem; }
+.highlight { font-weight: 900;font-size:1.5rem; font-family: var(--font-agdasima); }
 
 .bottomVisual { position: absolute; bottom: 0; left: 0; width: 100%; height: 36%; z-index: 1; }
 .objectContain { object-fit: contain; }
