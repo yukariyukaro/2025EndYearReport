@@ -115,7 +115,7 @@ export function SummaryProvider({ children }: { children: ReactNode }) {
   }, [data, schoolLabel]);
 
   const fetchSummary = useCallback(async () => {
-    const url = `https://api.uuunnniii.com/v4/report2025/get.php`;
+    const url = `https://api.tripleuuunnniii.com/v4/report2025/get.php`;
 
     setIsLoading(true);
     setError(null);
