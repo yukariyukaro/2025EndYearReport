@@ -130,7 +130,7 @@ export default function Page14() {
               <>
                 <div className={`hide page14-reveal-3-1`}>这是你的第一年</div>
                 <div className={`hide page14-reveal-3-2`}>
-                  你与triple uni的精彩才刚刚开始！
+                  你的精彩才刚刚开始！
                 </div>
               </>
             ) : (

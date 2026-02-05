@@ -124,8 +124,6 @@ export default function Page18() {
           </div>
         </div>
 
-        <div className={`hide page17-reveal-4 ${styles.ILove}`}>I LOVE</div>
-
         <div className={styles.contentArea}>
           <div className={`hide page17-reveal-3 ${styles.statBlock}`}>
             {hasData ? (

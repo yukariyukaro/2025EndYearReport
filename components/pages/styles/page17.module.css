@@ -4,6 +4,8 @@
   height: 100%;
   position: relative;
   overflow: hidden;
+  font-family: var(--font-agdasima);
+  font-weight:700;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,7 +37,7 @@
 .octoberFaceWrap { margin: 0rem 0.5rem; position: relative; width:18rem; height:25rem;}
 
 .contentArea { width: 100%; padding: 0rem 1.5rem; z-index: 2; color:#000; display:flex; flex-direction:column; align-items:center }
-.cta { margin-top:0.3rem; font-size:1.05rem; font-weight:400 }
+.cta { margin-top:0.3rem; font-size:1.05rem; font-weight:700 }
 
 .playWrap { 
   display: flex; 

@@ -398,6 +398,7 @@ a {
   flex-direction: column;
   z-index: 1000;
   gap: 1rem;
+  color: var(--clr-text);
 }
 
 .loading-animation {

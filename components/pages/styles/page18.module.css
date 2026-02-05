@@ -8,6 +8,8 @@
   align-items: center;
   background-size: cover;
   background-position: center top;
+  font-family: var(--font-agdasima);
+  font-weight: 700;
 }
 
 .topArea {

@@ -229,7 +229,7 @@ export default function Page4() {
                    <Image src="imgs/page4/pointUp.svg" alt="Point Up" fill />
                 </div>
              </div>
-             <span className={`${styles.keywordText} hide page4-reveal-6`}>【{keyword}】</span>
+             <span className={`${styles.keywordText} hide page4-reveal-6`}>{keyword}</span>
           </div>
           {/* Footer removed, will be handled globally */}
         </div>

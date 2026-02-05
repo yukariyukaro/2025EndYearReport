@@ -4,6 +4,7 @@
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg, #f4c9aa 0%, #c4d49c 100%);
+  font-family: var(--font-agdasima);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,7 +46,7 @@
 }
 
 .yearText {
-  font-family: var(--font-gochi-hand), cursive;
+  font-family: var(--font-agdasima);
   font-size: 1.5rem; /* 25px */
   margin-bottom: 0.5rem;
 }

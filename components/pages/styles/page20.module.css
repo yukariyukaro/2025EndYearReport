@@ -8,6 +8,7 @@
   align-items: center;
   background-size: cover;
   background-position: center top;
+  font-weight:700;
 }
 
 .topArea {
@@ -23,12 +24,12 @@
 .headerRight { width: 80%; display:flex; flex-direction:column; align-items:flex-end; }
 
 .pinWrap { cursor: pointer; }
-.pinText { font-weight:700; margin-top:8rem; margin-right: 2rem; font-size:1.25rem; color:#000; }
-.pinCaption { font-size:1.25rem; color:#000; margin-right: 2rem; font-weight:700; }
+.pinText {  margin-top:8rem; margin-right: 2rem; font-size:1.25rem; color:#000; }
+.pinCaption { font-size:1.25rem; color:#000; margin-right: 2rem;  }
 
 .contentArea { width: 100%; padding: 1.4rem 1.5rem; z-index: 2; color:#000 }
 .statBlock { max-width: 86%; margin: 0 auto; text-align: left; }
-.statTitle { font-weight: 700; font-size: 1.25rem; margin-bottom: 0.8rem; }
+.statTitle { font-size: 1.25rem; margin-bottom: 0.8rem; }
 .statDesc { font-size: 1.25rem; margin-bottom: 0.8rem; }
 .statPeople { margin-top: 1rem; font-size: 1.25rem; }
 .highlight { font-weight: 900;font-size:1.5rem; font-family: var(--font-agdasima); }
