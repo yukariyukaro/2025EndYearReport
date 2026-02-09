@@ -92,9 +92,6 @@ export default function Page16() {
         <div className={`${styles.springTrunk} page16-reveal-spring-trunk`}>
           <Image src="imgs/page16/springTreeFull.png" alt="springTree" fill style={{ objectFit: "contain" }} />
         </div>
-        <div className={`${styles.springLeaves} page16-reveal-spring-leaves`}>
-          <Image src="imgs/page16/springLeaves.png" alt="springLeaves" fill style={{ objectFit: "contain" }} />
-        </div>
 
         {/* Trees use custom animations in CSS, so we don't add 'hide' but rely on 'reveal-active' triggering the keyframe */}
         <div className={`${styles.summerTree} page16-reveal-summer`}>
