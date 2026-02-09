@@ -1,31 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Italiana, Leckerli_One, Gochi_Hand, Agdasima } from "next/font/google";
 import "./globals.css";
-
-const italiana = Italiana({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-italiana",
-});
-
-const leckerliOne = Leckerli_One({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-leckerli-one",
-});
-
-const gochiHand = Gochi_Hand({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-gochi-hand",
-});
-
-const agdasima = Agdasima({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-agdasima",
-});
 
 const abhayaLibre = localFont({
   src: "./fonts/AbhayaLibre-ExtraBold.ttf",
@@ -52,10 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${abhayaLibre.variable} ${italiana.variable} ${leckerliOne.variable} ${gochiHand.variable} ${agdasima.variable}`}
-      >
+    <html lang="en" suppressHydrationWarning className={`${abhayaLibre.variable}`}>
+      <body>
         {children}
       </body>
     </html>

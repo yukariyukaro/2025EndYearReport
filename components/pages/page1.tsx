@@ -136,7 +136,10 @@ export default function Page1() {
             <div className={styles.footer}>
               <button
                 className={styles.startBtn}
-                onClick={() => appendNextPage(PAGE_NUMBER, true)}
+                onClick={() => {
+                  if (isBlocking) return;
+                  appendNextPage(PAGE_NUMBER, true);
+                }}
               >
                 <span className={styles.startBtnText}>立即开启</span>
               </button>

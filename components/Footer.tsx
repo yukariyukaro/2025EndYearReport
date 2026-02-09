@@ -1,11 +1,5 @@
 "use client";
-import { Gochi_Hand } from "next/font/google";
 import usePageManager from "@/hooks/usePageManager";
-
-const gochiHand = Gochi_Hand({
-  weight: "400",
-  subsets: ["latin"],
-});
 
 export default function Footer() {
   const { currentPage } = usePageManager();
@@ -17,7 +11,6 @@ export default function Footer() {
   return (
     <div className="footer-wrapper">
       <p
-        className={gochiHand.className}
         style={{
           fontStyle: "normal",
           fontSize: "1.5rem",
@@ -25,6 +18,7 @@ export default function Footer() {
           color: color,
           margin: 0,
           transition: "color 0.3s ease", // Smooth transition
+          fontFamily: "var(--ff-primary)",
         }}
       >
         @TripleUni 2025

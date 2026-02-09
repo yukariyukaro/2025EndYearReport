@@ -139,7 +139,7 @@
 }
 
 .topTextLine {
-  font-family: 'Agdasima', sans-serif;
+  font-family: var(--font-abhaya-libre);
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.5;
@@ -155,7 +155,7 @@
 }
 
 .bottomTextLine {
-  font-family: 'Agdasima', sans-serif;
+  font-family: var(--font-abhaya-libre);
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.5;
@@ -163,7 +163,7 @@
 }
 
 .keyword {
-  font-family: 'Agdasima', sans-serif;
+  font-family: var(--font-abhaya-libre);
   font-weight: 700;
   font-size: 1.25rem;
   line-height: 1.8;

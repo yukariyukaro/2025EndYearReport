@@ -27,7 +27,7 @@
   --clr-text: var(--clr-offwhite);
 
   /* Fonts */
-  --ff-primary: var(--font-agdasima), -apple-system, BlinkMacSystemFont, Segoe UI,
+  --ff-primary: var(--font-abhaya-libre), -apple-system, BlinkMacSystemFont, Segoe UI,
     Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
     Helvetica Neue, PingFang SC, Hiragino Sans GB, Microsoft YaHei,
     Noto Sans CJK SC, sans-serif;

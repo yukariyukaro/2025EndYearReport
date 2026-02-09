@@ -4,7 +4,7 @@
   height: 100%;
   position: relative;
   overflow: hidden;
-  font-family: var(--font-agdasima);
+  font-family: var(--font-abhaya-libre);
   font-weight: 700;
   display: flex;
   flex-direction: column;
@@ -54,7 +54,7 @@
 .highlight {
   font-weight: 900;
   font-size: 1.5rem;
-  font-family: var(--font-agdasima);
+  font-family: var(--font-abhaya-libre);
 }
 
 .visualArea {
@@ -102,7 +102,7 @@
   width: 100%;
 }
 
-.highlight { font-weight: 900; font-family: var(--font-agdasima); }
+.highlight { font-weight: 900; font-family: var(--font-abhaya-libre); }
 
 .hintWrap { position: absolute; bottom: 1rem; right: 1.2rem; z-index: 4; }
 

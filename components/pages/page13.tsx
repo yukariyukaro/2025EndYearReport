@@ -116,9 +116,6 @@ export default function Page13() {
           )}
 
           {/* Footer */}
-          <div className={`${styles.footer} hide page13-reveal-6`}>
-            @TripleUni 2025
-          </div>
         </div>
 
         {showHint && !showPost && (

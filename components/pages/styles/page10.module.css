@@ -4,7 +4,7 @@
   position: relative;
   overflow: hidden;
   background: linear-gradient(180deg, #f4c9aa 0%, #c4d49c 100%);
-  font-family: var(--font-agdasima);
+  font-family: var(--font-abhaya-libre);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,14 +39,14 @@
 
 /* Typography Defaults */
 .textBase {
-  font-family: var(--font-agdasima); /* Fallback to primary font */
+  font-family: var(--font-abhaya-libre); /* Fallback to primary font */
   color: #000;
   text-align: center;
   line-height: 1.2;
 }
 
 .yearText {
-  font-family: var(--font-agdasima);
+  font-family: var(--font-abhaya-libre);
   font-size: 1.5rem; /* 25px */
   margin-bottom: 0.5rem;
 }

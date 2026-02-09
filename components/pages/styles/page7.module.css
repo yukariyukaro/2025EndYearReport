@@ -68,7 +68,7 @@
 }
 
 .treeHoleText {
-  font-family: "AaTangYuanTi", sans-serif; /* Fallback */
+  font-family: var(--font-abhaya-libre); /* Fallback */
   font-weight: 400;
   font-size: 1.25rem; /* 20px */
   color: #39372a;
@@ -101,14 +101,14 @@
 }
 
 .questionLabel {
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: var(--font-abhaya-libre);
   font-weight: 400;
   font-size: 1.125rem; /* 18px */
   color: #aae0d6;
 }
 
 .questionText {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-abhaya-libre);
   font-weight: 400;
   font-size: 1.25rem; /* 20px */
   color: #ffffff;

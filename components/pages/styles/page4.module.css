@@ -308,7 +308,7 @@
 }
 
 .footerText {
-  font-family: 'Gochi Hand', cursive; /* Assuming font is loaded globally */
+  font-family: var(--font-abhaya-libre); /* Assuming font is loaded globally */
   font-size: 1.5rem;
   color: #FFFFFF; /* White as per design */
 }

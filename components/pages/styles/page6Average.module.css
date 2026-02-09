@@ -156,7 +156,7 @@
   font-size: 1.5rem; /* 25px from figma */
   color: #93b9ce;
   z-index: 20;
-  font-family: var(--font-gochi-hand), cursive;
+  font-family: var(--font-abhaya-libre);
 }
 
 .nextButton {

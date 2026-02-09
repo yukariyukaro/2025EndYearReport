@@ -44,7 +44,7 @@
 .topText {
   margin-top: 4rem; /* ~64px */
   width: 80%;
-  font-family: var(--font-agdasima, sans-serif); /* Fallback */
+  font-family: var(--font-abhaya-libre); /* Fallback */
   font-size: 1.4rem;
   font-weight: 700;
   color: #000;
@@ -158,7 +158,7 @@
 }
 
 .legendText {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-abhaya-libre);
   font-size: 0.85rem; /* 12px */
   font-weight:400;
   color: 	#008B8B;
@@ -170,7 +170,7 @@
 /* Bottom Text */
 .bottomText {
   width: 90%;
-  font-family: var(--font-agdasima, sans-serif);
+  font-family: var(--font-abhaya-libre);
   font-size: 1.4rem;
   font-weight: 700;
   color: #000;
