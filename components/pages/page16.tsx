@@ -53,7 +53,7 @@ export default function Page16() {
   const goNext = () => appendNextPage && appendNextPage(PAGE_NUMBER, true);
 
   // Text variables extracted
-  const activeSeasonDesc = pageData?.active_season_desc ?? "你的发帖情绪随季节流转";
+  const activeSeasonDesc = "你"+(pageData?.active_season_desc ?? "的发帖情绪随季节流转");
   
   const keywords = pageData?.top_keywords ?? [];
   const FREQ_WORD1 = keywords[0]?.word ?? "生活";
