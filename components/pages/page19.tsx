@@ -13,6 +13,7 @@ export default function Page19() {
   const { appendNextPage } = usePageManager();
   const { data: summaryData } = useSummary();
   const [showHint, setShowHint] = useState(false);
+  const [avatarError, setAvatarError] = useState(false);
   const { reveal, clearTimers, addTimer } = useRevealAnimation(PAGE_NUMBER);
 
   function onShow() {
@@ -39,6 +40,8 @@ export default function Page19() {
   const privateMsgCount = pageData?.total_messages ?? 0;
   const interactCount = pageData?.interactive_users ?? 0;
   const topChatNickname = pageData?.most_frequent_contact?.name ?? "匿名朋友";
+  const topChatAvatarPath = pageData?.most_frequent_contact?.user_avatar?.user_avatar;
+  const topChatAvatarUrl = topChatAvatarPath ? `https://i.boatonland.com/avatar_new/${topChatAvatarPath}` : null;
   
   const hasData = privateMsgCount > 0;
 
@@ -55,7 +58,23 @@ export default function Page19() {
                 <div className={styles.subTitle}>与 <span className={styles.highlight}>{interactCount}</span> 位伙伴悄悄交流</div>
               </div>
               <div className={`hide page19-reveal-4 ${styles.textRow}`}>
-                <div className={styles.frequently}>与你聊天最频繁的是：<span className={styles.highlight}>{topChatNickname}</span></div>
+                <div className={styles.frequently}>
+                  与你聊天最频繁的是：
+                  {topChatAvatarUrl && !avatarError ? (
+                    <Image
+                      src={topChatAvatarUrl}
+                      alt={topChatNickname}
+                      width={50}
+                      height={50}
+                      className={styles.avatar}
+                      onError={() => setAvatarError(true)}
+                    />
+                  ) : topChatAvatarUrl && avatarError ? (
+                    <div className={styles.avatarFallback} />
+                  ) : (
+                    <span className={styles.highlight}>{topChatNickname}</span>
+                  )}
+                </div>
               </div>
             </>
           ) : (

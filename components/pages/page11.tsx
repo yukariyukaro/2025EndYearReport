@@ -157,9 +157,7 @@ export default function Page11() {
 
           <div className={styles.bottomText}>
             <div className={`hide page11-reveal-5-1`}>你最常浏览的话题是 {topTopic}，</div>
-            <div className={`hide page11-reveal-5-2`}>其中</div>
-            <div className={`hide page11-reveal-5-3`}>{topTopicPercentage}</div>
-            <div className={`hide page11-reveal-5-4`}>反映了你的 {moodDesc} 倾向</div>
+          <div className={`hide page11-reveal-5-3`}>占比{topTopicPercentage}</div>
           </div>
         </div>
 

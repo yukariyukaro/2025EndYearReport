@@ -58,7 +58,7 @@ export default function Page20() {
 
           <div className={`hide page20-reveal-2 ${styles.headerRight}`}> 
             <div className={styles.pinText}>寻找</div>
-            <div className={styles.pinCaption}>本身就是一种勇气</div>
+            <div className={styles.pinCaption}>本就是一种勇气</div>
           </div>
         </div>
 

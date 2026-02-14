@@ -109,7 +109,7 @@ export default function Page9() {
                className={`${styles.bubble} ${styles[`bubble${i+1}`]} ${styles.popIn} page9-reveal-5`} 
                style={{ transitionDelay: `${i * 0.1}s` }}
              >
-               “{k.word}”
+               {k.word}
              </div>
           ))}
 
