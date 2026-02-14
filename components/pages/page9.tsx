@@ -122,7 +122,7 @@ export default function Page9() {
                 fill
               />
             </div>
-            <p className={styles.glassText}>“{searchKeyword}”</p>
+            <p className={styles.glassText}>{searchKeyword}</p>
           </div>
         </div>
 
